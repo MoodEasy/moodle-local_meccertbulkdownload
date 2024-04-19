@@ -51,36 +51,30 @@ class meccertbulkdownload {
             $q = 'SELECT COUNT(mci.id) AS quanti';
         } else {
             $q = 'SELECT
-                mci.id,
-                mci.userid,
-                mci.timecreated AS certcreation,
-                mu.username,
-                mu.firstname,
-                mu.lastname,
-                mc.templateid,
-                mc.course AS courseid,
-                mco.fullname AS coursename,
-                mco.shortname AS courseshortname,
-                mco.idnumber AS courseidnumber,
-                mcm.cohortid,
-                mcoh.name AS cohortname,
-                mcc.timecompleted AS coursecompletion';
+                         mci.id,
+                         mci.userid,
+                         mci.timecreated AS certcreation,
+                         mu.username,
+                         mu.firstname,
+                         mu.lastname,
+                         mc.templateid,
+                         mc.course AS courseid,
+                         mco.fullname AS coursename,
+                         mco.shortname AS courseshortname,
+                         mco.idnumber AS courseidnumber,
+                         mcm.cohortid,
+                         mcoh.name AS cohortname,
+                         mcc.timecompleted AS coursecompletion';
         }
         return $q .= '
-            FROM
-                {customcert_issues} mci
-            INNER JOIN {customcert} mc
-                ON mci.customcertid = mc.id
-            INNER JOIN {user} mu 
-                ON mci.userid = mu.id 
-            LEFT JOIN {cohort_members} mcm
-                ON mci.userid = mcm.userid
-            LEFT JOIN {cohort} mcoh
-                ON mcm.cohortid = mcoh.id
-            INNER JOIN {course} mco 
-                ON mc.course = mco.id
-            LEFT JOIN {course_completions} mcc 
-                ON mci.userid = mcc.userid AND mc.course = mcc.course';
+                    FROM {customcert_issues} mci
+                    JOIN {customcert} mc ON mci.customcertid = mc.id
+                    JOIN {user} mu ON mci.userid = mu.id 
+               LEFT JOIN {cohort_members} mcm ON mci.userid = mcm.userid
+               LEFT JOIN {cohort} mcoh ON mcm.cohortid = mcoh.id
+                    JOIN {course} mco ON mc.course = mco.id
+               LEFT JOIN {course_completions} mcc ON mci.userid = mcc.userid
+                         AND mc.course = mcc.course';
     }
 
     /**
@@ -94,26 +88,20 @@ class meccertbulkdownload {
     {
         return 
             'SELECT
-                mu.username,
-                CONCAT(mu.firstname, " ", mu.lastname),
-                mcoh.name AS cohortname,
-                mco.fullname AS coursename,
-                mci.timecreated AS certcreation,
-                mcc.timecompleted AS coursecompletion
-            FROM
-                {customcert_issues} mci
-            INNER JOIN {customcert} mc
-                ON mci.customcertid = mc.id
-            INNER JOIN {user} mu 
-                ON mci.userid = mu.id 
-            LEFT JOIN {cohort_members} mcm
-                ON mci.userid = mcm.userid
-            LEFT JOIN {cohort} mcoh
-                ON mcm.cohortid = mcoh.id
-            INNER JOIN {course} mco 
-                ON mc.course = mco.id
-            LEFT JOIN {course_completions} mcc 
-                ON mci.userid = mcc.userid AND mc.course = mcc.course';
+                    mu.username,
+                    CONCAT(mu.firstname, " ", mu.lastname),
+                    mcoh.name AS cohortname,
+                    mco.fullname AS coursename,
+                    mci.timecreated AS certcreation,
+                    mcc.timecompleted AS coursecompletion
+               FROM {customcert_issues} mci
+               JOIN {customcert} mc ON mci.customcertid = mc.id
+               JOIN {user} mu ON mci.userid = mu.id 
+          LEFT JOIN {cohort_members} mcm ON mci.userid = mcm.userid
+          LEFT JOIN {cohort} mcoh ON mcm.cohortid = mcoh.id
+               JOIN {course} mco ON mc.course = mco.id
+          LEFT JOIN {course_completions} mcc ON mci.userid = mcc.userid
+                    AND mc.course = mcc.course';
     }
 
     /**
