@@ -42,7 +42,6 @@ function local_meccertbulkdownload_pluginfile(
     bool $forcedownload,
     array $options = []
 ): bool {
-    global $DB;
 
     // Check the contextlevel is as expected - if your plugin is a block, this becomes CONTEXT_BLOCK, etc.
     if ($context->contextlevel != CONTEXT_SYSTEM) {
