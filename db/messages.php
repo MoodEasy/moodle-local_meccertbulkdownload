@@ -23,15 +23,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * @see https://docs.moodle.org/dev/Messaging_2.0
- * @see https://docs.moodle.org/dev/Message_API
+ * @link https://docs.moodle.org/dev/Messaging_2.0
+ * @link https://docs.moodle.org/dev/Message_API
  */
 $messageproviders = array (
 
-    // Confirms to the user that the compressed file with pdfs
-    // is ready (end of background task)
+    // Confirms to the user that the compressed file with pdfs is ready (end of background task).
     'confirmation' => array (
-        'capability'  => 'mod/customcert:viewallcertificates',
+        'capability'  => 'local/meccertbulkdownload:notifyarchivecreated',
         'defaults' => array(
             'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF,
             'anyotheroutput' => MESSAGE_PERMITTED

@@ -33,9 +33,10 @@ $PAGE->set_heading(get_string('pluginname', 'local_meccertbulkdownload'));
 
 require_login();
 
-if (!has_capability('mod/customcert:viewallcertificates', $context)) {
+if (!has_capability('local/meccertbulkdownload:viewarchives', $context)) {
     die();
 }
+$deletearchives = has_capability('local/meccertbulkdownload:deletearchives', $context);
 
 $page = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', 25, PARAM_INT);
@@ -55,6 +56,11 @@ $confirm = optional_param('confirm', 0, PARAM_INT);
 
 // checks if it comes from the same page after clicking Delete related to a file
 if ($action && $action === 'del') {
+
+    if (!$deletearchives) {
+        die();
+    }
+
     // check if user has already seen the confirmation request
     if ($confirm) {  // confirmation seen
         if ($actionid) {
@@ -163,10 +169,11 @@ foreach ($files as $file) {
     $table->data[$i][0] = '<a href="' . $url . '">' . $file->get_filename()  . '</a>';
     $table->data[$i][1] = meccertbulkdownload::formatBytes($file->get_filesize());
     $table->data[$i][2] = date('d/m/Y H:i:s', $file->get_timecreated());
-    $table->data[$i][3] = '
-        <a href="' . $url . '">' . get_string('download') . '</a>'
-        . ' | '
-        . '<a style="color: red;" href="' . $urldelete . '">' . get_string('delete') . '</a>';
+    $table->data[$i][3] = '<a href="' . $url . '">' . get_string('download') . '</a>';
+
+    if ($deletearchives) {
+        $table->data[$i][3] .= ' | <a style="color: red;" href="' . $urldelete . '">' . get_string('delete') . '</a>';
+    }
 
     $i++;
 }
@@ -194,14 +201,24 @@ echo '
 echo '
 <div>&nbsp;</div>
 <ul class="nav nav-tabs mb-4">
-    <li class="nav-item">
-        <a class="nav-link" href="index.php">' . get_string('packscreate', 'local_meccertbulkdownload') . '</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" href="list.php">' . get_string('packsdownload', 'local_meccertbulkdownload') . '</a>
-    </li>
-</ul>
-<div>&nbsp;</div>';
+';
+if (has_capability('local/meccertbulkdownload:searchcertificates', context_system::instance())) {
+    echo '
+        <li class="nav-item">
+            <a class="nav-link" href="index.php">' . get_string('packscreate', 'local_meccertbulkdownload') . '</a>
+        </li>
+    ';
+}
+if (has_capability('local/meccertbulkdownload:viewarchives', context_system::instance())) {
+    echo '
+        <li class="nav-item">
+            <a class="nav-link active" href="list.php">' . get_string('packsdownload', 'local_meccertbulkdownload') . '</a>
+        </li>
+    ';
+}
+echo '</ul>';
+
+echo '<div>&nbsp;</div>';
 
 echo '<div style="text-align: center;">';
     echo html_writer::table($table);

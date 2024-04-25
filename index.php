@@ -38,10 +38,9 @@ $PAGE->set_url('/local/meccertbulkdownload/index.php');
 $PAGE->set_title(get_string('pluginname', 'local_meccertbulkdownload'));
 $PAGE->set_heading(get_string('pluginname', 'local_meccertbulkdownload'));
 
-// must be after $PAGE->set_url()
 require_login();
 
-if (!has_capability('mod/customcert:viewallcertificates', $context)) {
+if (!has_capability('local/meccertbulkdownload:searchcertificates', $context)) {
     die();
 }
 
@@ -200,13 +199,22 @@ echo '
 echo '
 <div>&nbsp;</div>
 <ul class="nav nav-tabs mb-4">
-    <li class="nav-item">
-        <a class="nav-link active" href="index.php">' . get_string('packscreate', 'local_meccertbulkdownload') . '</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="list.php">' . get_string('packsdownload', 'local_meccertbulkdownload') . '</a>
-    </li>
-</ul>';
+';
+if (has_capability('local/meccertbulkdownload:searchcertificates', context_system::instance())) {
+    echo '
+        <li class="nav-item">
+            <a class="nav-link active" href="index.php">' . get_string('packscreate', 'local_meccertbulkdownload') . '</a>
+        </li>
+    ';
+}
+if (has_capability('local/meccertbulkdownload:viewarchives', context_system::instance())) {
+    echo '
+        <li class="nav-item">
+            <a class="nav-link" href="list.php">' . get_string('packsdownload', 'local_meccertbulkdownload') . '</a>
+        </li>
+    ';
+}
+echo '</ul>';
 
 $fform->display();
 
@@ -227,8 +235,8 @@ if (isset($table)) {
     // draw the table
     echo '<div style="text-align: center; margin-top: -10px;">';
 
-        // if there is data in the table, display the zip creation button
-        if ($recsCount > 0) {
+        // if there is data in the table and the user can create archives, display the archives creation button
+        if ( ($recsCount > 0) && has_capability('local/meccertbulkdownload:createarchives', $context) ) {
             echo '<div style="float: right;">';
             $fhform->set_display_vertical();
             $fhform->display();

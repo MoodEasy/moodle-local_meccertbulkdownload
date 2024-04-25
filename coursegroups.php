@@ -28,7 +28,7 @@ $context = context_system::instance();
 
 require_login();
 
-if (!has_capability('mod/customcert:viewallcertificates', $context)) {
+if (!has_capability('local/meccertbulkdownload:searchcertificates', $context)) {
     die();
 }
 

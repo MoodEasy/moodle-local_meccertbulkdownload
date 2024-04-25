@@ -22,11 +22,13 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-// https://moodledev.io/docs/apis/subsystems/admin
+/**
+ * @link https://moodledev.io/docs/apis/subsystems/admin
+ */
 if ($hassiteconfig) {
 
     $ADMIN->add('localplugins', new admin_category('local_meccertbulkdownload_settings', new lang_string('pluginname', 'local_meccertbulkdownload')));
-    // name and text of the configuration page added for the plugin and text of the link that appears in the plugin section to access the page
+    // Name and text of the configuration page added for the plugin and text of the link that appears in the plugin section to access the page.
     $settingspage = new admin_settingpage('managelocalmeccertbulkdownload', new lang_string('pluginname', 'local_meccertbulkdownload'));
 
     if ($ADMIN->fulltree) {
@@ -60,14 +62,35 @@ if ($hassiteconfig) {
 
     $ADMIN->add('localplugins', $settingspage);
 
-    // create a link to the plugin index on the site's Administration > Reports page.
-    $ADMIN->add(
-        'reports',
-        new admin_externalpage(
-            'index_meccertbulkdownload',
-            new lang_string('pluginname', 'local_meccertbulkdownload'),
-            $CFG->wwwroot . "/local/meccertbulkdownload/index.php",
-            'mod/customcert:viewallcertificates'
-        )
-    );
+    // Creates links to the plugin index and list pages in the site Administration > Report menu.
+    if (has_capability('local/meccertbulkdownload:searchcertificates', context_system::instance()) ||
+            has_capability('local/meccertbulkdownload:viewarchives', context_system::instance())) {
+
+        $ADMIN->add(
+            'reports',
+            new admin_category('local_meccertbulkdownload_menu', 
+            new lang_string('pluginname', 'local_meccertbulkdownload'))
+        );
+    
+        $ADMIN->add(
+            'local_meccertbulkdownload_menu',
+            new admin_externalpage(
+                'local_myplugin_index',
+                new lang_string('packscreate', 'local_meccertbulkdownload'),
+                new moodle_url('/local/meccertbulkdownload/index.php'),
+                'local/meccertbulkdownload:searchcertificates'
+            )
+        );
+    
+        $ADMIN->add(
+            'local_meccertbulkdownload_menu',
+            new admin_externalpage(
+                'local_myplugin_admin',
+                new lang_string('packsdownload', 'local_meccertbulkdownload'),
+                new moodle_url('/local/meccertbulkdownload/list.php'),
+                'local/meccertbulkdownload:viewarchives'
+            )
+        );
+
+    }
 }

@@ -33,7 +33,7 @@ $PAGE->set_url('/local/meccertbulkdownload/seltemplates.php');
 
 require_login();
 
-if (!has_capability('mod/customcert:viewallcertificates', $context)) {
+if (!has_capability('local/meccertbulkdownload:searchcertificates', $context)) {
     die();
 }
 

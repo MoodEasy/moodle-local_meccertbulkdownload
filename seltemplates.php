@@ -37,7 +37,7 @@ $PAGE->set_heading(get_string('pluginname', 'local_meccertbulkdownload'));
 
 require_login();
 
-if (!has_capability('mod/customcert:viewallcertificates', $context)) {
+if (!has_capability('local/meccertbulkdownload:createarchives', $context)) {
     die();
 }
 
