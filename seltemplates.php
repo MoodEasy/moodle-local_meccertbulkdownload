@@ -132,7 +132,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
         if (meccertbulkdownload::LVNC) {
             $msgVersioneLeggera = meccertbulkdownload::LVNC;
             $msgVersioneLeggera = str_replace(
-                '{QUANTI_CERT}',
+                '{HOW MANY_CERT}',
                 meccertbulkdownload::LVNC,
                 get_string('bookconfirmmsglightversion', 'local_meccertbulkdownload')
             );
