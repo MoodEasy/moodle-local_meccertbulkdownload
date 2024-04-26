@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information for local_meccertbulkdownload
+ * Version information for local_meccertbulkdownload.
  *
  * @package    local_meccertbulkdownload
- * @author     MoodEasy.com
+ * @author     MoodEasy
+ * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

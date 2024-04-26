@@ -15,8 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Ad hoc task for creating zip archives of certificates.
+ * 
  * @package    local_meccertbulkdownload
- * @author     MoodEasy.com
+ * @author     MoodEasy
+ * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,8 +31,14 @@ use \local_meccertbulkdownload\meccertbulkdownload;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Ad hoc task for creating zip packages of ceritificates
- * and saving them in a Moodle file area.
+ * Class for the ad hoc task for creating zip archives of certificates.
+ * 
+ * Creates zip archives of certificates and saves them in the Moodle file area.
+ * 
+ * @package    local_meccertbulkdownload
+ * @author     MoodEasy
+ * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class pack_certificates_task extends \core\task\adhoc_task  {
 

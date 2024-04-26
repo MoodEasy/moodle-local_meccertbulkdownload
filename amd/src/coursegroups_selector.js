@@ -17,7 +17,9 @@
  * JavaScript module for loading the groups of the selected course.
  *
  * @module     local_meccertbulkdownload/coursegroups_selector
- * @author     MoodEasy.com
+ * @package    local_meccertbulkdownload
+ * @author     MoodEasy
+ * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

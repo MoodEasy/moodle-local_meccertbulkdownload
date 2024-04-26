@@ -15,8 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Form for choosing file name template.
+ * 
  * @package    local_meccertbulkdownload
- * @author     MoodEasy.com
+ * @author     MoodEasy
+ * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -25,7 +28,12 @@ namespace local_meccertbulkdownload\form;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Form for choosing file name template.
+ * Class for the form for choosing file name template.
+ * 
+ * @package    local_meccertbulkdownload
+ * @author     MoodEasy
+ * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class templates_form extends \moodleform {
 

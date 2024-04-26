@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'local_meccertbulkdownload', language 'it'
+ * Strings for component 'local_meccertbulkdownload', language 'it'.
  *
  * @package    local_meccertbulkdownload
- * @author     MoodEasy.com
+ * @author     MoodEasy
+ * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

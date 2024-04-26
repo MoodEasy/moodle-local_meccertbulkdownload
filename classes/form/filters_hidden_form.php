@@ -15,8 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Form for transferring certificate search filters.
+ * 
+ * The form saves and transfer to the next page the parameters entered
+ * by the user to filter the reserch of certificates. It is submitted
+ * when the user press the archive creation button.
+ * 
  * @package    local_meccertbulkdownload
- * @author     MoodEasy.com
+ * @author     MoodEasy
+ * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -25,7 +32,16 @@ namespace local_meccertbulkdownload\form;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Form with filters on certificate table.
+ * Class for the form for transferring certificate search filters.
+ * 
+ * The form saves and transfer to the next page the parameters entered
+ * by the user to filter the reserch of certificates. It is submitted
+ * when the user press the archive creation button.
+ * 
+ * @package    local_meccertbulkdownload
+ * @author     MoodEasy
+ * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class filters_hidden_form extends \moodleform {
 
