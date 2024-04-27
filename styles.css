@@ -1,4 +1,8 @@
-.cs-loader {
+/**
+ * Contains styles for the plugin.
+ */
+
+.path-local-meccertbulkdownload .cs-loader {
     width: 21px;
     height: 21px;
     border: 3px solid #333;
