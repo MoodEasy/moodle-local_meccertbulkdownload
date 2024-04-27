@@ -68,7 +68,7 @@ class filters_form extends \moodleform
         $mform->addElement('select', 'coorte', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('cohort', 'local_meccertbulkdownload'), $this->_customdata['coorti']);
         
         $courseandgroup = array();
-        $courseandgroup[] =& $mform->createElement('select', 'corso', get_string('course'), $this->_customdata['corsi'], array('onchange' => 'javascript:window.getGroups'));
+        $courseandgroup[] =& $mform->createElement('select', 'corso', get_string('course'), $this->_customdata['corsi']);
         $courseandgroup[] =& $mform->createElement('select', 'gruppocorso', get_string('group'), $this->_customdata['gruppocorso']);
         $courseandgroup[] =& $mform->createElement('html', '<span id="cs-loader-1" class="cs-loader"></span>');
         $mform->addGroup($courseandgroup, 'courseandgroup', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('courseandgroup', 'local_meccertbulkdownload'), array(' '), false);

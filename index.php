@@ -47,8 +47,6 @@ if (!has_capability('local/meccertbulkdownload:searchcertificates', $context)) {
     die();
 }
 
-$PAGE->requires->js_call_amd('local_meccertbulkdownload/coursegroups_selector', 'init');
-
 $page = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', 25, PARAM_INT);
 $submit = optional_param('submitbuttonn', '', PARAM_TEXT);
