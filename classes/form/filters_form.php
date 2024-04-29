@@ -35,10 +35,10 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class filters_form extends \moodleform
-{
-    public function definition()
-    {
+class filters_form extends \moodleform {
+
+    public function definition() {
+        
         $mform = $this->_form;
 
         $mform->registerNoSubmitButton('addtask');

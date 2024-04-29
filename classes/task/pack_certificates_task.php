@@ -40,7 +40,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class pack_certificates_task extends \core\task\adhoc_task  {
+class pack_certificates_task extends \core\task\adhoc_task {
 
     /**
      * Execute the task.
@@ -294,8 +294,6 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         mtrace('Task per ' . get_string('pluginname', 'local_meccertbulkdownload') . ' terminato');
     }
 
-
-
     /**
      * Delete a folder and its contents.
      *
@@ -323,8 +321,6 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         return rmdir($dir);
     }
 
-
-
     /**
      * Notifies the passed user that the compressed certificate package
      * is ready (task completed).
@@ -332,8 +328,7 @@ class pack_certificates_task extends \core\task\adhoc_task  {
      * @param $user Notification recipient
      * @return int Id of the notification
      */
-    private function send_end_notification($user, $packname)
-    {
+    private function send_end_notification($user, $packname) {
         $packname = $packname . '.zip';
 
         $message = new \core\message\message();
@@ -353,8 +348,6 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         return message_send($message);
     }
 
-
-
     /**
      * Makes a string usable as a directory name by replacing everything
      * anything that is not an unaccented letter or number, with a hyphen.
@@ -362,12 +355,9 @@ class pack_certificates_task extends \core\task\adhoc_task  {
      * @param $str      String to be 'cleaned'.
      * @return string
      */
-    private function string_to_dirname($str)
-    {
+    private function string_to_dirname($str) {
         return preg_replace( '/[^a-z0-9]+/', '-', strtolower( $str ) );
     }
-
-
 
     /**
      * Get the group members of the past course and return an array with
@@ -377,8 +367,7 @@ class pack_certificates_task extends \core\task\adhoc_task  {
      * @param int $courseid Id of the course to obtain groups and members.
      * @return false|array Groups|False if there are no groups.
      */
-    private function get_course_groups_and_members($courseid)
-    {
+    private function get_course_groups_and_members($courseid) {
         $groups = groups_get_all_groups($courseid, 0, 0, 'g.id, g.name');
         if (count($groups) > 0) {
             foreach ($groups as $group) {

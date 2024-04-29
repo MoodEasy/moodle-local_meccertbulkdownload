@@ -119,7 +119,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     // IF CONFIRMATION IS ALREADY DISPLAYED (SEE BELOW), THE SAME DATA WILL 
     // RETURN VIA GET.
     // if course and cohort are not set, the parameters contain the string "no"
-    $fromfilterform = new stdClass;
+    $fromfilterform = new stdClass();
     $fromfilterform->courseorcertificate = required_param('courseorcertificate', PARAM_TEXT);
     $fromfilterform->datefrom = required_param('datefrom', PARAM_INT);
     $fromfilterform->dateto = required_param('dateto', PARAM_INT);

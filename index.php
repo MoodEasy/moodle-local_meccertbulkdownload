@@ -92,7 +92,7 @@ if ( ($fromform = $fform->get_data()) || $submit) {
     // comes from clicking on the page number in the pagination bar:
     // no POST data of the form but same data in query string
     if (!$fromform) {
-        $fromform = new stdClass;
+        $fromform = new stdClass();
         $fromform->courseorcertificate = optional_param('courseorcertificate', null, PARAM_RAW);
         $fromform->datefrom = optional_param('datefrom', null, PARAM_RAW);
         $fromform->dateto = optional_param('dateto', null, PARAM_RAW);

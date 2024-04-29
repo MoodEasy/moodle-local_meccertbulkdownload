@@ -56,8 +56,7 @@ class meccertbulkdownload {
      * 
      * @return string   The string with the query for the list of certificates.
      */
-    public static function get_certificates_query($count = false)
-    {
+    public static function get_certificates_query($count = false) {
         if ($count) {
             $thequery = 'SELECT COUNT(mci.id) AS quanti';
         } else {
@@ -95,8 +94,7 @@ class meccertbulkdownload {
      * 
      * @return string   The string with the query for the list of certificates.
      */
-    public static function get_certificates_download_query()
-    {
+    public static function get_certificates_download_query() {
         return 
             'SELECT
                     mu.username,
@@ -122,8 +120,8 @@ class meccertbulkdownload {
      * @param stdClass $fromform    Data form "filters_form".
      * @return array                String and parameters of the WHERE.
      */
-    public static function get_certificates_params($fromform)
-    {
+    public static function get_certificates_params($fromform) {
+
         // what period? Course completion date or certificate issue date
         $period = ['cor' => 'mcc.timecompleted', 'cer' => 'mci.timecreated'];
         $period = $period[$fromform->courseorcertificate];
@@ -148,8 +146,7 @@ class meccertbulkdownload {
         return ['string' => $wherestr, 'params' => $whereparams];
     }
 
-    public static function get_certificates_fields()
-    {
+    public static function get_certificates_fields() {
         return [
             'Username',
             get_string('user'),
@@ -160,14 +157,12 @@ class meccertbulkdownload {
         ];
     }
 
-    public static function get_pdf_templates($onlynames = false)
-    {
+    public static function get_pdf_templates($onlynames = false) {
         $pdftamplates = get_config('local_meccertbulkdownload', 'pdfnametemplates');
         return self::get_array_from_lines($pdftamplates, $onlynames);
     }
 
-    public static function get_pack_templates($onlynames = false)
-    {
+    public static function get_pack_templates($onlynames = false) {
         $packtamplates = get_config('local_meccertbulkdownload', 'packnametemplates');
         return self::get_array_from_lines($packtamplates, $onlynames);
     }
@@ -176,8 +171,7 @@ class meccertbulkdownload {
      * @param array $params username, userfullname, usersurname, courseshortname,
      *                      coursecode, cohortname.
      */
-    public static function get_pdf_name($templatename, $params, $coursecompletiondate)
-    {
+    public static function get_pdf_name($templatename, $params, $coursecompletiondate) {
         $search = [
             '{{username}}', 
             '{{userfullname}}', 
@@ -196,8 +190,7 @@ class meccertbulkdownload {
         }
     }
 
-    public static function get_pack_name($templatename, $params)
-    {
+    public static function get_pack_name($templatename, $params) {
         $search = [
             '{{courseshortname}}',
             '{{coursecode}}',
@@ -248,8 +241,7 @@ class meccertbulkdownload {
      *                          received and keyed to the first part of the text
      *                          and value the second part.
      */
-    private static function get_array_from_lines($text, $onlynames = false)
-    {
+    private static function get_array_from_lines($text, $onlynames = false) {
         $text = trim($text);
         $text = explode("\n", $text);
         $text = array_filter($text, 'trim'); // remove any extra \r characters left behind
@@ -281,8 +273,7 @@ class meccertbulkdownload {
      * 
      * Example: "Today is {{todaysdate(d-m-Y)}}." => "today is the 23-02-2023."
      */
-    private static function date_replace($string, $coursecompletiondate = null)
-    {
+    private static function date_replace($string, $coursecompletiondate = null) {
         $string = preg_replace_callback(
             '/\{\{todaysdate\((.*)\)\}\}/U',
             function ($matches) {
@@ -318,8 +309,7 @@ class meccertbulkdownload {
      *                                    up the compressed package.
      * @return integer Estimated size of the compressed package in MB.
      */
-    public static function get_estimatedarchivesize($certificatesnumber)
-    {
+    public static function get_estimatedarchivesize($certificatesnumber) {
         // in the configuration the estimated size of a certificate is entered in KB
         $estimatedarchivesize = get_config('local_meccertbulkdownload', 'estimatedarchivesize');
         if (!$estimatedarchivesize) $estimatedarchivesize = 500;
@@ -332,8 +322,7 @@ class meccertbulkdownload {
      *
      * @return integer Free space in MB rounded.
      */
-    public static function get_free_disk_space()
-    {
+    public static function get_free_disk_space() {
         $freespace = 0;
         
         try {
