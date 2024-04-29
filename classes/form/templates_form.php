@@ -16,7 +16,7 @@
 
 /**
  * Form for choosing file name template.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class for the form for choosing file name template.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)

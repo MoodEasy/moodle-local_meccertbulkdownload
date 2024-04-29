@@ -16,7 +16,7 @@
 
 /**
  * Form for certificate search filters.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class for the form for certificate search filters.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -41,7 +41,7 @@ class filters_form extends \moodleform {
      * Form definition.
      */
     public function definition() {
-        
+
         $mform = $this->_form;
 
         $mform->registerNoSubmitButton('addtask');
@@ -67,7 +67,7 @@ class filters_form extends \moodleform {
         ]);
 
         $mform->addElement('select', 'coorte', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('cohort', 'local_meccertbulkdownload'), $this->_customdata['cohorts']);
-        
+
         $courseandgroup = array();
         $courseandgroup[] =& $mform->createElement('select', 'corso', get_string('course'), $this->_customdata['courses']);
         $courseandgroup[] =& $mform->createElement('select', 'gruppocorso', get_string('group'), $this->_customdata['coursegroups']);

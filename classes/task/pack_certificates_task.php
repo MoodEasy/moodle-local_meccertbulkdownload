@@ -16,7 +16,7 @@
 
 /**
  * Ad hoc task for creating zip archives of certificates.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -32,9 +32,9 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class for the ad hoc task for creating zip archives of certificates.
- * 
+ *
  * Creates zip archives of certificates and saves them in the Moodle file area.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -48,7 +48,7 @@ class pack_certificates_task extends \core\task\adhoc_task {
     public function execute() {
 
         global $DB, $CFG, $USER;
-    
+
         require_once($CFG->libdir . '/filelib.php');
         require_once($CFG->libdir . '/grouplib.php');
         require_once($CFG->libdir . '/moodlelib.php');
@@ -60,7 +60,7 @@ class pack_certificates_task extends \core\task\adhoc_task {
 
         // Get the custom data.
         $customdata = $this->get_custom_data();
-    
+
         $filesforzipping = array();
         $fs = get_file_storage();
 
@@ -110,7 +110,9 @@ class pack_certificates_task extends \core\task\adhoc_task {
 
         foreach ($recs as $cert) {
 
-            if (meccertbulkdownload::LVNC && $i >= meccertbulkdownload::LVNC) break;
+            if (meccertbulkdownload::LVNC && $i >= meccertbulkdownload::LVNC) {
+                break;
+            }
             $i++;
 
             // obtains the template associated with the certificate and generates the pdf
@@ -168,27 +170,33 @@ class pack_certificates_task extends \core\task\adhoc_task {
             // saves the value to use (if required by the template
             // selected by the user) as a parameter for the zip name
             if ($paramforpacknamecourse === '-') {  // primo giro
-                $paramforpacknamecourse = $cert->courseshortname; 
+                $paramforpacknamecourse = $cert->courseshortname;
             } else { // other loops
                 // if different from that of the first loop it means that they have courses
                 // different so there cannot be the course parameter as the name of the zip
-                if ($paramforpacknamecourse !== $cert->courseshortname) $paramforpacknamecourse = 'nocourseshortname'; 
+                if ($paramforpacknamecourse !== $cert->courseshortname) {
+                    $paramforpacknamecourse = 'nocourseshortname';
+                }
             }
             // COURSE CODE
             if ($paramforpacknamecoursecode === '-') {  // first loop
-                $paramforpacknamecoursecode = $cert->courseidnumber; 
+                $paramforpacknamecoursecode = $cert->courseidnumber;
             } else { // other loops
                 // if different from that of the first round it means that they have courses
                 // different therefore there cannot be the course code parameter as the name of the zip
-                if ($paramforpacknamecoursecode !== $cert->courseidnumber) $paramforpacknamecoursecode = 'nocoursecode'; 
+                if ($paramforpacknamecoursecode !== $cert->courseidnumber) {
+                    $paramforpacknamecoursecode = 'nocoursecode';
+                }
             }
             // COHORT (GLOBAL GROUP)
             if ($paramforpacknamecohort === '-') {  // first loop
-                $paramforpacknamecohort = $cert->cohortname; 
+                $paramforpacknamecohort = $cert->cohortname;
             } else { // other loops
                 // if different from that of the first loop it means that they have courses
                 // different so there cannot be the course parameter as the name of the zip
-                if ($paramforpacknamecohort !== $cert->cohortname) $paramforpacknamecohort = 'nocohortname'; 
+                if ($paramforpacknamecohort !== $cert->cohortname) {
+                    $paramforpacknamecohort = 'nocohortname';
+                }
             }
 
             // mtrace('Coorte: ' . $paramforpacknamecohort);
@@ -304,11 +312,11 @@ class pack_certificates_task extends \core\task\adhoc_task {
         if (!file_exists($dir)) {
             return true;
         }
-    
+
         if (!is_dir($dir)) {
             return unlink($dir);
         }
-    
+
         foreach (scandir($dir) as $item) {
             if ($item == '.' || $item == '..') {
                 continue;
@@ -317,7 +325,7 @@ class pack_certificates_task extends \core\task\adhoc_task {
                 return false;
             }
         }
-    
+
         return rmdir($dir);
     }
 
@@ -352,7 +360,7 @@ class pack_certificates_task extends \core\task\adhoc_task {
     /**
      * Makes a string usable as a directory name by replacing everything
      * anything that is not an unaccented letter or number, with a hyphen.
-     * 
+     *
      * @param string  $str String to be 'cleaned'
      * @return string Cleaned string
      */

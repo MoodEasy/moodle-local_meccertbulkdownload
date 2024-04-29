@@ -16,7 +16,7 @@
 
 /**
  * Adds settings and links to navigation menu.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -25,9 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-/**
- * @link https://moodledev.io/docs/apis/subsystems/admin
- */
+// @link https://moodledev.io/docs/apis/subsystems/admin
 if ($hassiteconfig) {
 
     $ADMIN->add('localplugins', new admin_category('local_meccertbulkdownload_settings', new lang_string('pluginname', 'local_meccertbulkdownload')));
@@ -71,10 +69,10 @@ if ($hassiteconfig) {
 
         $ADMIN->add(
             'reports',
-            new admin_category('local_meccertbulkdownload_menu', 
+            new admin_category('local_meccertbulkdownload_menu',
             new lang_string('pluginname', 'local_meccertbulkdownload'))
         );
-    
+
         $ADMIN->add(
             'local_meccertbulkdownload_menu',
             new admin_externalpage(
@@ -84,7 +82,7 @@ if ($hassiteconfig) {
                 'local/meccertbulkdownload:searchcertificates'
             )
         );
-    
+
         $ADMIN->add(
             'local_meccertbulkdownload_menu',
             new admin_externalpage(

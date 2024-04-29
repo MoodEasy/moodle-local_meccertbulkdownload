@@ -16,7 +16,7 @@
 
 /**
  * Allows searching for certificates and creating certificate archives.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -55,7 +55,7 @@ $submit = optional_param('submitbuttonn', '', PARAM_TEXT);
 // PREPARE THE FORM FOR SELECTION OF FILTERS
 
 $courses = ['no' => get_string('all', 'local_meccertbulkdownload')];
-foreach(get_courses("all", "c.sortorder ASC", "c.id, c.fullname") as $course) {
+foreach (get_courses("all", "c.sortorder ASC", "c.id, c.fullname") as $course) {
     $courses[$course->id] = $course->fullname;
 }
 asort($courses);
@@ -63,7 +63,7 @@ asort($courses);
 $cohorts = ['no' => get_string('all', 'local_meccertbulkdownload')];
 $cohortsfromdb = cohort_get_all_cohorts(0, 10000);
 if ($cohortsfromdb) {
-    foreach($cohortsfromdb['cohorts'] as $cohort) {
+    foreach ($cohortsfromdb['cohorts'] as $cohort) {
         $cohorts[$cohort->id] = $cohort->name;
     }
 }
@@ -73,7 +73,7 @@ $coursegroups = ['no' => get_string('all', 'local_meccertbulkdownload')];
 $courseid = optional_param('corso', 'no', PARAM_RAW);
 if ($submit && $courseid !== 'no') {
     $groups = groups_get_all_groups($courseid, 0, 0, 'g.id, g.name');
-    foreach($groups as $group) {
+    foreach ($groups as $group) {
         $coursegroups[$group->id] = $group->name;
     }
 }
@@ -169,12 +169,16 @@ if ( ($fromform = $fform->get_data()) || $submit) {
 
 // prepare parameters for pagination bar
 $params = array('page' => $page, 'perpage' => $perpage);
-if ($fromform) $params = array_merge((array) $fromform, $params);
+if ($fromform) {
+    $params = array_merge((array) $fromform, $params);
+}
 $baseurl = new moodle_url('/local/meccertbulkdownload/index.php', $params);
 
 // prepare parameters for selecting how many per page
 $params = array('page' => 0);
-if ($fromform) $params = array_merge((array) $fromform, $params);
+if ($fromform) {
+    $params = array_merge((array) $fromform, $params);
+}
 $baseurl2 = new moodle_url('/local/meccertbulkdownload/index.php', $params);
 
 
@@ -223,8 +227,12 @@ if (isset($table)) {
 
     $from = ($perpage * $page) + 1;
     $to = ($perpage * $page) + $perpage;
-    if ($to > $recscount) $to = $recscount;
-    if ($recscount == 0) $from = 0;
+    if ($to > $recscount) {
+        $to = $recscount;
+    }
+    if ($recscount == 0) {
+        $from = 0;
+    }
 
     $fhform = new filters_hidden_form('seltemplates.php', [
         'courseorcertificate' => $fromform->courseorcertificate,
@@ -236,51 +244,51 @@ if (isset($table)) {
     // draw the table
     echo '<div style="text-align: center; margin-top: -10px;">';
 
-        // if there is data in the table and the user can create archives, display the archives creation button
-        if ( ($recscount > 0) && has_capability('local/meccertbulkdownload:createarchives', $context) ) {
-            echo '<div style="float: right;">';
-            $fhform->set_display_vertical();
-            $fhform->display();
-            echo '</div>';
-        } else {
-            echo '<div style="height: 2rem;">&nbsp;</div>';
-        }
+    // if there is data in the table and the user can create archives, display the archives creation button
+    if ( ($recscount > 0) && has_capability('local/meccertbulkdownload:createarchives', $context) ) {
+        echo '<div style="float: right;">';
+        $fhform->set_display_vertical();
+        $fhform->display();
+        echo '</div>';
+    } else {
+        echo '<div style="height: 2rem;">&nbsp;</div>';
+    }
 
-        echo html_writer::table($table);
-        echo '<div style="display: table; width: 100%; margin-top: 8px;">';
-            echo '<div style="display: table-cell; text-align: left;">';
-                echo str_replace(
-                    ['{{from}}', '{{to}}', '{{count}}'],
-                    [$from, $to, $recscount],
-                    get_string('tablerecordscount', 'local_meccertbulkdownload')
-                );
-                echo '<select class="custom-select" onChange="window.location.href=\'' . $baseurl2 . '&perpage=\' + this.value">
-                    <option value="10"' . ($perpage == 10 ? ' selected' : '') . '>10</option>
-                    <option value="25"' . ($perpage == 25 ? ' selected' : '') . '>25</option>
-                    <option value="50"' . ($perpage == 50 ? ' selected' : '') . '>50</option>
-                    <option value="100"' . ($perpage == 100 ? ' selected' : '') . '>100</option>
-                </select>';
-            echo '</div>';
-            echo '<div style="display: table-cell; text-align: right; justify-content: right !important;">';
-                echo $OUTPUT->paging_bar($recscount, $page, $perpage, $baseurl);
-            echo "</div>";
-        echo "</div>";
+    echo html_writer::table($table);
+    echo '<div style="display: table; width: 100%; margin-top: 8px;">';
+    echo '<div style="display: table-cell; text-align: left;">';
+    echo str_replace(
+        ['{{from}}', '{{to}}', '{{count}}'],
+        [$from, $to, $recscount],
+        get_string('tablerecordscount', 'local_meccertbulkdownload')
+    );
+    echo '<select class="custom-select" onChange="window.location.href=\'' . $baseurl2 . '&perpage=\' + this.value">
+        <option value="10"' . ($perpage == 10 ? ' selected' : '') . '>10</option>
+        <option value="25"' . ($perpage == 25 ? ' selected' : '') . '>25</option>
+        <option value="50"' . ($perpage == 50 ? ' selected' : '') . '>50</option>
+        <option value="100"' . ($perpage == 100 ? ' selected' : '') . '>100</option>
+    </select>';
+    echo '</div>';
+    echo '<div style="display: table-cell; text-align: right; justify-content: right !important;">';
+    echo $OUTPUT->paging_bar($recscount, $page, $perpage, $baseurl);
+    echo "</div>";
+    echo "</div>";
     echo "</div>";
     echo '<div style="text-align: center">';
-        echo '<div style="display: inline-block;">';
+    echo '<div style="display: inline-block;">';
 
-            // inserts function to download table as CSV, Excel, etc.
-            // https://docs.moodle.org/dev/Data_formats
-            echo $OUTPUT->download_dataformat_selector(
-                get_string('download'),
-                'download.php',
-                'dataformat',
-                ['fromform' => serialize($fromform)]
-            );
+    // inserts function to download table as CSV, Excel, etc.
+    // https://docs.moodle.org/dev/Data_formats
+    echo $OUTPUT->download_dataformat_selector(
+        get_string('download'),
+        'download.php',
+        'dataformat',
+        ['fromform' => serialize($fromform)]
+    );
 
-        echo "</div>";
     echo "</div>";
-    
+    echo "</div>";
+
 }
 
 echo $OUTPUT->footer();

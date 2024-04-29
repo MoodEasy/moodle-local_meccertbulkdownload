@@ -16,7 +16,7 @@
 
 /**
  * Helper functionalities for the plugin.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class with helper functionalities for the plugin.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -50,9 +50,9 @@ class meccertbulkdownload {
     const LVNC = 10 + 10;
 
     /**
-     * Used by the table in the index with the certificate list and by the 
+     * Used by the table in the index with the certificate list and by the
      * task for the generation of certificates.
-     * 
+     *
      * @param bool    $count Whether to return the number or the list of certificates
      * @return string The string with the query for the list of certificates
      */
@@ -79,7 +79,7 @@ class meccertbulkdownload {
         return $thequery .= '
                     FROM {customcert_issues} mci
                     JOIN {customcert} mc ON mci.customcertid = mc.id
-                    JOIN {user} mu ON mci.userid = mu.id 
+                    JOIN {user} mu ON mci.userid = mu.id
                LEFT JOIN {cohort_members} mcm ON mci.userid = mcm.userid
                LEFT JOIN {cohort} mcoh ON mcm.cohortid = mcoh.id
                     JOIN {course} mco ON mc.course = mco.id
@@ -91,11 +91,11 @@ class meccertbulkdownload {
      * Used by download function (.csv, xlsx, etc.) of the table with the
      * certificates. It differs from the one used by the table itself and the
      * task for certificate generation, only in the SELECT fields.
-     * 
+     *
      * @return string The string with the query for the list of certificates
      */
     public static function get_certificates_download_query() {
-        return 
+        return
             'SELECT
                     mu.username,
                     CONCAT(mu.firstname, " ", mu.lastname),
@@ -105,7 +105,7 @@ class meccertbulkdownload {
                     mcc.timecompleted AS coursecompletion
                FROM {customcert_issues} mci
                JOIN {customcert} mc ON mci.customcertid = mc.id
-               JOIN {user} mu ON mci.userid = mu.id 
+               JOIN {user} mu ON mci.userid = mu.id
           LEFT JOIN {cohort_members} mcm ON mci.userid = mcm.userid
           LEFT JOIN {cohort} mcoh ON mcm.cohortid = mcoh.id
                JOIN {course} mco ON mc.course = mco.id
@@ -190,7 +190,7 @@ class meccertbulkdownload {
 
     /**
      * Replace parameters in pdf (certificate) names with passed data.
-     * 
+     *
      * @param string[]      $templatename Templates in which to make substitutions
      * @param string[]      $params Data to replace the parameters
      * @param string        $coursecompletiondate Course completion date
@@ -198,11 +198,11 @@ class meccertbulkdownload {
      */
     public static function get_pdf_name($templatename, $params, $coursecompletiondate) {
         $search = [
-            '{{username}}', 
-            '{{userfullname}}', 
-            '{{usersurname}}', 
-            '{{courseshortname}}', 
-            '{{coursecode}}', 
+            '{{username}}',
+            '{{userfullname}}',
+            '{{usersurname}}',
+            '{{courseshortname}}',
+            '{{coursecode}}',
             '{{cohortname}}'
         ];
         $pdftamplates = self::get_pdf_templates();
@@ -217,7 +217,7 @@ class meccertbulkdownload {
 
     /**
      * Replace parameters in zip archive (of certificates) names with passed data.
-     * 
+     *
      * @param string[]      $templatename Templates in which to make substitutions
      * @param string[]      $params Data to replace the parameters
      * @return false|string Name of the zip archive (of certificates)
@@ -247,24 +247,24 @@ class meccertbulkdownload {
      * @param int    $precision Precision of the returned value
      * @return float Transformed value
      */
-    public static function formatBytes($bytes, $precision = 2) { 
-        $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
-    
-        $bytes = max($bytes, 0); 
-        $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
-        $pow = min($pow, count($units) - 1); 
-    
+    public static function formatBytes($bytes, $precision = 2) {
+        $units = array('B', 'KB', 'MB', 'GB', 'TB');
+
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+
         // Uncomment one of the following alternatives
         $bytes /= pow(1024, $pow);
-        // $bytes /= (1 << (10 * $pow)); 
-    
-        return round($bytes, $precision) . ' ' . $units[$pow]; 
-    } 
+        // $bytes /= (1 << (10 * $pow));
+
+        return round($bytes, $precision) . ' ' . $units[$pow];
+    }
 
     /**
      * Process text from text boxes in plugin configuration for the choice of
      * file name templates.
-     * 
+     *
      * @param string    $text Text on multiple lines and with each line containing a
      *                  semicolon separating the first and second part of the text
      * @param bool      $onlynames FALSE (defualt): sets template name as key of the
@@ -300,12 +300,12 @@ class meccertbulkdownload {
     /**
      * In the passed string, replace any appropriate parameters with the
      * today's date or the course completation date if passed.
-     * 
+     *
      * The parameter for today's date is es. "{{todaysdate(mdY)}}".
      * The parameter for the course end date is es. "{{courseenddate(mdY)}}".
-     * 
+     *
      * Example: "Today is {{todaysdate(d-m-Y)}}." => "today is the 23-02-2023."
-     * 
+     *
      * @param int         $string String in which perform the substitution
      * @param null|string $coursecompletiondate Course completion date to use for substitution
      * @return string     String with the date in place of the parameter
@@ -341,7 +341,7 @@ class meccertbulkdownload {
      * number of certificates passed. It calculates this based on the estimated
      * average size, entered by the user in the plugin configurations, of a
      * single certificate.
-     * 
+     *
      * @param integer  $certificatesnumber Number of certificates they will make
      *                 up the compressed package
      * @return integer Estimated size of the compressed package in MB
@@ -349,7 +349,9 @@ class meccertbulkdownload {
     public static function get_estimatedarchivesize($certificatesnumber) {
         // in the configuration the estimated size of a certificate is entered in KB
         $estimatedarchivesize = get_config('local_meccertbulkdownload', 'estimatedarchivesize');
-        if (!$estimatedarchivesize) $estimatedarchivesize = 500;
+        if (!$estimatedarchivesize) {
+            $estimatedarchivesize = 500;
+        }
         $estimatedarchivesize = $estimatedarchivesize * $certificatesnumber;
         return $estimatedarchivesize / 1000;  // MB
     }
@@ -361,18 +363,28 @@ class meccertbulkdownload {
      */
     public static function get_free_disk_space() {
         $freespace = 0;
-        
+
         try {
             $win = disk_free_space("C:");
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            // No need to do something.
+        }
         try {
             $lin = disk_free_space("/");
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            // No need to do something.
+        }
 
-        if (isset($win) && $win) $freespace = $win;
-        if (isset($lin) && $lin) $freespace = $lin;
-        
-        if ($freespace > 0) $freespace = $freespace / 1000000;
+        if (isset($win) && $win) {
+            $freespace = $win;
+        }
+        if (isset($lin) && $lin) {
+            $freespace = $lin;
+        }
+
+        if ($freespace > 0) {
+            $freespace = $freespace / 1000000;
+        }
         return round($freespace);
     }
 }

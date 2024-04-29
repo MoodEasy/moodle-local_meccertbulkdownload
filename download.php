@@ -16,7 +16,7 @@
 
 /**
  * Allows the download of the list of certificates found.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)

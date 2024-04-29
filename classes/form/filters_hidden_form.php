@@ -16,11 +16,11 @@
 
 /**
  * Form for transferring certificate search filters.
- * 
+ *
  * The form saves and transfer to the next page the parameters entered
  * by the user to filter the reserch of certificates. It is submitted
  * when the user press the archive creation button.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -33,11 +33,11 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Class for the form for transferring certificate search filters.
- * 
+ *
  * The form saves and transfer to the next page the parameters entered
  * by the user to filter the reserch of certificates. It is submitted
  * when the user press the archive creation button.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -66,7 +66,7 @@ class filters_hidden_form extends \moodleform {
 
         $mform->addElement(
             'submit',
-            'addtask', 
+            'addtask',
             get_string('formtemplatesubmit', 'local_meccertbulkdownload')
                 . ' (~' . $this->_customdata['estimatedarchivesize'] . ' MB)',
             [

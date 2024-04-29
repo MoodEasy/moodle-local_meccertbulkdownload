@@ -16,7 +16,7 @@
 
 /**
  * Allows selection of templates for PDF and archives names.
- * 
+ *
  * @package    local_meccertbulkdownload
  * @author     MoodEasy
  * @copyright  (c) 2024 onwards MoodEasy (moodeasy.com)
@@ -102,9 +102,9 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
 
     // return to start page with success message
     redirect(
-        $okkurl, 
-        get_string('queuetasksuccess', 'local_meccertbulkdownload'), 
-        null, 
+        $okkurl,
+        get_string('queuetasksuccess', 'local_meccertbulkdownload'),
+        null,
         \core\output\notification::NOTIFY_SUCCESS
     );
 
@@ -116,7 +116,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     // SHOW CERTIFICATES IN TABLE. THE DATA ACTUALLY COMES FROM THE FORM
     // HIDDEN WITH AN ORANGE BUTTON TO RESERVE DOWNLOAD AND WITH HIDDEN FIELDS
     // THAT SHOW THE FILTERS SELECTED IN THE FORM FOR FILTERS.
-    // IF CONFIRMATION IS ALREADY DISPLAYED (SEE BELOW), THE SAME DATA WILL 
+    // IF CONFIRMATION IS ALREADY DISPLAYED (SEE BELOW), THE SAME DATA WILL
     // RETURN VIA GET.
     // if course and cohort are not set, the parameters contain the string "no"
     $fromfilterform = new stdClass();
@@ -138,7 +138,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
                 meccertbulkdownload::LVNC,
                 get_string('bookconfirmmsglightversion', 'local_meccertbulkdownload')
             );
-            $lightversionmsg = '<p style="font-size: 0.8rem; text-align: center; color: rgb(88, 21, 28); ' . 
+            $lightversionmsg = '<p style="font-size: 0.8rem; text-align: center; color: rgb(88, 21, 28); ' .
                 'background-color: rgb(248, 215, 218); margin: 28px -16px -32px -16px; padding: 10px 16px;">' .
                 $lightversionmsg . '</p>';
         }
