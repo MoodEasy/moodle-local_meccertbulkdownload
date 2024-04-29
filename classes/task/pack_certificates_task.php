@@ -297,8 +297,8 @@ class pack_certificates_task extends \core\task\adhoc_task {
     /**
      * Delete a folder and its contents.
      *
-     * @param string $dir Path of the folder to delete.
-     * @return bool Success or failure.
+     * @param string $dir Path of the folder to delete
+     * @return bool  Success or failure
      */
     private function delete_directory($dir) {
         if (!file_exists($dir)) {
@@ -325,8 +325,9 @@ class pack_certificates_task extends \core\task\adhoc_task {
      * Notifies the passed user that the compressed certificate package
      * is ready (task completed).
      *
-     * @param $user Notification recipient
-     * @return int Id of the notification
+     * @param stdClass $user Notification recipient
+     * @param string   $packname Name of the zip archive
+     * @return int     Id of the notification
      */
     private function send_end_notification($user, $packname) {
         $packname = $packname . '.zip';
@@ -352,8 +353,8 @@ class pack_certificates_task extends \core\task\adhoc_task {
      * Makes a string usable as a directory name by replacing everything
      * anything that is not an unaccented letter or number, with a hyphen.
      * 
-     * @param $str      String to be 'cleaned'.
-     * @return string
+     * @param string  $str String to be 'cleaned'
+     * @return string Cleaned string
      */
     private function string_to_dirname($str) {
         return preg_replace( '/[^a-z0-9]+/', '-', strtolower( $str ) );
@@ -364,8 +365,8 @@ class pack_certificates_task extends \core\task\adhoc_task {
      * as key the normalized and truncated name of the group and as value
      * an array with member ids.
      *
-     * @param int $courseid Id of the course to obtain groups and members.
-     * @return false|array Groups|False if there are no groups.
+     * @param int          $courseid Id of the course to obtain groups and members
+     * @return false|array Groups or false if there are no groups
      */
     private function get_course_groups_and_members($courseid) {
         $groups = groups_get_all_groups($courseid, 0, 0, 'g.id, g.name');

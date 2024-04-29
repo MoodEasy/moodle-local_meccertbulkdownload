@@ -45,6 +45,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 class filters_hidden_form extends \moodleform {
 
+    /**
+     * Form definition.
+     */
     public function definition() {
 
         $mform = $this->_form;

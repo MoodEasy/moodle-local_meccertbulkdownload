@@ -37,24 +37,24 @@ defined('MOODLE_INTERNAL') || die();
  */
 class meccertbulkdownload {
 
-
-    // --- INTERNAL PLUGIN CONFIGURATION ---
-
-    // Whether to show the confirmation page, with estimated size of the
-    // compressed file and disk space, before proceeding to the reservation
-    // of the creation of the compressed file.
+    /**
+     * Whether to show the confirmation page, with estimated size of the
+     * compressed file and disk space, before proceeding to the reservation
+     * of the creation of the compressed file.
+     */
     const ASK_DOWNLOAD_CONFIRMATION = true;
 
+    /**
+     * Related to the plugin version.
+     */
     const LVNC = 10 + 10;
-
-    // -------------------------------------
-
 
     /**
      * Used by the table in the index with the certificate list and by the 
      * task for the generation of certificates.
      * 
-     * @return string   The string with the query for the list of certificates.
+     * @param bool    $count Whether to return the number or the list of certificates
+     * @return string The string with the query for the list of certificates
      */
     public static function get_certificates_query($count = false) {
         if ($count) {
@@ -92,7 +92,7 @@ class meccertbulkdownload {
      * certificates. It differs from the one used by the table itself and the
      * task for certificate generation, only in the SELECT fields.
      * 
-     * @return string   The string with the query for the list of certificates.
+     * @return string The string with the query for the list of certificates
      */
     public static function get_certificates_download_query() {
         return 
@@ -114,11 +114,11 @@ class meccertbulkdownload {
     }
 
     /**
-     * Checks the passed data (coming from forms with filters) and obtains
+     * Check the passed data (coming from forms with filters) and obtains
      * filters to build the WHERE part of the certificate query.
      *
-     * @param stdClass $fromform    Data form "filters_form".
-     * @return array                String and parameters of the WHERE.
+     * @param stdClass  $fromform Data form "filters_form"
+     * @return string[] String and parameters of the WHERE
      */
     public static function get_certificates_params($fromform) {
 
@@ -146,6 +146,11 @@ class meccertbulkdownload {
         return ['string' => $wherestr, 'params' => $whereparams];
     }
 
+    /**
+     * Return the fields of the certificate table.
+     *
+     * @return string[] Fields of the certificate table
+     */
     public static function get_certificates_fields() {
         return [
             'Username',
@@ -157,19 +162,39 @@ class meccertbulkdownload {
         ];
     }
 
+    /**
+     * Get the pdf name templates from the configurations and passes them
+     * to {@see get_array_from_lines()}.
+     *
+     * @see get_array_from_lines()
+     * @param bool      $onlynames Whether to return templates or only their names
+     * @return string[] List of templates
+     */
     public static function get_pdf_templates($onlynames = false) {
         $pdftamplates = get_config('local_meccertbulkdownload', 'pdfnametemplates');
         return self::get_array_from_lines($pdftamplates, $onlynames);
     }
 
+    /**
+     * Get the zip archives name templates from the configurations and passes them
+     * to {@see get_array_from_lines()}.
+     *
+     * @see get_array_from_lines()
+     * @param bool      $onlynames Whether to return templates or only their names
+     * @return string[] List of templates
+     */
     public static function get_pack_templates($onlynames = false) {
         $packtamplates = get_config('local_meccertbulkdownload', 'packnametemplates');
         return self::get_array_from_lines($packtamplates, $onlynames);
     }
 
     /**
-     * @param array $params username, userfullname, usersurname, courseshortname,
-     *                      coursecode, cohortname.
+     * Replace parameters in pdf (certificate) names with passed data.
+     * 
+     * @param string[]      $templatename Templates in which to make substitutions
+     * @param string[]      $params Data to replace the parameters
+     * @param string        $coursecompletiondate Course completion date
+     * @return false|string Name of the pdf (certificate)
      */
     public static function get_pdf_name($templatename, $params, $coursecompletiondate) {
         $search = [
@@ -190,6 +215,13 @@ class meccertbulkdownload {
         }
     }
 
+    /**
+     * Replace parameters in zip archive (of certificates) names with passed data.
+     * 
+     * @param string[]      $templatename Templates in which to make substitutions
+     * @param string[]      $params Data to replace the parameters
+     * @return false|string Name of the zip archive (of certificates)
+     */
     public static function get_pack_name($templatename, $params) {
         $search = [
             '{{courseshortname}}',
@@ -211,6 +243,9 @@ class meccertbulkdownload {
      * Transform a byte size into the most suitable format.
      *
      * @link https://stackoverflow.com/questions/2510434/format-bytes-to-kilobytes-megabytes-gigabytes
+     * @param int    $bytes File size in byte
+     * @param int    $precision Precision of the returned value
+     * @return float Transformed value
      */
     public static function formatBytes($bytes, $precision = 2) { 
         $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
@@ -230,16 +265,14 @@ class meccertbulkdownload {
      * Process text from text boxes in plugin configuration for the choice of
      * file name templates.
      * 
-     * @param string $text      Text on multiple lines and with each line containing a
-     *                          semicolon separating the first and second
-     *                          part of the text.
-     * @param bool $onlynames  FALSE (defualt): sets template name as key
-     *                          of the array and the template as the value.
-     *                          TRUE: sets template name as key and as
-     *                          value puts name + value in parentheses.
-     * @return array            Array with one item for each line of text
-     *                          received and keyed to the first part of the text
-     *                          and value the second part.
+     * @param string    $text Text on multiple lines and with each line containing a
+     *                  semicolon separating the first and second part of the text
+     * @param bool      $onlynames FALSE (defualt): sets template name as key of the
+     *                  array and the template as the value.
+     *                  TRUE: sets template name as key and as value puts name + value
+     *                  in parentheses.
+     * @return string[] Array with one item for each line of text received and keyed
+     *                  to the first part of the text and value the second part.
      */
     private static function get_array_from_lines($text, $onlynames = false) {
         $text = trim($text);
@@ -266,12 +299,16 @@ class meccertbulkdownload {
 
     /**
      * In the passed string, replace any appropriate parameters with the
-     * today's date or the end date passed.
+     * today's date or the course completation date if passed.
      * 
      * The parameter for today's date is es. "{{todaysdate(mdY)}}".
      * The parameter for the course end date is es. "{{courseenddate(mdY)}}".
      * 
      * Example: "Today is {{todaysdate(d-m-Y)}}." => "today is the 23-02-2023."
+     * 
+     * @param int         $string String in which perform the substitution
+     * @param null|string $coursecompletiondate Course completion date to use for substitution
+     * @return string     String with the date in place of the parameter
      */
     private static function date_replace($string, $coursecompletiondate = null) {
         $string = preg_replace_callback(
@@ -305,9 +342,9 @@ class meccertbulkdownload {
      * average size, entered by the user in the plugin configurations, of a
      * single certificate.
      * 
-     * @param integer $certificatesnumber Number of certificates they will make
-     *                                    up the compressed package.
-     * @return integer Estimated size of the compressed package in MB.
+     * @param integer  $certificatesnumber Number of certificates they will make
+     *                 up the compressed package
+     * @return integer Estimated size of the compressed package in MB
      */
     public static function get_estimatedarchivesize($certificatesnumber) {
         // in the configuration the estimated size of a certificate is entered in KB
@@ -320,7 +357,7 @@ class meccertbulkdownload {
     /**
      * Get free disk space in MB and without decimal places.
      *
-     * @return integer Free space in MB rounded.
+     * @return integer Free space in MB rounded
      */
     public static function get_free_disk_space() {
         $freespace = 0;

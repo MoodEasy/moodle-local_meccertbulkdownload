@@ -37,6 +37,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 class templates_form extends \moodleform {
 
+    /**
+     * Form definition.
+     */
     public function definition() {
 
         $mform = $this->_form;
