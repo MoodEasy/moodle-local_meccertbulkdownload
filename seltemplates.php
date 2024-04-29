@@ -63,7 +63,7 @@ if (empty($pdftamplates) || empty($packtemplates)) {
 $tform = new templates_form(null, [
     'pdftamplates' => $pdftamplates,
     'packtemplates' => $packtemplates,
-    'from_filter_form' => ''
+    'fromfilterform' => ''
 ]);
 
 
@@ -95,7 +95,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     $mytask->set_custom_data([
         'templatepdf' => $fromform->templatepdf,
         'templatepack' => $fromform->templatepack,
-        'fromfilterform' => unserialize($fromform->from_filter_form)
+        'fromfilterform' => unserialize($fromform->fromfilterform)
     ]);
 
     // Queue the task.
@@ -120,50 +120,50 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     // IF CONFIRMATION IS ALREADY DISPLAYED (SEE BELOW), THE SAME DATA WILL 
     // RETURN VIA GET.
     // if course and cohort are not set, the parameters contain the string "no"
-    $from_filter_form = new stdClass;
-    $from_filter_form->courseorcertificate = required_param('courseorcertificate', PARAM_TEXT);
-    $from_filter_form->datefrom = required_param('datefrom', PARAM_INT);
-    $from_filter_form->dateto = required_param('dateto', PARAM_INT);
-    $from_filter_form->estimatedarchivesize = optional_param('estimatedarchivesize', 0, PARAM_FLOAT);
+    $fromfilterform = new stdClass;
+    $fromfilterform->courseorcertificate = required_param('courseorcertificate', PARAM_TEXT);
+    $fromfilterform->datefrom = required_param('datefrom', PARAM_INT);
+    $fromfilterform->dateto = required_param('dateto', PARAM_INT);
+    $fromfilterform->estimatedarchivesize = optional_param('estimatedarchivesize', 0, PARAM_FLOAT);
 
 
     // IF REQUESTED, BEFORE SELECTING PDF NAMES AND ZIP, SHOW PAGE
     // WITH EXPECTED ZIP SIZE AND REQUESTS CONFIRMATION TO PROCEED
     if (meccertbulkdownload::ASK_DOWNLOAD_CONFIRMATION) {
 
-        $msgVersioneLeggera = '';
+        $lightversionmsg = '';
         if (meccertbulkdownload::LVNC) {
-            $msgVersioneLeggera = meccertbulkdownload::LVNC;
-            $msgVersioneLeggera = str_replace(
+            $lightversionmsg = meccertbulkdownload::LVNC;
+            $lightversionmsg = str_replace(
                 '{HOW MANY_CERT}',
                 meccertbulkdownload::LVNC,
                 get_string('bookconfirmmsglightversion', 'local_meccertbulkdownload')
             );
-            $msgVersioneLeggera = '<p style="font-size: 0.8rem; text-align: center; color: rgb(88, 21, 28); background-color: rgb(248, 215, 218); margin: 28px -16px -32px -16px; padding: 10px 16px;">'
-                . $msgVersioneLeggera
-                . '</p>';
+            $lightversionmsg = '<p style="font-size: 0.8rem; text-align: center; color: rgb(88, 21, 28); ' . 
+                'background-color: rgb(248, 215, 218); margin: 28px -16px -32px -16px; padding: 10px 16px;">' .
+                $lightversionmsg . '</p>';
         }
 
         $confirm = optional_param('confirm', 0, PARAM_INT);
         if ($confirm === 0) {  // not yet seen page for confirmation
             // obtains free space on the disk
-            $free_space = meccertbulkdownload::get_free_disk_space();
+            $freespace = meccertbulkdownload::get_free_disk_space();
             // prepares any message of insufficient space on the server
-            if ( ($from_filter_form->estimatedarchivesize * 2) > $free_space ) {
-                $not_enough_space = '<p style="color:red"><strong>'
-                    . get_string('bookconfirmmsgnotenoughspace', 'local_meccertbulkdownload')
-                    . '</strong></p>';
+            if ( ($fromfilterform->estimatedarchivesize * 2) > $freespace ) {
+                $notenoughspace = '<p style="color:red"><strong>' .
+                    get_string('bookconfirmmsgnotenoughspace', 'local_meccertbulkdownload') .
+                    '</strong></p>';
             } else {
-                $not_enough_space = '';
+                $notenoughspace = '';
             }
             // create the confirmation page
             echo $OUTPUT->header();
             $nourl = new moodle_url('/local/meccertbulkdownload/index.php');
             $yesurl = new moodle_url('/local/meccertbulkdownload/seltemplates.php',
                 array(
-                    'courseorcertificate' => $from_filter_form->courseorcertificate,
-                    'datefrom' => $from_filter_form->datefrom,
-                    'dateto' => $from_filter_form->dateto,
+                    'courseorcertificate' => $fromfilterform->courseorcertificate,
+                    'datefrom' => $fromfilterform->datefrom,
+                    'dateto' => $fromfilterform->dateto,
                     'confirm' => 1,
                 )
             );
@@ -171,24 +171,24 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
                     '<p>'
                     . get_string('bookconfirmmsg', 'local_meccertbulkdownload')
                     . ' <strong>'
-                    . $from_filter_form->estimatedarchivesize
+                    . $fromfilterform->estimatedarchivesize
                     . ' MB</strong>.</p>'
                     . '<p>'
                     . get_string('bookconfirmmsgserver', 'local_meccertbulkdownload')
                     . ' <strong>'
-                    . $from_filter_form->estimatedarchivesize * 2
+                    . $fromfilterform->estimatedarchivesize * 2
                     . ' MB</strong>.</p>'
                     . '<p>'
                     . get_string('bookconfirmmsgfreespace', 'local_meccertbulkdownload')
                     . ' <strong>'
-                    . $free_space
+                    . $freespace
                     . ' MB</strong>.</p>'
-                    . $not_enough_space
+                    . $notenoughspace
                     . '<br>'
                     . '<small>'
                     . get_string('bookconfirmmsgnb', 'local_meccertbulkdownload')
                     . '</small>'
-                    . $msgVersioneLeggera,
+                    . $lightversionmsg,
                 $yesurl,
                 $nourl
             );
@@ -214,7 +214,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     $tform = new templates_form(null, [
         'pdftamplates' => $pdftamplates,
         'packtemplates' => $packtemplates,
-        'from_filter_form' => serialize($from_filter_form)
+        'fromfilterform' => serialize($fromfilterform)
     ]);
 }
 

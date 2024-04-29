@@ -134,10 +134,10 @@ unset($files2);
 
 
 // pagination parameters
-$recsCount = count($files);
+$recscount = count($files);
 $from = ($perpage * $page) + 1;
 $to = ($perpage * $page) + $perpage;
-if ($to > $recsCount) $to = $recsCount;
+if ($to > $recscount) $to = $recscount;
 
 // filter the list based on pagination
 $files = array_slice($files, $from - 1, $perpage, true);
@@ -227,7 +227,7 @@ echo '<div style="text-align: center;">';
     echo html_writer::table($table);
     echo '<div style="display: table; width: 100%; margin-top: 8px;">';
         echo '<div style="display: table-cell; text-align: left;">';
-            echo "Record da $from a $to di $recsCount - Per pagina: ";
+            echo "Record da $from a $to di $recscount - Per pagina: ";
             echo '<select class="custom-select" onChange="window.location.href=\'' . $baseurl2 . '&perpage=\' + this.value">
                 <option value="10"' . ($perpage == 10 ? ' selected' : '') . '>10</option>
                 <option value="25"' . ($perpage == 25 ? ' selected' : '') . '>25</option>
@@ -236,7 +236,7 @@ echo '<div style="text-align: center;">';
             </select>';
         echo '</div>';
         echo '<div style="display: table-cell; text-align: right; justify-content: right !important;">';
-            echo $OUTPUT->paging_bar($recsCount, $page, $perpage, $baseurl);
+            echo $OUTPUT->paging_bar($recscount, $page, $perpage, $baseurl);
         echo "</div>";
     echo "</div>";
 echo "</div>";

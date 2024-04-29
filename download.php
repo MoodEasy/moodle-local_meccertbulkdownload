@@ -62,23 +62,23 @@ $recs = $DB->get_recordset_sql(
 \core\dataformat::download_data($nomefile, $dataformat, $columns, $recs, function($record) {
 
     if ($record->certcreation) {
-        $certcreationTmp = new DateTime('', core_date::get_user_timezone_object());
-        $certcreationTmp->setTimestamp($record->certcreation);
-        $certcreationTmp = userdate($certcreationTmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
+        $certcreationtmp = new DateTime('', core_date::get_user_timezone_object());
+        $certcreationtmp->setTimestamp($record->certcreation);
+        $certcreationtmp = userdate($certcreationtmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
     } else {
-        $certcreationTmp = "";
+        $certcreationtmp = "";
     }
 
     if ($record->coursecompletion) {
-        $coursecompletionTmp = new DateTime('', core_date::get_user_timezone_object());
-        $coursecompletionTmp->setTimestamp($record->coursecompletion);
-        $coursecompletionTmp = userdate($coursecompletionTmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
+        $coursecompletiontmp = new DateTime('', core_date::get_user_timezone_object());
+        $coursecompletiontmp->setTimestamp($record->coursecompletion);
+        $coursecompletiontmp = userdate($coursecompletiontmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
     } else {
-        $coursecompletionTmp = "";
+        $coursecompletiontmp = "";
     }
 
-    $record->certcreation = $certcreationTmp;
-    $record->coursecompletion = $coursecompletionTmp;
+    $record->certcreation = $certcreationtmp;
+    $record->coursecompletion = $coursecompletiontmp;
 
     return $record;
 });

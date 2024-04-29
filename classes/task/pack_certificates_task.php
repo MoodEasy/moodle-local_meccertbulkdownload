@@ -59,7 +59,7 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         // cron_setup_user($user);
 
         // Get the custom data.
-        $custom_data = $this->get_custom_data();
+        $customdata = $this->get_custom_data();
     
         $filesforzipping = array();
         $fs = get_file_storage();
@@ -72,7 +72,7 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         }
 
         // obtains parameters from the form data and creates the where part of the query
-        $where = meccertbulkdownload::get_certificates_params($custom_data->fromfilterform);
+        $where = meccertbulkdownload::get_certificates_params($customdata->fromfilterform);
         // obtains the query, adds the where part and executes it
         $recs = $DB->get_recordset_sql(
             meccertbulkdownload::get_certificates_query() . $where['string'],
@@ -83,12 +83,12 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         // within the main zip (which in this case represents
         // the selected course) creates a folder for each group
         if (
-            $custom_data->fromfilterform->courseorcohort === 'cor'
-            && $custom_data->fromfilterform->corso !== 'no'
-            && $custom_data->fromfilterform->gruppocorso === 'no'
+            $customdata->fromfilterform->courseorcohort === 'cor'
+            && $customdata->fromfilterform->corso !== 'no'
+            && $customdata->fromfilterform->gruppocorso === 'no'
         ) {
             // obtains groups and their course members
-            $courseid = (int) $custom_data->fromfilterform->corso;
+            $courseid = (int) $customdata->fromfilterform->corso;
             $groups = $this->get_course_groups_and_members($courseid);
             // if the course has groups, create a subfolder for each group
             if ($groups) {
@@ -102,9 +102,9 @@ class pack_certificates_task extends \core\task\adhoc_task  {
             $groups = false;
         }
 
-        $paramforpackname_course = '-';
-        $paramforpackname_coursecode = '-';
-        $paramforpackname_cohort = '-';
+        $paramforpacknamecourse = '-';
+        $paramforpacknamecoursecode = '-';
+        $paramforpacknamecohort = '-';
 
         $i = 0;
 
@@ -118,14 +118,14 @@ class pack_certificates_task extends \core\task\adhoc_task  {
             $template = new \mod_customcert\template($template);
             $pdf = $template->generate_pdf(false, $cert->userid, true);
 
-            $certUser = core_user::get_user($cert->userid);
-            $userFullname = fullname($certUser);
+            $certuser = core_user::get_user($cert->userid);
+            $userfullname = fullname($certuser);
 
             // obtains the name to give to the pdf
             // https://www.php.net/manual/en/datetime.format.php
-            $pdfname = meccertbulkdownload::get_pdf_name($custom_data->templatepdf, [
+            $pdfname = meccertbulkdownload::get_pdf_name($customdata->templatepdf, [
                     $cert->username,
-                    $userFullname,
+                    $userfullname,
                     $cert->lastname ? $cert->lastname : 'nousersurname',
                     $cert->courseshortname ? $cert->courseshortname : 'nocourseshortname',
                     $cert->courseidnumber ? $cert->courseidnumber : 'nocoursecode',
@@ -167,31 +167,31 @@ class pack_certificates_task extends \core\task\adhoc_task  {
             // if the course or cohort name is the same for all records
             // saves the value to use (if required by the template
             // selected by the user) as a parameter for the zip name
-            if ($paramforpackname_course === '-') {  // primo giro
-                $paramforpackname_course = $cert->courseshortname; 
+            if ($paramforpacknamecourse === '-') {  // primo giro
+                $paramforpacknamecourse = $cert->courseshortname; 
             } else { // other loops
                 // if different from that of the first loop it means that they have courses
                 // different so there cannot be the course parameter as the name of the zip
-                if ($paramforpackname_course !== $cert->courseshortname) $paramforpackname_course = 'nocourseshortname'; 
+                if ($paramforpacknamecourse !== $cert->courseshortname) $paramforpacknamecourse = 'nocourseshortname'; 
             }
             // COURSE CODE
-            if ($paramforpackname_coursecode === '-') {  // first loop
-                $paramforpackname_coursecode = $cert->courseidnumber; 
+            if ($paramforpacknamecoursecode === '-') {  // first loop
+                $paramforpacknamecoursecode = $cert->courseidnumber; 
             } else { // other loops
                 // if different from that of the first round it means that they have courses
                 // different therefore there cannot be the course code parameter as the name of the zip
-                if ($paramforpackname_coursecode !== $cert->courseidnumber) $paramforpackname_coursecode = 'nocoursecode'; 
+                if ($paramforpacknamecoursecode !== $cert->courseidnumber) $paramforpacknamecoursecode = 'nocoursecode'; 
             }
             // COHORT (GLOBAL GROUP)
-            if ($paramforpackname_cohort === '-') {  // first loop
-                $paramforpackname_cohort = $cert->cohortname; 
+            if ($paramforpacknamecohort === '-') {  // first loop
+                $paramforpacknamecohort = $cert->cohortname; 
             } else { // other loops
                 // if different from that of the first loop it means that they have courses
                 // different so there cannot be the course parameter as the name of the zip
-                if ($paramforpackname_cohort !== $cert->cohortname) $paramforpackname_cohort = 'nocohortname'; 
+                if ($paramforpacknamecohort !== $cert->cohortname) $paramforpacknamecohort = 'nocohortname'; 
             }
 
-            // mtrace('Coorte: ' . $paramforpackname_cohort);
+            // mtrace('Coorte: ' . $paramforpacknamecohort);
         }
 
         $recs->close();
@@ -199,9 +199,9 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         // if all records had course name or course id or cohort = null,
         // the null remained in the respective variables (being, as mentioned,
         // the value same for all records), so now puts the no...
-        $paramforpackname_course = $paramforpackname_course ? $paramforpackname_course : 'nocourseshortname';
-        $paramforpackname_coursecode = $paramforpackname_coursecode ? $paramforpackname_coursecode : 'nocoursecode';
-        $paramforpackname_cohort = $paramforpackname_cohort ? $paramforpackname_cohort : 'nocohortname';
+        $paramforpacknamecourse = $paramforpacknamecourse ? $paramforpacknamecourse : 'nocourseshortname';
+        $paramforpacknamecoursecode = $paramforpacknamecoursecode ? $paramforpacknamecoursecode : 'nocoursecode';
+        $paramforpacknamecohort = $paramforpacknamecohort ? $paramforpacknamecohort : 'nocohortname';
 
         // if no certificates with the passed parameters were found, it exits
         // (this should not happen because the user presses the
@@ -216,13 +216,13 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         // (inside a course), it gets the name to put in the name of the zip
         // if the zip name template requires it
         if (
-            isset($custom_data->fromfilterform->gruppocorso)
-            && $custom_data->fromfilterform->gruppocorso !== 'no'
+            isset($customdata->fromfilterform->gruppocorso)
+            && $customdata->fromfilterform->gruppocorso !== 'no'
         ) {
-            $groupName = groups_get_group_name( (int) $custom_data->fromfilterform->gruppocorso);
-            $paramforpackname_gruppocorso = $groupName;
+            $groupname = groups_get_group_name( (int) $customdata->fromfilterform->gruppocorso);
+            $paramforpacknamegruppocorso = $groupname;
         } else {
-            $paramforpackname_gruppocorso = 'nogroupname';
+            $paramforpacknamegruppocorso = 'nogroupname';
         }
 
         // JOINS PDFS CREATING THE COMPRESSED FILE
@@ -240,11 +240,11 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         // manually (tmp files are periodically deleted)
 
         // obtains the name to give to the compressed file
-        $packname = meccertbulkdownload::get_pack_name($custom_data->templatepack, [
-            $paramforpackname_course,
-            $paramforpackname_coursecode,
-            $paramforpackname_cohort,
-            $paramforpackname_gruppocorso
+        $packname = meccertbulkdownload::get_pack_name($customdata->templatepack, [
+            $paramforpacknamecourse,
+            $paramforpacknamecoursecode,
+            $paramforpacknamecohort,
+            $paramforpacknamegruppocorso
         ]);
 
         // prepares the fileinfo object with the file info
@@ -334,7 +334,7 @@ class pack_certificates_task extends \core\task\adhoc_task  {
      */
     private function send_end_notification($user, $packname)
     {
-        $pack_name = $packname . '.zip';
+        $packname = $packname . '.zip';
 
         $message = new \core\message\message();
         $message->component = 'local_meccertbulkdownload'; // Your plugin's name
@@ -342,10 +342,10 @@ class pack_certificates_task extends \core\task\adhoc_task  {
         $message->userfrom = \core_user::get_noreply_user(); // If the message is 'from' a specific user you can set them here
         $message->userto = $user;
         $message->subject = get_string('msgconfirmationsubject', 'local_meccertbulkdownload');
-        $message->fullmessage = get_string('msgconfirmationfullmessage', 'local_meccertbulkdownload') . $pack_name;
+        $message->fullmessage = get_string('msgconfirmationfullmessage', 'local_meccertbulkdownload') . $packname;
         $message->fullmessageformat = FORMAT_PLAIN;
-        $message->fullmessagehtml = get_string('msgconfirmationfullmessagehtml', 'local_meccertbulkdownload') . '<b>' . $pack_name . '</b>';
-        $message->smallmessage = get_string('msgconfirmationsmallmessage', 'local_meccertbulkdownload') . $pack_name;
+        $message->fullmessagehtml = get_string('msgconfirmationfullmessagehtml', 'local_meccertbulkdownload') . '<b>' . $packname . '</b>';
+        $message->smallmessage = get_string('msgconfirmationsmallmessage', 'local_meccertbulkdownload') . $packname;
         $message->notification = 1; // Because this is a notification generated from Moodle, not a user-to-user message
         $message->contexturl = (new \moodle_url('/local/meccertbulkdownload/list.php'))->out(false); // A relevant URL for the notification
         $message->contexturlname = get_string('msgconfirmationcontexturlname', 'local_meccertbulkdownload'); // Link title explaining where users get to for the contexturl

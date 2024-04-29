@@ -46,8 +46,8 @@ class templates_form extends \moodleform {
 
         $mform->addElement('select', 'templatepack', get_string('archivenametemplatesitemsingular', 'local_meccertbulkdownload'), $this->_customdata['packtemplates']);
 
-        $mform->addElement('hidden', 'from_filter_form', $this->_customdata['from_filter_form']);
-        $mform->setType('from_filter_form', PARAM_TEXT);
+        $mform->addElement('hidden', 'fromfilterform', $this->_customdata['fromfilterform']);
+        $mform->setType('fromfilterform', PARAM_TEXT);
 
         $this->add_action_buttons(get_string('cancel'), get_string('formtemplatesubmit', 'local_meccertbulkdownload'));
     }

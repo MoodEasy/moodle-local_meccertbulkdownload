@@ -59,9 +59,9 @@ class meccertbulkdownload {
     public static function get_certificates_query($count = false)
     {
         if ($count) {
-            $q = 'SELECT COUNT(mci.id) AS quanti';
+            $thequery = 'SELECT COUNT(mci.id) AS quanti';
         } else {
-            $q = 'SELECT
+            $thequery = 'SELECT
                          mci.id,
                          mci.userid,
                          mci.timecreated AS certcreation,
@@ -77,7 +77,7 @@ class meccertbulkdownload {
                          mcoh.name AS cohortname,
                          mcc.timecompleted AS coursecompletion';
         }
-        return $q .= '
+        return $thequery .= '
                     FROM {customcert_issues} mci
                     JOIN {customcert} mc ON mci.customcertid = mc.id
                     JOIN {user} mu ON mci.userid = mu.id 
@@ -128,24 +128,24 @@ class meccertbulkdownload {
         $period = ['cor' => 'mcc.timecompleted', 'cer' => 'mci.timecreated'];
         $period = $period[$fromform->courseorcertificate];
 
-        $whereArray = [];
-        $whereStr = '';
-        $whereParams = null;
+        $wherearray = [];
+        $wherestr = '';
+        $whereparams = null;
 
         if (isset($fromform->datefrom) && $fromform->datefrom) {
-            $whereArray[] = "$period >= :datafinecorsofrom";
-            $whereParams['datafinecorsofrom'] = $fromform->datefrom;
+            $wherearray[] = "$period >= :datafinecorsofrom";
+            $whereparams['datafinecorsofrom'] = $fromform->datefrom;
         }
         if (isset($fromform->dateto) && $fromform->dateto) {
-            $whereArray[] = "$period <= :datafinecorsoto";
-            $whereParams['datafinecorsoto'] = $fromform->dateto + 86399;
+            $wherearray[] = "$period <= :datafinecorsoto";
+            $whereparams['datafinecorsoto'] = $fromform->dateto + 86399;
         }
 
-        if (count($whereArray)) {
-            $whereStr = " WHERE " . implode(" AND ", $whereArray);
+        if (count($wherearray)) {
+            $wherestr = " WHERE " . implode(" AND ", $wherearray);
         }
 
-        return ['string' => $whereStr, 'params' => $whereParams];
+        return ['string' => $wherestr, 'params' => $whereparams];
     }
 
     public static function get_certificates_fields()
@@ -160,23 +160,23 @@ class meccertbulkdownload {
         ];
     }
 
-    public static function get_pdf_templates($only_names = false)
+    public static function get_pdf_templates($onlynames = false)
     {
         $pdftamplates = get_config('local_meccertbulkdownload', 'pdfnametemplates');
-        return self::get_array_from_lines($pdftamplates, $only_names);
+        return self::get_array_from_lines($pdftamplates, $onlynames);
     }
 
-    public static function get_pack_templates($only_names = false)
+    public static function get_pack_templates($onlynames = false)
     {
         $packtamplates = get_config('local_meccertbulkdownload', 'packnametemplates');
-        return self::get_array_from_lines($packtamplates, $only_names);
+        return self::get_array_from_lines($packtamplates, $onlynames);
     }
 
     /**
      * @param array $params username, userfullname, usersurname, courseshortname,
      *                      coursecode, cohortname.
      */
-    public static function get_pdf_name($template_name, $params, $coursecompletiondate)
+    public static function get_pdf_name($templatename, $params, $coursecompletiondate)
     {
         $search = [
             '{{username}}', 
@@ -187,8 +187,8 @@ class meccertbulkdownload {
             '{{cohortname}}'
         ];
         $pdftamplates = self::get_pdf_templates();
-        if (array_key_exists($template_name, $pdftamplates)) {
-            $pdfname = $pdftamplates[$template_name];
+        if (array_key_exists($templatename, $pdftamplates)) {
+            $pdfname = $pdftamplates[$templatename];
             $pdfname = str_replace($search, $params, $pdfname);
             return self::date_replace($pdfname, $coursecompletiondate);
         } else {
@@ -196,7 +196,7 @@ class meccertbulkdownload {
         }
     }
 
-    public static function get_pack_name($template_name, $params)
+    public static function get_pack_name($templatename, $params)
     {
         $search = [
             '{{courseshortname}}',
@@ -205,8 +205,8 @@ class meccertbulkdownload {
             '{{groupname}}'
         ];
         $packtamplates = self::get_pack_templates();
-        if (array_key_exists($template_name, $packtamplates)) {
-            $packname = $packtamplates[$template_name];
+        if (array_key_exists($templatename, $packtamplates)) {
+            $packname = $packtamplates[$templatename];
             $packname = str_replace($search, $params, $packname);
             return self::date_replace($packname);
         } else {
@@ -217,7 +217,7 @@ class meccertbulkdownload {
     /**
      * Transform a byte size into the most suitable format.
      *
-     * @see https://stackoverflow.com/questions/2510434/format-bytes-to-kilobytes-megabytes-gigabytes
+     * @link https://stackoverflow.com/questions/2510434/format-bytes-to-kilobytes-megabytes-gigabytes
      */
     public static function formatBytes($bytes, $precision = 2) { 
         $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
@@ -240,7 +240,7 @@ class meccertbulkdownload {
      * @param string $text      Text on multiple lines and with each line containing a
      *                          semicolon separating the first and second
      *                          part of the text.
-     * @param bool $only_names  FALSE (defualt): sets template name as key
+     * @param bool $onlynames  FALSE (defualt): sets template name as key
      *                          of the array and the template as the value.
      *                          TRUE: sets template name as key and as
      *                          value puts name + value in parentheses.
@@ -248,7 +248,7 @@ class meccertbulkdownload {
      *                          received and keyed to the first part of the text
      *                          and value the second part.
      */
-    private static function get_array_from_lines($text, $only_names = false)
+    private static function get_array_from_lines($text, $onlynames = false)
     {
         $text = trim($text);
         $text = explode("\n", $text);
@@ -258,12 +258,12 @@ class meccertbulkdownload {
         foreach ($text as $line) {
             $line = trim($line);
             if ($line) {
-                $lineArr = explode(":", $line);
-                if (!empty($lineArr)) {
-                    if ($only_names) {
-                        $lines[trim($lineArr[0])] = trim($lineArr[0]) . ' - ' . trim($lineArr[1]);
+                $linearr = explode(":", $line);
+                if (!empty($linearr)) {
+                    if ($onlynames) {
+                        $lines[trim($linearr[0])] = trim($linearr[0]) . ' - ' . trim($linearr[1]);
                     } else {
-                        $lines[trim($lineArr[0])] = trim($lineArr[1]);
+                        $lines[trim($linearr[0])] = trim($linearr[1]);
                     }
                 }
             }
@@ -334,7 +334,7 @@ class meccertbulkdownload {
      */
     public static function get_free_disk_space()
     {
-        $free_space = 0;
+        $freespace = 0;
         
         try {
             $win = disk_free_space("C:");
@@ -343,10 +343,10 @@ class meccertbulkdownload {
             $lin = disk_free_space("/");
         } catch (\Exception $e) {}
 
-        if (isset($win) && $win) $free_space = $win;
-        if (isset($lin) && $lin) $free_space = $lin;
+        if (isset($win) && $win) $freespace = $win;
+        if (isset($lin) && $lin) $freespace = $lin;
         
-        if ($free_space > 0) $free_space = $free_space / 1000000;
-        return round($free_space);
+        if ($freespace > 0) $freespace = $freespace / 1000000;
+        return round($freespace);
     }
 }

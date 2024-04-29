@@ -54,34 +54,34 @@ $submit = optional_param('submitbuttonn', '', PARAM_TEXT);
 
 // PREPARE THE FORM FOR SELECTION OF FILTERS
 
-$corsi = ['no' => get_string('all', 'local_meccertbulkdownload')];
-foreach(get_courses("all", "c.sortorder ASC", "c.id, c.fullname") as $corso) {
-    $corsi[$corso->id] = $corso->fullname;
+$courses = ['no' => get_string('all', 'local_meccertbulkdownload')];
+foreach(get_courses("all", "c.sortorder ASC", "c.id, c.fullname") as $course) {
+    $courses[$course->id] = $course->fullname;
 }
-asort($corsi);
+asort($courses);
 
-$coorti = ['no' => get_string('all', 'local_meccertbulkdownload')];
-$cohorts = cohort_get_all_cohorts(0, 10000);
-if ($cohorts) {
-    foreach($cohorts['cohorts'] as $coorte) {
-        $coorti[$coorte->id] = $coorte->name;
+$cohorts = ['no' => get_string('all', 'local_meccertbulkdownload')];
+$cohortsfromdb = cohort_get_all_cohorts(0, 10000);
+if ($cohortsfromdb) {
+    foreach($cohortsfromdb['cohorts'] as $cohort) {
+        $cohorts[$cohort->id] = $cohort->name;
     }
 }
-// asort($coorti);
+// asort($cohorts);
 
-$gruppocorso = ['no' => get_string('all', 'local_meccertbulkdownload')];
+$coursegroups = ['no' => get_string('all', 'local_meccertbulkdownload')];
 $courseid = optional_param('corso', 'no', PARAM_RAW);
 if ($submit && $courseid !== 'no') {
     $groups = groups_get_all_groups($courseid, 0, 0, 'g.id, g.name');
     foreach($groups as $group) {
-        $gruppocorso[$group->id] = $group->name;
+        $coursegroups[$group->id] = $group->name;
     }
 }
 
 $fform = new filters_form(null, [
-    'corsi' => $corsi,
-    'coorti' => $coorti,
-    'gruppocorso' => $gruppocorso
+    'courses' => $courses,
+    'cohorts' => $cohorts,
+    'coursegroups' => $coursegroups
 ]);
 
 
@@ -103,12 +103,12 @@ if ( ($fromform = $fform->get_data()) || $submit) {
     $where = meccertbulkdownload::get_certificates_params($fromform);
 
     // obtains the total number of records (without LIMITS) useful for pagination
-    $recsCountObj = $DB->get_record_sql(
+    $recscountobj = $DB->get_record_sql(
         meccertbulkdownload::get_certificates_query(true)
             . $where['string'],
         $where['params']
     );
-    $recsCount = isset($recsCountObj->quanti) ? $recsCountObj->quanti : 0;
+    $recscount = isset($recscountobj->quanti) ? $recscountobj->quanti : 0;
 
     // obtains the query, adds the where part and executes it
     $recs = $DB->get_recordset_sql(
@@ -130,27 +130,27 @@ if ( ($fromform = $fform->get_data()) || $submit) {
         foreach ($recs as $cert) {
 
             if ($cert->certcreation) {
-                $certcreationTmp = new DateTime('', core_date::get_user_timezone_object());
-                $certcreationTmp->setTimestamp($cert->certcreation);
-                $certcreationTmp = userdate($certcreationTmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
+                $certcreationtmp = new DateTime('', core_date::get_user_timezone_object());
+                $certcreationtmp->setTimestamp($cert->certcreation);
+                $certcreationtmp = userdate($certcreationtmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
             } else {
-                $certcreationTmp = "";
+                $certcreationtmp = "";
             }
 
             if ($cert->coursecompletion) {
-                $coursecompletionTmp = new DateTime('', core_date::get_user_timezone_object());
-                $coursecompletionTmp->setTimestamp($cert->coursecompletion);
-                $coursecompletionTmp = userdate($coursecompletionTmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
+                $coursecompletiontmp = new DateTime('', core_date::get_user_timezone_object());
+                $coursecompletiontmp->setTimestamp($cert->coursecompletion);
+                $coursecompletiontmp = userdate($coursecompletiontmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
             } else {
-                $coursecompletionTmp = "";
+                $coursecompletiontmp = "";
             }
 
             $table->data[$i][0] = $cert->username;
             $table->data[$i][1] = $cert->firstname . " " . $cert->lastname;
             $table->data[$i][2] = $cert->cohortname;
             $table->data[$i][3] = $cert->coursename;
-            $table->data[$i][4] = $certcreationTmp;
-            $table->data[$i][5] = $coursecompletionTmp;
+            $table->data[$i][4] = $certcreationtmp;
+            $table->data[$i][5] = $coursecompletiontmp;
             $i++;
         }
     } else {
@@ -223,21 +223,21 @@ if (isset($table)) {
 
     $from = ($perpage * $page) + 1;
     $to = ($perpage * $page) + $perpage;
-    if ($to > $recsCount) $to = $recsCount;
-    if ($recsCount == 0) $from = 0;
+    if ($to > $recscount) $to = $recscount;
+    if ($recscount == 0) $from = 0;
 
     $fhform = new filters_hidden_form('seltemplates.php', [
         'courseorcertificate' => $fromform->courseorcertificate,
         'datefrom' => $fromform->datefrom,
         'dateto' => $fromform->dateto,
-        'estimatedarchivesize' => meccertbulkdownload::get_estimatedarchivesize($recsCount)
+        'estimatedarchivesize' => meccertbulkdownload::get_estimatedarchivesize($recscount)
     ]);
 
     // draw the table
     echo '<div style="text-align: center; margin-top: -10px;">';
 
         // if there is data in the table and the user can create archives, display the archives creation button
-        if ( ($recsCount > 0) && has_capability('local/meccertbulkdownload:createarchives', $context) ) {
+        if ( ($recscount > 0) && has_capability('local/meccertbulkdownload:createarchives', $context) ) {
             echo '<div style="float: right;">';
             $fhform->set_display_vertical();
             $fhform->display();
@@ -251,7 +251,7 @@ if (isset($table)) {
             echo '<div style="display: table-cell; text-align: left;">';
                 echo str_replace(
                     ['{{from}}', '{{to}}', '{{count}}'],
-                    [$from, $to, $recsCount],
+                    [$from, $to, $recscount],
                     get_string('tablerecordscount', 'local_meccertbulkdownload')
                 );
                 echo '<select class="custom-select" onChange="window.location.href=\'' . $baseurl2 . '&perpage=\' + this.value">
@@ -262,7 +262,7 @@ if (isset($table)) {
                 </select>';
             echo '</div>';
             echo '<div style="display: table-cell; text-align: right; justify-content: right !important;">';
-                echo $OUTPUT->paging_bar($recsCount, $page, $perpage, $baseurl);
+                echo $OUTPUT->paging_bar($recscount, $page, $perpage, $baseurl);
             echo "</div>";
         echo "</div>";
     echo "</div>";
