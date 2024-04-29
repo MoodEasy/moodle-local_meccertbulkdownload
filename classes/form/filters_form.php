@@ -39,8 +39,6 @@ class filters_form extends \moodleform
 {
     public function definition()
     {
-        global $CFG;
-
         $mform = $this->_form;
 
         $mform->registerNoSubmitButton('addtask');

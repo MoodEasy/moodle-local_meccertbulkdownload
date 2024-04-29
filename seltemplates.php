@@ -24,7 +24,6 @@
  */
 
 use \local_meccertbulkdownload\meccertbulkdownload;
-use \local_meccertbulkdownload\form\filters_form;
 use \local_meccertbulkdownload\form\templates_form;
 use \local_meccertbulkdownload\task\pack_certificates_task;
 

@@ -38,7 +38,6 @@ defined('MOODLE_INTERNAL') || die();
 class templates_form extends \moodleform {
 
     public function definition() {
-        global $CFG;
 
         $mform = $this->_form;
 
