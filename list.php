@@ -174,7 +174,7 @@ foreach ($files as $file) {
     );
 
     $table->data[$i][0] = '<a href="' . $url . '">' . $file->get_filename()  . '</a>';
-    $table->data[$i][1] = meccertbulkdownload::formatBytes($file->get_filesize());
+    $table->data[$i][1] = meccertbulkdownload::format_bytes($file->get_filesize());
     $table->data[$i][2] = date('d/m/Y H:i:s', $file->get_timecreated());
     $table->data[$i][3] = '<a href="' . $url . '">' . get_string('download') . '</a>';
 

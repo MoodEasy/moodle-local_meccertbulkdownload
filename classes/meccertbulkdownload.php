@@ -247,7 +247,7 @@ class meccertbulkdownload {
      * @param int    $precision Precision of the returned value
      * @return float Transformed value
      */
-    public static function formatBytes($bytes, $precision = 2) {
+    public static function format_bytes($bytes, $precision = 2) {
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
 
         $bytes = max($bytes, 0);
