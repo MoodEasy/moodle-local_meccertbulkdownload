@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-// @link https://moodledev.io/docs/apis/subsystems/admin
+// {@link https://moodledev.io/docs/apis/subsystems/admin}
 if ($hassiteconfig) {
 
     $ADMIN->add('localplugins', new admin_category('local_meccertbulkdownload_settings', new lang_string('pluginname', 'local_meccertbulkdownload')));

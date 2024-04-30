@@ -25,8 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// @link https://docs.moodle.org/dev/Messaging_2.0
-// @link https://docs.moodle.org/dev/Message_API
+// {@link https://docs.moodle.org/dev/Messaging_2.0}
+// {@link https://docs.moodle.org/dev/Message_API}
 $messageproviders = array (
 
     // Confirms to the user that the compressed file with pdfs is ready (end of background task).
