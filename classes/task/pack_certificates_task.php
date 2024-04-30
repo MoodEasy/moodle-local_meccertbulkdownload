@@ -26,7 +26,7 @@
 namespace local_meccertbulkdownload\task;
 
 use core_user;
-use \local_meccertbulkdownload\meccertbulkdownload;
+use local_meccertbulkdownload\meccertbulkdownload;
 
 defined('MOODLE_INTERNAL') || die();
 

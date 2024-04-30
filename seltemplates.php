@@ -23,9 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use \local_meccertbulkdownload\meccertbulkdownload;
-use \local_meccertbulkdownload\form\templates_form;
-use \local_meccertbulkdownload\task\pack_certificates_task;
+use local_meccertbulkdownload\meccertbulkdownload;
+use local_meccertbulkdownload\form\templates_form;
+use local_meccertbulkdownload\task\pack_certificates_task;
 
 require('../../config.php');
 require_once($CFG->libdir.'/formslib.php');

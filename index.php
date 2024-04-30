@@ -23,9 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use \local_meccertbulkdownload\meccertbulkdownload;
-use \local_meccertbulkdownload\form\filters_form;
-use \local_meccertbulkdownload\form\filters_hidden_form;
+use local_meccertbulkdownload\meccertbulkdownload;
+use local_meccertbulkdownload\form\filters_form;
+use local_meccertbulkdownload\form\filters_hidden_form;
 
 require('../../config.php');
 require_once('lib.php');

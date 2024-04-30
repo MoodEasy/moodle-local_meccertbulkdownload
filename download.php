@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use \local_meccertbulkdownload\meccertbulkdownload;
+use local_meccertbulkdownload\meccertbulkdownload;
 
 require('../../config.php');
 require_once($CFG->libdir.'/formslib.php');
