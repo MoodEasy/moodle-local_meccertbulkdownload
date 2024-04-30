@@ -47,7 +47,7 @@ $backurl = new moodle_url('/local/meccertbulkdownload/index.php');
 $okkurl = new moodle_url('/local/meccertbulkdownload/list.php');
 
 
-// FORM FOR SELECTING TEMPLATES FOR PDF AND PACKAGE NAMES
+// FORM FOR SELECTING TEMPLATES FOR PDF AND PACKAGE NAMES.
 
 $pdftamplates = meccertbulkdownload::get_pdf_templates(true);
 $packtemplates = meccertbulkdownload::get_pack_templates(true);
@@ -66,12 +66,12 @@ $tform = new templates_form(null, [
 ]);
 
 
-// comes from this same file after pressing cancel or submit in form for template
-if ($tform->is_cancelled()) {  // pressed cancel in form
+// Comes from this same file after pressing cancel or submit in form for template.
+if ($tform->is_cancelled()) {  // Pressed cancel in form.
 
     redirect($backurl);
 
-} else if ($fromform = $tform->get_data()) {  // normal form submission for template
+} else if ($fromform = $tform->get_data()) {  // Normal form submission for template.
 
     if (false === isset($fromform->templatepdf)) {
         echo $OUTPUT->header();
@@ -87,7 +87,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
         die;
     }
 
-    // Create the instance
+    // Create the instance.
     $mytask = new pack_certificates_task();
 
     // Set some custom data.
@@ -100,7 +100,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     // Queue the task.
     \core\task\manager::queue_adhoc_task($mytask);
 
-    // return to start page with success message
+    // Return to start page with success message.
     redirect(
         $okkurl,
         get_string('queuetasksuccess', 'local_meccertbulkdownload'),
@@ -109,8 +109,8 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     );
 
 } else {
-    // first opening of the file (comes from the previous page with filter form)
-    // or from this same page after the confirmation window appears
+    // First opening of the file (comes from the previous page with filter form)
+    // or from this same page after the confirmation window appears.
 
     // OBTAIN THE DATA FROM THE FILTERS SELECTED ON THE HOME PAGE AND USED TO
     // SHOW CERTIFICATES IN TABLE. THE DATA ACTUALLY COMES FROM THE FORM
@@ -118,7 +118,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     // THAT SHOW THE FILTERS SELECTED IN THE FORM FOR FILTERS.
     // IF CONFIRMATION IS ALREADY DISPLAYED (SEE BELOW), THE SAME DATA WILL
     // RETURN VIA GET.
-    // if course and cohort are not set, the parameters contain the string "no"
+    // If course and cohort are not set, the parameters contain the string "no".
     $fromfilterform = new stdClass();
     $fromfilterform->courseorcertificate = required_param('courseorcertificate', PARAM_TEXT);
     $fromfilterform->datefrom = required_param('datefrom', PARAM_INT);
@@ -127,7 +127,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
 
 
     // IF REQUESTED, BEFORE SELECTING PDF NAMES AND ZIP, SHOW PAGE
-    // WITH EXPECTED ZIP SIZE AND REQUESTS CONFIRMATION TO PROCEED
+    // WITH EXPECTED ZIP SIZE AND REQUESTS CONFIRMATION TO PROCEED.
     if (meccertbulkdownload::ASK_DOWNLOAD_CONFIRMATION) {
 
         $lightversionmsg = '';
@@ -144,10 +144,10 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
         }
 
         $confirm = optional_param('confirm', 0, PARAM_INT);
-        if ($confirm === 0) {  // not yet seen page for confirmation
-            // obtains free space on the disk
+        if ($confirm === 0) {  // Not yet seen page for confirmation.
+            // Obtains free space on the disk.
             $freespace = meccertbulkdownload::get_free_disk_space();
-            // prepares any message of insufficient space on the server
+            // Prepares any message of insufficient space on the server.
             if ( ($fromfilterform->estimatedarchivesize * 2) > $freespace ) {
                 $notenoughspace = '<p style="color:red"><strong>' .
                     get_string('bookconfirmmsgnotenoughspace', 'local_meccertbulkdownload') .
@@ -155,17 +155,17 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
             } else {
                 $notenoughspace = '';
             }
-            // create the confirmation page
+            // Create the confirmation page.
             echo $OUTPUT->header();
             $nourl = new moodle_url('/local/meccertbulkdownload/index.php');
             $yesurl = new moodle_url('/local/meccertbulkdownload/seltemplates.php',
-                array(
-                    'courseorcertificate' => $fromfilterform->courseorcertificate,
-                    'datefrom' => $fromfilterform->datefrom,
-                    'dateto' => $fromfilterform->dateto,
-                    'confirm' => 1,
-                )
-            );
+                    [
+                        'courseorcertificate' => $fromfilterform->courseorcertificate,
+                        'datefrom' => $fromfilterform->datefrom,
+                        'dateto' => $fromfilterform->dateto,
+                        'confirm' => 1,
+                    ]
+                );
             echo $OUTPUT->confirm(
                     '<p>'
                     . get_string('bookconfirmmsg', 'local_meccertbulkdownload')
@@ -195,10 +195,10 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
             exit();
         }
 
-    } // if it displays confirmation
+    } // If it displays confirmation.
 
 
-    // FORM FOR SELECTING TEMPLATES FOR PDF AND PACKAGE NAMES
+    // FORM FOR SELECTING TEMPLATES FOR PDF AND PACKAGE NAMES.
 
     $pdftamplates = meccertbulkdownload::get_pdf_templates(true);
     $packtemplates = meccertbulkdownload::get_pack_templates(true);

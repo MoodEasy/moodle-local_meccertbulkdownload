@@ -52,7 +52,7 @@ $perpage = optional_param('perpage', 25, PARAM_INT);
 $submit = optional_param('submitbuttonn', '', PARAM_TEXT);
 
 
-// PREPARE THE FORM FOR SELECTION OF FILTERS
+// PREPARE THE FORM FOR SELECTION OF FILTERS.
 
 $courses = ['no' => get_string('all', 'local_meccertbulkdownload')];
 foreach (get_courses("all", "c.sortorder ASC", "c.id, c.fullname") as $course) {
@@ -67,7 +67,6 @@ if ($cohortsfromdb) {
         $cohorts[$cohort->id] = $cohort->name;
     }
 }
-// asort($cohorts);
 
 $coursegroups = ['no' => get_string('all', 'local_meccertbulkdownload')];
 $courseid = optional_param('corso', 'no', PARAM_RAW);
@@ -85,12 +84,12 @@ $fform = new filters_form(null, [
 ]);
 
 
-// comes from this same page after submitting the form
-// or after clicking on the page link in the pagination bar
+// Comes from this same page after submitting the form
+// or after clicking on the page link in the pagination bar.
 if ( ($fromform = $fform->get_data()) || $submit) {
 
-    // comes from clicking on the page number in the pagination bar:
-    // no POST data of the form but same data in query string
+    // Comes from clicking on the page number in the pagination bar:
+    // no POST data of the form but same data in query string.
     if (!$fromform) {
         $fromform = new stdClass();
         $fromform->courseorcertificate = optional_param('courseorcertificate', null, PARAM_RAW);
@@ -99,10 +98,10 @@ if ( ($fromform = $fform->get_data()) || $submit) {
         $fromform->submitbuttonn = $submit;
     }
 
-    // obtains parameters from the form and creates the where part of the query
+    // Obtains parameters from the form and creates the where part of the query.
     $where = meccertbulkdownload::get_certificates_params($fromform);
 
-    // obtains the total number of records (without LIMITS) useful for pagination
+    // Obtains the total number of records (without LIMITS) useful for pagination.
     $recscountobj = $DB->get_record_sql(
         meccertbulkdownload::get_certificates_query(true)
             . $where['string'],
@@ -110,7 +109,7 @@ if ( ($fromform = $fform->get_data()) || $submit) {
     );
     $recscount = isset($recscountobj->quanti) ? $recscountobj->quanti : 0;
 
-    // obtains the query, adds the where part and executes it
+    // Obtains the query, adds the where part and executes it.
     $recs = $DB->get_recordset_sql(
         meccertbulkdownload::get_certificates_query()
             . $where['string']
@@ -119,20 +118,21 @@ if ( ($fromform = $fform->get_data()) || $submit) {
         $where['params']
     );
 
-    // https://github.com/moodle/moodle/blob/master/lib/outputcomponents.php
+    // See {@link https://github.com/moodle/moodle/blob/master/lib/outputcomponents.php}.
     $table = new html_table();
-    $table->align = array('left', 'left', 'left', 'left', 'right', 'right');
+    $table->align = ['left', 'left', 'left', 'left', 'right', 'right'];
     $table->head = meccertbulkdownload::get_certificates_fields();
     $i = 0;
 
-    // if there are results...
+    // If there are results...
     if ($recs->valid()) {
         foreach ($recs as $cert) {
 
             if ($cert->certcreation) {
                 $certcreationtmp = new DateTime('', core_date::get_user_timezone_object());
                 $certcreationtmp->setTimestamp($cert->certcreation);
-                $certcreationtmp = userdate($certcreationtmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
+                $certcreationtmp = userdate($certcreationtmp->getTimestamp(),
+                    get_string('strftimedatetimeshort', 'core_langconfig'));
             } else {
                 $certcreationtmp = "";
             }
@@ -140,7 +140,8 @@ if ( ($fromform = $fform->get_data()) || $submit) {
             if ($cert->coursecompletion) {
                 $coursecompletiontmp = new DateTime('', core_date::get_user_timezone_object());
                 $coursecompletiontmp->setTimestamp($cert->coursecompletion);
-                $coursecompletiontmp = userdate($coursecompletiontmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
+                $coursecompletiontmp = userdate($coursecompletiontmp->getTimestamp(),
+                    get_string('strftimedatetimeshort', 'core_langconfig'));
             } else {
                 $coursecompletiontmp = "";
             }
@@ -154,35 +155,36 @@ if ( ($fromform = $fform->get_data()) || $submit) {
             $i++;
         }
     } else {
-        $table->align = array('center');
+        $table->align = ['center'];
         $table->head = [""];
-        $table->data[0][0] = '<p style="margin: 30px auto">' . get_string('nocertificatesfound', 'local_meccertbulkdownload') . '</p>';
+        $table->data[0][0] = '<p style="margin: 30px auto">' .
+            get_string('nocertificatesfound', 'local_meccertbulkdownload') . '</p>';
     }
 
     $recs->close();
 
-    // puts the data back into the form so that the values decided by the user
+    // Puts the data back into the form so that the values decided by the user
     // always remain selected; the user then clicks the other submit button to
-    // go to the page for selecting templates and booking the task
+    // go to the page for selecting templates and booking the task.
     $fform->set_data($fromform);
 }
 
-// prepare parameters for pagination bar
-$params = array('page' => $page, 'perpage' => $perpage);
+// Prepare parameters for pagination bar.
+$params = ['page' => $page, 'perpage' => $perpage];
 if ($fromform) {
     $params = array_merge((array) $fromform, $params);
 }
 $baseurl = new moodle_url('/local/meccertbulkdownload/index.php', $params);
 
-// prepare parameters for selecting how many per page
-$params = array('page' => 0);
+// Prepare parameters for selecting how many per page.
+$params = ['page' => 0];
 if ($fromform) {
     $params = array_merge((array) $fromform, $params);
 }
 $baseurl2 = new moodle_url('/local/meccertbulkdownload/index.php', $params);
 
 
-// =============================================================================
+// Line =============================================================================.
 
 
 echo $OUTPUT->header();
@@ -241,10 +243,10 @@ if (isset($table)) {
         'estimatedarchivesize' => meccertbulkdownload::get_estimatedarchivesize($recscount),
     ]);
 
-    // draw the table
+    // Draw the table.
     echo '<div style="text-align: center; margin-top: -10px;">';
 
-    // if there is data in the table and the user can create archives, display the archives creation button
+    // If there is data in the table and the user can create archives, display the archives creation button.
     if ( ($recscount > 0) && has_capability('local/meccertbulkdownload:createarchives', $context) ) {
         echo '<div style="float: right;">';
         $fhform->set_display_vertical();
@@ -277,8 +279,8 @@ if (isset($table)) {
     echo '<div style="text-align: center">';
     echo '<div style="display: inline-block;">';
 
-    // inserts function to download table as CSV, Excel, etc.
-    // https://docs.moodle.org/dev/Data_formats
+    // Inserts function to download table as CSV, Excel, etc.
+    // See {@link https://docs.moodle.org/dev/Data_formats}.
     echo $OUTPUT->download_dataformat_selector(
         get_string('download'),
         'download.php',

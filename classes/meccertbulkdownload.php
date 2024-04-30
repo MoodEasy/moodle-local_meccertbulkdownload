@@ -122,7 +122,7 @@ class meccertbulkdownload {
      */
     public static function get_certificates_params($fromform) {
 
-        // what period? Course completion date or certificate issue date
+        // What period? Course completion date or certificate issue date.
         $period = ['cor' => 'mcc.timecompleted', 'cer' => 'mci.timecreated'];
         $period = $period[$fromform->courseorcertificate];
 
@@ -248,15 +248,15 @@ class meccertbulkdownload {
      * @return float Transformed value
      */
     public static function format_bytes($bytes, $precision = 2) {
-        $units = array('B', 'KB', 'MB', 'GB', 'TB');
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
         $bytes = max($bytes, 0);
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
         $pow = min($pow, count($units) - 1);
 
-        // Uncomment one of the following alternatives
+        // Uncomment one of the following alternatives.
         $bytes /= pow(1024, $pow);
-        // $bytes /= (1 << (10 * $pow));
+        // Or: "$bytes /= (1 << (10 * $pow));".
 
         return round($bytes, $precision) . ' ' . $units[$pow];
     }
@@ -277,7 +277,7 @@ class meccertbulkdownload {
     private static function get_array_from_lines($text, $onlynames = false) {
         $text = trim($text);
         $text = explode("\n", $text);
-        $text = array_filter($text, 'trim'); // remove any extra \r characters left behind
+        $text = array_filter($text, 'trim'); // Remove any extra \r characters left behind.
 
         $lines = [];
         foreach ($text as $line) {
@@ -325,8 +325,8 @@ class meccertbulkdownload {
                 if ($coursecompletiondate) {
                     return date($matches[1], $coursecompletiondate);
                 } else {
-                    // if the course end date is not there, if it finds the
-                    // parameter in the string puts 'nocourseenddate'
+                    // If the course end date is not there, if it finds the
+                    // parameter in the string puts 'nocourseenddate'.
                     return 'nocourseenddate';
                 }
             },
@@ -347,7 +347,7 @@ class meccertbulkdownload {
      * @return integer Estimated size of the compressed package in MB
      */
     public static function get_estimatedarchivesize($certificatesnumber) {
-        // in the configuration the estimated size of a certificate is entered in KB
+        // In the configuration the estimated size of a certificate is entered in KB.
         $estimatedarchivesize = get_config('local_meccertbulkdownload', 'estimatedarchivesize');
         if (!$estimatedarchivesize) {
             $estimatedarchivesize = 500;

@@ -44,9 +44,11 @@ class templates_form extends \moodleform {
 
         $mform = $this->_form;
 
-        $mform->addElement('select', 'templatepdf', get_string('pdfnametemplatesitem', 'local_meccertbulkdownload'), $this->_customdata['pdftamplates']);
+        $mform->addElement('select', 'templatepdf', get_string('pdfnametemplatesitem', 'local_meccertbulkdownload'),
+            $this->_customdata['pdftamplates']);
 
-        $mform->addElement('select', 'templatepack', get_string('archivenametemplatesitemsingular', 'local_meccertbulkdownload'), $this->_customdata['packtemplates']);
+        $mform->addElement('select', 'templatepack', get_string('archivenametemplatesitemsingular', 'local_meccertbulkdownload'),
+            $this->_customdata['packtemplates']);
 
         $mform->addElement('hidden', 'fromfilterform', $this->_customdata['fromfilterform']);
         $mform->setType('fromfilterform', PARAM_TEXT);

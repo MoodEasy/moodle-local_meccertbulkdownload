@@ -51,9 +51,9 @@ $nomefile = date('Y-m-d_H-i') . '_certificates_list';
 
 $columns = meccertbulkdownload::get_certificates_fields();
 
-// obtains parameters from the form data and creates the where part of the query
+// Obtains parameters from the form data and creates the where part of the query.
 $where = meccertbulkdownload::get_certificates_params($fromform);
-// derives the query, adds the where part and executes it
+// Derives the query, adds the where part and executes it.
 $recs = $DB->get_recordset_sql(
     meccertbulkdownload::get_certificates_download_query() . $where['string'],
     $where['params']
@@ -64,7 +64,8 @@ $recs = $DB->get_recordset_sql(
     if ($record->certcreation) {
         $certcreationtmp = new DateTime('', core_date::get_user_timezone_object());
         $certcreationtmp->setTimestamp($record->certcreation);
-        $certcreationtmp = userdate($certcreationtmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
+        $certcreationtmp = userdate($certcreationtmp->getTimestamp(),
+            get_string('strftimedatetimeshort', 'core_langconfig'));
     } else {
         $certcreationtmp = "";
     }
@@ -72,7 +73,8 @@ $recs = $DB->get_recordset_sql(
     if ($record->coursecompletion) {
         $coursecompletiontmp = new DateTime('', core_date::get_user_timezone_object());
         $coursecompletiontmp->setTimestamp($record->coursecompletion);
-        $coursecompletiontmp = userdate($coursecompletiontmp->getTimestamp(), get_string('strftimedatetimeshort', 'core_langconfig'));
+        $coursecompletiontmp = userdate($coursecompletiontmp->getTimestamp(),
+            get_string('strftimedatetimeshort', 'core_langconfig'));
     } else {
         $coursecompletiontmp = "";
     }

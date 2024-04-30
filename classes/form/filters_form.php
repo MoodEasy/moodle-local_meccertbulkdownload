@@ -47,18 +47,18 @@ class filters_form extends \moodleform {
         $mform->registerNoSubmitButton('addtask');
 
         $mform->addElement('static', 'spazio1', '');
-        // $mform->addElement('header', 'filterheaderfordates', get_string('coursecompletionfrom', 'local_meccertbulkdownload'));
 
         $mform->addElement('select', 'courseorcertificate', get_string('searchfor', 'local_meccertbulkdownload'), [
             'cor' => ucfirst(get_string('coursecompletion', 'local_meccertbulkdownload')),
             'cer' => ucfirst(get_string('certificateissuing', 'local_meccertbulkdownload')),
         ]);
 
-        $mform->addElement('date_selector', 'datefrom', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionfrom', 'local_meccertbulkdownload'), ['optional' => false]);
+        $mform->addElement('date_selector', 'datefrom', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionfrom',
+            'local_meccertbulkdownload'), ['optional' => false]);
 
-        $mform->addElement('date_selector', 'dateto', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionto', 'local_meccertbulkdownload'), ['optional' => false]);
+        $mform->addElement('date_selector', 'dateto', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionto',
+            'local_meccertbulkdownload'), ['optional' => false]);
 
-        // $mform->closeHeaderBefore('courseorcohort');
         $mform->addElement('static', 'spazio2', '');
 
         $mform->addElement('select', 'courseorcohort', get_string('searchfor', 'local_meccertbulkdownload'), [
@@ -66,13 +66,16 @@ class filters_form extends \moodleform {
             'cor' => ucfirst(get_string('courseandgroup', 'local_meccertbulkdownload')),
         ]);
 
-        $mform->addElement('select', 'coorte', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('cohort', 'local_meccertbulkdownload'), $this->_customdata['cohorts']);
+        $mform->addElement('select', 'coorte', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('cohort', 'local_meccertbulkdownload'),
+            $this->_customdata['cohorts']);
 
-        $courseandgroup = array();
+        $courseandgroup = [];
         $courseandgroup[] =& $mform->createElement('select', 'corso', get_string('course'), $this->_customdata['courses']);
-        $courseandgroup[] =& $mform->createElement('select', 'gruppocorso', get_string('group'), $this->_customdata['coursegroups']);
+        $courseandgroup[] =& $mform->createElement('select', 'gruppocorso', get_string('group'),
+            $this->_customdata['coursegroups']);
         $courseandgroup[] =& $mform->createElement('html', '<span id="cs-loader-1" class="cs-loader"></span>');
-        $mform->addGroup($courseandgroup, 'courseandgroup', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('courseandgroup', 'local_meccertbulkdownload'), array(' '), false);
+        $mform->addGroup($courseandgroup, 'courseandgroup', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('courseandgroup',
+            'local_meccertbulkdownload'), [' '], false);
 
         $mform->disabledIf('courseorcohort', 'coorte', 'neq', 'corno');
         $mform->disabledIf('coorte', 'courseorcohort', 'neq', 'corno');
@@ -80,8 +83,8 @@ class filters_form extends \moodleform {
 
         $mform->addElement('static', 'spazio3', '');
 
-        $buttonarray = array();
+        $buttonarray = [];
         $buttonarray[] =& $mform->createElement('submit', 'submitbuttonn', get_string('preview', 'local_meccertbulkdownload'));
-        $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+        $mform->addGroup($buttonarray, 'buttonar', '', [' '], false);
     }
 }

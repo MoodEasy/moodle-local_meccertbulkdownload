@@ -25,18 +25,24 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-// {@link https://moodledev.io/docs/apis/subsystems/admin}
+// See {@link https://moodledev.io/docs/apis/subsystems/admin}.
 if ($hassiteconfig) {
 
-    $ADMIN->add('localplugins', new admin_category('local_meccertbulkdownload_settings', new lang_string('pluginname', 'local_meccertbulkdownload')));
-    // Name and text of the configuration page added for the plugin and text of the link that appears in the plugin section to access the page.
-    $settingspage = new admin_settingpage('managelocalmeccertbulkdownload', new lang_string('pluginname', 'local_meccertbulkdownload'));
+    $ADMIN->add('localplugins', new admin_category('local_meccertbulkdownload_settings',
+        new lang_string('pluginname', 'local_meccertbulkdownload')));
+
+    // Name and text of the configuration page added for the plugin and text of the link
+    // that appears in the plugin section to access the page.
+    $settingspage = new admin_settingpage('managelocalmeccertbulkdownload',
+        new lang_string('pluginname', 'local_meccertbulkdownload'));
 
     if ($ADMIN->fulltree) {
 
         $settingspage->add(new \mod_customcert\admin_setting_link('local_meccertbulkdownload/createmanagelink',
-            new lang_string('createmanagestring', 'local_meccertbulkdownload'), new lang_string('createmanagestring_desc', 'local_meccertbulkdownload'),
-            new lang_string('createmanagestring', 'local_meccertbulkdownload'), new moodle_url('/local/meccertbulkdownload/index.php'),
+            new lang_string('createmanagestring', 'local_meccertbulkdownload'),
+            new lang_string('createmanagestring_desc', 'local_meccertbulkdownload'),
+            new lang_string('createmanagestring', 'local_meccertbulkdownload'),
+            new moodle_url('/local/meccertbulkdownload/index.php'),
             ''
         ));
 

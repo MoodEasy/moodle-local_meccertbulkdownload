@@ -57,7 +57,7 @@ function local_meccertbulkdownload_pluginfile(
         return false;
     }
 
-    // Make sure the user is logged in and has access to the module
+    // Make sure the user is logged in and has access to the module.
     require_login();
 
     // Check the relevant capabilities - these may vary depending on the filearea being accessed.
@@ -69,16 +69,13 @@ function local_meccertbulkdownload_pluginfile(
     // Fetch the itemid from the path.
     $itemid = array_shift($args);
 
-    // For a plugin which does not specify the itemid, you may want to use the following to keep your code consistent:
-    // $itemid = null;
-
     // Extract the filename / filepath from the $args array.
     $filename = array_pop($args); // The last item in the $args array.
     if (empty($args)) {
-        // $args is empty => the path is '/'.
+        // If $args is empty => the path is '/'.
         $filepath = '/';
     } else {
-        // $args contains the remaining elements of the filepath.
+        // If $args contains the remaining elements of the filepath.
         $filepath = '/' . implode('/', $args) . '/';
     }
 
