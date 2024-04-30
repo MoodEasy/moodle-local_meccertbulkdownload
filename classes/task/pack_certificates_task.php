@@ -131,7 +131,7 @@ class pack_certificates_task extends \core\task\adhoc_task {
                     $cert->lastname ? $cert->lastname : 'nousersurname',
                     $cert->courseshortname ? $cert->courseshortname : 'nocourseshortname',
                     $cert->courseidnumber ? $cert->courseidnumber : 'nocoursecode',
-                    $cert->cohortname ? $cert->cohortname : 'nocohortname'
+                    $cert->cohortname ? $cert->cohortname : 'nocohortname',
                 ],
                 $cert->coursecompletion ? $cert->coursecompletion : null
             );
@@ -252,7 +252,7 @@ class pack_certificates_task extends \core\task\adhoc_task {
             $paramforpacknamecourse,
             $paramforpacknamecoursecode,
             $paramforpacknamecohort,
-            $paramforpacknamegruppocorso
+            $paramforpacknamegruppocorso,
         ]);
 
         // prepares the fileinfo object with the file info
@@ -262,7 +262,7 @@ class pack_certificates_task extends \core\task\adhoc_task {
             'filearea'  => 'meccertbulkdownload_issues',    // usually = table name
             'itemid'    => 0,                               // usually = ID of row in table
             'filepath'  => '/',   // any path beginning and ending in /
-            'filename'  => $packname . '.zip'
+            'filename'  => $packname . '.zip',
         );
 
         // if the file already exists it deletes it

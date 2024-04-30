@@ -62,7 +62,7 @@ if (empty($pdftamplates) || empty($packtemplates)) {
 $tform = new templates_form(null, [
     'pdftamplates' => $pdftamplates,
     'packtemplates' => $packtemplates,
-    'fromfilterform' => ''
+    'fromfilterform' => '',
 ]);
 
 
@@ -94,7 +94,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     $mytask->set_custom_data([
         'templatepdf' => $fromform->templatepdf,
         'templatepack' => $fromform->templatepack,
-        'fromfilterform' => unserialize($fromform->fromfilterform)
+        'fromfilterform' => unserialize($fromform->fromfilterform),
     ]);
 
     // Queue the task.
@@ -213,7 +213,7 @@ if ($tform->is_cancelled()) {  // pressed cancel in form
     $tform = new templates_form(null, [
         'pdftamplates' => $pdftamplates,
         'packtemplates' => $packtemplates,
-        'fromfilterform' => serialize($fromfilterform)
+        'fromfilterform' => serialize($fromfilterform),
     ]);
 }
 

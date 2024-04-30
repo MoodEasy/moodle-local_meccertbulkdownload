@@ -32,8 +32,8 @@ $capabilities = [
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     // Book the creation of a zip archive with the certificates found.
@@ -41,8 +41,8 @@ $capabilities = [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     // Receive a notification message when certificates archive has been created.
@@ -50,8 +50,8 @@ $capabilities = [
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     // Access the list of created certificates archives and download them.
@@ -60,8 +60,8 @@ $capabilities = [
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     // Delete certificates archives.
@@ -69,7 +69,7 @@ $capabilities = [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
-            'manager' => CAP_ALLOW
+            'manager' => CAP_ALLOW,
         ],
     ],
 

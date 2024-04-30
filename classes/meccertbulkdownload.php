@@ -158,7 +158,7 @@ class meccertbulkdownload {
             get_string('cohort', 'local_meccertbulkdownload'),
             get_string('course'),
             get_string('certcreation', 'local_meccertbulkdownload'),
-            get_string('coursecompletiondate', 'local_meccertbulkdownload')
+            get_string('coursecompletiondate', 'local_meccertbulkdownload'),
         ];
     }
 
@@ -203,7 +203,7 @@ class meccertbulkdownload {
             '{{usersurname}}',
             '{{courseshortname}}',
             '{{coursecode}}',
-            '{{cohortname}}'
+            '{{cohortname}}',
         ];
         $pdftamplates = self::get_pdf_templates();
         if (array_key_exists($templatename, $pdftamplates)) {
@@ -227,7 +227,7 @@ class meccertbulkdownload {
             '{{courseshortname}}',
             '{{coursecode}}',
             '{{cohortname}}',
-            '{{groupname}}'
+            '{{groupname}}',
         ];
         $packtamplates = self::get_pack_templates();
         if (array_key_exists($templatename, $packtamplates)) {

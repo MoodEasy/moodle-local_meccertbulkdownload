@@ -51,7 +51,7 @@ class filters_form extends \moodleform {
 
         $mform->addElement('select', 'courseorcertificate', get_string('searchfor', 'local_meccertbulkdownload'), [
             'cor' => ucfirst(get_string('coursecompletion', 'local_meccertbulkdownload')),
-            'cer' => ucfirst(get_string('certificateissuing', 'local_meccertbulkdownload'))
+            'cer' => ucfirst(get_string('certificateissuing', 'local_meccertbulkdownload')),
         ]);
 
         $mform->addElement('date_selector', 'datefrom', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionfrom', 'local_meccertbulkdownload'), ['optional' => false]);
@@ -63,7 +63,7 @@ class filters_form extends \moodleform {
 
         $mform->addElement('select', 'courseorcohort', get_string('searchfor', 'local_meccertbulkdownload'), [
             'coo' => ucfirst(get_string('cohort', 'local_meccertbulkdownload')),
-            'cor' => ucfirst(get_string('courseandgroup', 'local_meccertbulkdownload'))
+            'cor' => ucfirst(get_string('courseandgroup', 'local_meccertbulkdownload')),
         ]);
 
         $mform->addElement('select', 'coorte', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('cohort', 'local_meccertbulkdownload'), $this->_customdata['cohorts']);

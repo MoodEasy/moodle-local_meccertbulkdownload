@@ -34,8 +34,8 @@ $messageproviders = array (
         'capability'  => 'local/meccertbulkdownload:notifyarchivecreated',
         'defaults' => array(
             'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF,
-            'anyotheroutput' => MESSAGE_PERMITTED
+            'anyotheroutput' => MESSAGE_PERMITTED,
         ),
-    )
+    ),
 
 );

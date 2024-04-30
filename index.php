@@ -81,7 +81,7 @@ if ($submit && $courseid !== 'no') {
 $fform = new filters_form(null, [
     'courses' => $courses,
     'cohorts' => $cohorts,
-    'coursegroups' => $coursegroups
+    'coursegroups' => $coursegroups,
 ]);
 
 
@@ -238,7 +238,7 @@ if (isset($table)) {
         'courseorcertificate' => $fromform->courseorcertificate,
         'datefrom' => $fromform->datefrom,
         'dateto' => $fromform->dateto,
-        'estimatedarchivesize' => meccertbulkdownload::get_estimatedarchivesize($recscount)
+        'estimatedarchivesize' => meccertbulkdownload::get_estimatedarchivesize($recscount),
     ]);
 
     // draw the table
