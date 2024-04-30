@@ -25,8 +25,6 @@
 
 namespace local_meccertbulkdownload;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class with helper functionalities for the plugin.
  *

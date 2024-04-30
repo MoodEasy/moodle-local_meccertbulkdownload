@@ -28,8 +28,6 @@ namespace local_meccertbulkdownload\task;
 use core_user;
 use local_meccertbulkdownload\meccertbulkdownload;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class for the ad hoc task for creating zip archives of certificates.
  *

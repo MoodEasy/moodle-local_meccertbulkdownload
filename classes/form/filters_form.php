@@ -25,8 +25,6 @@
 
 namespace local_meccertbulkdownload\form;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class for the form for certificate search filters.
  *
