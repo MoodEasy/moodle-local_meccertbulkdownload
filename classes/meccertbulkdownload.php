@@ -368,11 +368,13 @@ class meccertbulkdownload {
             $win = disk_free_space("C:");
         } catch (\Exception $e) {
             // No need to do something.
+            $freespace = 0;
         }
         try {
             $lin = disk_free_space("/");
         } catch (\Exception $e) {
             // No need to do something.
+            $freespace = 0;
         }
 
         if (isset($win) && $win) {
