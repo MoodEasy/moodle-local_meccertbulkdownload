@@ -252,9 +252,7 @@ class meccertbulkdownload {
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
         $pow = min($pow, count($units) - 1);
 
-        // Uncomment one of the following alternatives.
         $bytes /= pow(1024, $pow);
-        // Or: "$bytes /= (1 << (10 * $pow));".
 
         return round($bytes, $precision) . ' ' . $units[$pow];
     }
@@ -351,7 +349,7 @@ class meccertbulkdownload {
             $estimatedarchivesize = 500;
         }
         $estimatedarchivesize = $estimatedarchivesize * $certificatesnumber;
-        return $estimatedarchivesize / 1000;  // MB
+        return $estimatedarchivesize / 1000;  // MB.
     }
 
     /**
