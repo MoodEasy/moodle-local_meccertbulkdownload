@@ -24,6 +24,7 @@
  */
 
 $string['all'] = '(tutti)';
+$string['archivenametemplatesitem'] = 'Template per i nomi dei file compressi';
 $string['archivenametemplatesitem_desc'] = '<p>I template per il nome dei file compressi funzionano esattamente come quelli per i pdf. I parametri utilizzabili sono però in numero inferiore:</p>
 <table style="margin-bottom: 18px;">
 <tr><td><strong>{{courseshortname}}</strong></td><td style="padding-left: 25px;">Nome breve corso</td></tr>
@@ -33,7 +34,6 @@ $string['archivenametemplatesitem_desc'] = '<p>I template per il nome dei file c
 <tr><td><strong>{{todaysdate(...)}}</strong></td><td style="padding-left: 25px;">Data di oggi</td></tr>
 </table>
 <p style="margin-bottom: 30px; color: red;"><strong>Attenzione: se due file hanno lo stesso nome il nuovo sovrascrive il vecchio.</strong></p>';
-$string['archivenametemplatesitem'] = 'Template per i nomi dei file compressi';
 $string['archivenametemplatesitemsingular'] = 'Template per il nome del file compresso';
 $string['bookconfirmmsg'] = 'Il file compresso con i certificati che sarà generato avrà una dimensione stimata di';
 $string['bookconfirmmsgfreespace'] = 'Lo spazio libero nel server è (il valore rilevato potrebbe non essere corretto):';
@@ -50,8 +50,8 @@ $string['coursecompletion'] = 'Periodo completamento corso';
 $string['coursecompletiondate'] = 'Data completamento corso';
 $string['coursecompletionfrom'] = 'Da';
 $string['coursecompletionto'] = 'A';
-$string['createmanagestring_desc'] = 'Permette di andare alla pagina dove creare, scaricare e gestire i pacchetti di certificati.<br>&nbsp;';
 $string['createmanagestring'] = 'Creazione e gestione pacchetti';
+$string['createmanagestring_desc'] = 'Permette di andare alla pagina dove creare, scaricare e gestire i pacchetti di certificati.<br>&nbsp;';
 $string['credit'] = 'MoodEasy.com';
 $string['deleteconfirmmsg'] = 'Procedo con l\'eliminazione del seguente file?';
 $string['deleteerror'] = 'Errore: file non cancellato';
@@ -71,14 +71,15 @@ $string['meccertbulkdownload:notifyarchivecreated'] = 'Ricevere notifica quando 
 $string['meccertbulkdownload:searchcertificates'] = 'Cercare i certificati';
 $string['meccertbulkdownload:viewarchives'] = 'Vedere la lista dei pacchetti di certificati e scaricarli';
 $string['messageprovider:confirmation'] = 'Conferma fine preparazione pacchetto certificati';
-$string['msgconfirmationsubject'] = 'Pachetto certificati pronto';
+$string['msgconfirmationcontexturlname'] = 'lista dei pacchetti';
 $string['msgconfirmationfullmessage'] = 'Il seguente pacchetto zip di certificati è pronto: ';
 $string['msgconfirmationfullmessagehtml'] = 'Il seguente pacchetto zip di certificati è pronto: ';
 $string['msgconfirmationsmallmessage'] = 'Il seguente pacchetto zip di certificati è pronto: ';
-$string['msgconfirmationcontexturlname'] = 'lista dei pacchetti';
+$string['msgconfirmationsubject'] = 'Pachetto certificati pronto';
 $string['nocertificatesfound'] = 'Nessun certificato trovato';
 $string['packscreate'] = 'Crea pacchetti certificati';
 $string['packsdownload'] = 'Gestisci e scarica pacchetti certificati';
+$string['pdfnametemplatesitem'] = 'Template per i nomi dei file pdf';
 $string['pdfnametemplatesitem_desc'] = '<p>Ogni riga rappresenta un template. Ad es. "Semplice:file_certificato", la prima parte fino ai due punti ("Semplice") è il nome del template, la seconda ("file_certificato") è il nome da dare al file (<strong>l\'estensione ".pdf" viene aggiunta automaticamente</strong>). Il <strong>nome del template (prima parte) deve essere una singola parola (senza spazi) e il template in generale non deve contenere caratteri particolari (solo lettere, numeri, underscore e segno meno).</strong></p><p><strong>Nel template (dopo i due punti) è possibile inserire alcuni parametri (racchiusi fra parentesi graffe) che saranno poi sostituiti dai valori corrispondenti</strong> (es. {{username}} sarà sostituito dallo username dell’utente). Il parametro <b>{{todaysdate(…)}}</b> ha un comportamento particolare, sarà sostituito dalla data odierna nel formato indicato dalle lettere indicate fra presenti. Ad esempio, se oggi è il 25/12/2023, {{todaysdate(d-m-Y)}} diventerà 25-12-2023. Stesso comportamento per il parametro <b>{{courseenddate(...)}}</b> che però restituirà la data di completamento del corso nel formato indicato. <a href="https://www.php.net/manual/en/datetime.format.php" target="_blank">Qui trovi i caratteri utilizzabili per formattare le date.</a> <span style="color: red;">Attenzione a non mettere slash e backslash (o altri caratteri particolari) come separatori nelle date.</span></p><p>I parametri utilizzabili sono:</p>
 <table style="margin-bottom: 18px;">
 <tr><td><strong>{{username}}</strong></td><td style="padding-left: 25px;">Username</td></tr>
@@ -91,9 +92,8 @@ $string['pdfnametemplatesitem_desc'] = '<p>Ogni riga rappresenta un template. Ad
 <tr><td><strong>{{courseenddate(...)}}</strong></td><td style="padding-left: 25px;">Data di fine corso</td></tr>
 </table>
 <p style="margin-bottom: 30px; color: red;"><strong>Attenzione: se due file hanno lo stesso nome il nuovo sovrascrive il vecchio.</strong></p>';
-$string['pdfnametemplatesitem'] = 'Template per i nomi dei file pdf';
-$string['pluginname_help'] = 'Consente di selezionare un gruppo di certificati di Custom Cert selezionandoli per corso, gruppo o data, e di scaricarli in blocco e in background.';
 $string['pluginname'] = 'ME CustomCert Bulk Download';
+$string['pluginname_help'] = 'Consente di selezionare un gruppo di certificati di Custom Cert selezionandoli per corso, gruppo o data, e di scaricarli in blocco e in background.';
 $string['preview'] = 'Anteprima';
 $string['queuetasksuccess'] = 'Il task è stato accodato e sarà eseguito appena possibile. Il file risultante comparirà qui sotto.';
 $string['searchfor'] = 'Cerca per';
