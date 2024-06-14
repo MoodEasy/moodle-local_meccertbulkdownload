@@ -195,6 +195,7 @@ class meccertbulkdownload {
      * @return false|string Name of the pdf (certificate)
      */
     public static function get_pdf_name($templatename, $params, $coursecompletiondate) {
+        $params = array_map(array('self', 'sanitize_strings_for_filenames'), $params);
         $search = [
             '{{username}}',
             '{{userfullname}}',
@@ -221,6 +222,7 @@ class meccertbulkdownload {
      * @return false|string Name of the zip archive (of certificates)
      */
     public static function get_pack_name($templatename, $params) {
+        $params = array_map(array('self', 'sanitize_strings_for_filenames'), $params);
         $search = [
             '{{courseshortname}}',
             '{{coursecode}}',
@@ -384,5 +386,16 @@ class meccertbulkdownload {
             $freespace = $freespace / 1000000;
         }
         return round($freespace);
+    }
+
+    /**
+     * Sanitize a string to use as filename. Replaces disallowed characters with the underscore.
+     * Only allowed characters are letters, numbers, dash, underscore and dot.
+     *
+     * @param string String to sanitize.
+     * @return string Sanitized string.
+     */
+    public static function sanitize_strings_for_filenames($string) {
+        return preg_replace("/[^a-z0-9\_\-\.]/i", '_', $string);
     }
 }
