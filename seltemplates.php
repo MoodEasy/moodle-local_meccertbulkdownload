@@ -145,16 +145,28 @@ if ($tform->is_cancelled()) {  // Pressed cancel in form.
 
         $confirm = optional_param('confirm', 0, PARAM_INT);
         if ($confirm === 0) {  // Not yet seen page for confirmation.
+
             // Obtains free space on the disk.
             $freespace = meccertbulkdownload::get_free_disk_space();
-            // Prepares any message of insufficient space on the server.
-            if ( ($fromfilterform->estimatedarchivesize * 2) > $freespace ) {
-                $notenoughspace = '<p style="color:red"><strong>' .
-                    get_string('bookconfirmmsgnotenoughspace', 'local_meccertbulkdownload') .
-                    '</strong></p>';
+            if ($freespace > 0) {
+                // Prepares any message of insufficient space on the server.
+                if ( ($fromfilterform->estimatedarchivesize * 2) > $freespace ) {
+                    $notenoughspace = '<p style="color:red"><strong>' .
+                        get_string('bookconfirmmsgnotenoughspace', 'local_meccertbulkdownload') .
+                        '</strong></p>';
+                } else {
+                    $notenoughspace = '';
+                }
+                $freespacemsg = get_string('bookconfirmmsgfreespace', 'local_meccertbulkdownload')
+                    . ' <strong>'
+                    . $freespace
+                    . ' MB</strong>.</p>'
+                    . $notenoughspace
+                    . '<br>';
             } else {
-                $notenoughspace = '';
+                $freespacemsg = "";
             }
+
             // Create the confirmation page.
             echo $OUTPUT->header();
             $nourl = new moodle_url('/local/meccertbulkdownload/index.php');
@@ -178,12 +190,7 @@ if ($tform->is_cancelled()) {  // Pressed cancel in form.
                     . $fromfilterform->estimatedarchivesize * 2
                     . ' MB</strong>.</p>'
                     . '<p>'
-                    . get_string('bookconfirmmsgfreespace', 'local_meccertbulkdownload')
-                    . ' <strong>'
-                    . $freespace
-                    . ' MB</strong>.</p>'
-                    . $notenoughspace
-                    . '<br>'
+                    . $freespacemsg
                     . '<small>'
                     . get_string('bookconfirmmsgnb', 'local_meccertbulkdownload')
                     . '</small>'
