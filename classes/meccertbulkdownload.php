@@ -134,7 +134,7 @@ class meccertbulkdownload {
         }
         if (isset($fromform->dateto) && $fromform->dateto) {
             $wherearray[] = "$period <= :datafinecorsoto";
-            $whereparams['datafinecorsoto'] = $fromform->dateto + 86399;
+            $whereparams['datafinecorsoto'] = $fromform->dateto + 60;
         }
 
         if (count($wherearray)) {

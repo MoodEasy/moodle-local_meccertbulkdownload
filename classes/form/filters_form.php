@@ -51,10 +51,10 @@ class filters_form extends \moodleform {
             'cer' => ucfirst(get_string('certificateissuing', 'local_meccertbulkdownload')),
         ]);
 
-        $mform->addElement('date_selector', 'datefrom', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionfrom',
+        $mform->addElement('date_time_selector', 'datefrom', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionfrom',
             'local_meccertbulkdownload'), ['optional' => false]);
 
-        $mform->addElement('date_selector', 'dateto', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionto',
+        $mform->addElement('date_time_selector', 'dateto', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionto',
             'local_meccertbulkdownload'), ['optional' => false]);
 
         $mform->addElement('static', 'spazio2', '');
