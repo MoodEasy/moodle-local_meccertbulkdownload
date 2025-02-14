@@ -34,9 +34,7 @@ $PAGE->set_heading(get_string('pluginname', 'local_meccertbulkdownload'));
 
 require_login();
 
-if (!has_capability('local/meccertbulkdownload:viewarchives', $context)) {
-    die();
-}
+require_capability('local/meccertbulkdownload:viewarchives', $context);
 $deletearchives = has_capability('local/meccertbulkdownload:deletearchives', $context);
 
 $page = optional_param('page', 0, PARAM_INT);
@@ -61,9 +59,7 @@ $confirm = optional_param('confirm', 0, PARAM_INT);
 // Checks if it comes from the same page after clicking Delete related to a file.
 if ($action && $action === 'del') {
 
-    if (!$deletearchives) {
-        die();
-    }
+    require_capability('local/meccertbulkdownload:deletearchives', $context);
 
     // Check if user has already seen the confirmation request.
     if ($confirm) {  // Confirmation seen.

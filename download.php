@@ -36,9 +36,7 @@ $PAGE->set_url('/local/meccertbulkdownload/seltemplates.php');
 
 require_login();
 
-if (!has_capability('local/meccertbulkdownload:searchcertificates', $context)) {
-    die();
-}
+require_capability('local/meccertbulkdownload:searchcertificates', $context);
 
 $dataformat = optional_param('dataformat', '', PARAM_ALPHA)
     ? optional_param('dataformat', '', PARAM_ALPHA)

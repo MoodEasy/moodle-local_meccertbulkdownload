@@ -59,9 +59,7 @@ function local_meccertbulkdownload_pluginfile(
     require_login();
 
     // Check the relevant capabilities - these may vary depending on the filearea being accessed.
-    if (!has_capability('local/meccertbulkdownload:viewarchives', $context)) {
-        return false;
-    }
+    require_capability('local/meccertbulkdownload:viewarchives', $context);
 
     // The args is an array containing [itemid, path].
     // Fetch the itemid from the path.

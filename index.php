@@ -44,9 +44,7 @@ $PAGE->set_heading(get_string('pluginname', 'local_meccertbulkdownload'));
 
 require_login();
 
-if (!has_capability('local/meccertbulkdownload:searchcertificates', $context)) {
-    die();
-}
+require_capability('local/meccertbulkdownload:searchcertificates', $context);
 
 $page = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', 25, PARAM_INT);

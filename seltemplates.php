@@ -39,9 +39,7 @@ $PAGE->set_heading(get_string('pluginname', 'local_meccertbulkdownload'));
 
 require_login();
 
-if (!has_capability('local/meccertbulkdownload:createarchives', $context)) {
-    die();
-}
+require_capability('local/meccertbulkdownload:createarchives', $context);
 
 $backurl = new moodle_url('/local/meccertbulkdownload/index.php');
 $okkurl = new moodle_url('/local/meccertbulkdownload/list.php');
