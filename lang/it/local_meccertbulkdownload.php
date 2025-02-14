@@ -95,6 +95,7 @@ $string['pdfnametemplatesitem_desc'] = '<p>Ogni riga rappresenta un template. Ad
 $string['pluginname'] = 'ME CustomCert Bulk Download';
 $string['pluginname_help'] = 'Consente di selezionare un gruppo di certificati di Custom Cert selezionandoli per corso, gruppo o data, e di scaricarli in blocco e in background.';
 $string['preview'] = 'Anteprima';
+$string['privacy:metadata'] = 'Il plugin ME CustomCert Bulk Download non memorizza alcun dato personale.';
 $string['queuetasksuccess'] = 'Il task è stato accodato e sarà eseguito appena possibile. Il file risultante comparirà qui sotto.';
 $string['searchfor'] = 'Cerca per';
 $string['tablerecordscount'] = 'Record da {{from}} a {{to}} di {{count}} - Per pagina: ';

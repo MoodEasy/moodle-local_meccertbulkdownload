@@ -95,6 +95,7 @@ $string['pdfnametemplatesitem_desc'] = '<p>Each line represents a template. e.g.
 $string['pluginname'] = 'ME CustomCert Bulk Download';
 $string['pluginname_help'] = 'Allows the selection of a group of Custom Cert certificates by course, group or date, and download them in bulk and in the background.';
 $string['preview'] = 'Preview';
+$string['privacy:metadata'] = 'The ME CustomCert Bulk Download plugin does not store any personal data.';
 $string['queuetasksuccess'] = 'The task has been queued and it will be done as soon as possible. The resulting file will appear below.';
 $string['searchfor'] = 'Search for';
 $string['tablerecordscount'] = 'Record from {{from}} to {{to}} of {{count}} - Per page: ';
