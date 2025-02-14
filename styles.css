@@ -22,3 +22,19 @@
         transform: rotate(360deg);
     }
 }
+
+#page-local-meccertbulkdownload-index nav.pagination {
+    justify-content: right!important;
+}
+
+#page-local-meccertbulkdownload-index .results-table-section-container {
+    margin-top: -15px;
+}
+
+#page-local-meccertbulkdownload-seltemplates .confirmation-lightversionmsg {
+    font-size: 0.8rem;
+    color: rgb(88, 21, 28);
+    background-color: rgb(248, 215, 218);
+    margin: 28px -16px -32px -16px;
+    padding: 10px 16px;
+}

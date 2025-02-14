@@ -23,8 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use local_meccertbulkdownload\meccertbulkdownload;
-
 require('../../config.php');
 
 $context = context_system::instance();
@@ -45,6 +43,8 @@ $page = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', 25, PARAM_INT);
 
 $fs = get_file_storage();
+
+$output = $PAGE->get_renderer('local_meccertbulkdownload');
 
 
 
@@ -111,29 +111,13 @@ if ($action && $action === 'del') {
         }
     } else {  // Has yet to see the confirmation request.
         $file = $fs->get_file_by_id($actionid);
-        echo $OUTPUT->header();
-        $nourl = new moodle_url('/local/meccertbulkdownload/list.php');
-        $yesurl = new moodle_url('/local/meccertbulkdownload/list.php',
-                [
-                    'action' => 'del',
-                    'aid' => $actionid,
-                    'confirm' => 1,
-                ]
-            );
-        echo $OUTPUT->confirm(
-            get_string('deleteconfirmmsg', 'local_meccertbulkdownload') .
-                ' <br><br><strong>' . $file->get_filename() . '</strong>',
-            $yesurl,
-            $nourl
-        );
-        echo $OUTPUT->footer();
-        exit();
+        $output->archives_deletion_confirmation_page($file, $actionid);
     }
 }
 
 
 
-// ... end of manages the possible deletion of a compressed file.
+// ... end of management of the possible deletion of a compressed file.
 
 
 
@@ -165,48 +149,6 @@ if ($to > $recscount) {
 // Filter the list based on pagination.
 $files = array_slice($files, $from - 1, $perpage, true);
 
-
-// See {@link https://github.com/moodle/moodle/blob/master/lib/outputcomponents.php}.
-$table = new html_table();
-$table->align = ['left', 'left', 'left', 'right'];
-$table->head = ['File', get_string('size'), get_string('date'), get_string('actions')];
-$i = 0;
-
-foreach ($files as $file) {
-    if ( (($i + 1) < $from) && (($i + 1) > $to) ) {
-        continue;
-    }
-
-    $url = \moodle_url::make_pluginfile_url(
-        $file->get_contextid(),
-        $file->get_component(),
-        $file->get_filearea(),
-        $file->get_itemid(),
-        $file->get_filepath(),
-        $file->get_filename(),
-        false  // Do not force download of the file.
-    );
-
-    $urldelete = new moodle_url('/local/meccertbulkdownload/list.php',
-            [
-                'action' => 'del',
-                'aid' => $file->get_id(),
-            ]
-        );
-
-    $table->data[$i][0] = '<a href="' . $url . '">' . $file->get_filename()  . '</a>';
-    $table->data[$i][1] = meccertbulkdownload::format_bytes($file->get_filesize());
-    $table->data[$i][2] = date('d/m/Y H:i:s', $file->get_timecreated());
-    $table->data[$i][3] = '<a href="' . $url . '">' . get_string('download') . '</a>';
-
-    if ($deletearchives) {
-        $table->data[$i][3] .= ' | <a style="color: red;" href="' . $urldelete . '">' . get_string('delete') . '</a>';
-    }
-
-    $i++;
-}
-
-
 // Prepare parameters for pagination bar.
 $params = ['page' => $page, 'perpage' => $perpage];
 $baseurl = new moodle_url('/local/meccertbulkdownload/list.php', $params);
@@ -215,55 +157,33 @@ $baseurl = new moodle_url('/local/meccertbulkdownload/list.php', $params);
 $params = ['page' => 0];
 $baseurl2 = new moodle_url('/local/meccertbulkdownload/list.php', $params);
 
+$recordsstatus = str_replace(
+    ['{{from}}', '{{to}}', '{{count}}'],
+    [$from, $to, $recscount],
+    get_string('tablerecordscount', 'local_meccertbulkdownload')
+);
 
-echo $OUTPUT->header();
+$paginationurl = html_entity_decode($baseurl2->out() . '&perpage=');
 
-echo '
-<style>
-    nav.pagination {
-        justify-content: right!important;
-    }
-</style>
-';
+$perpageoptions = [
+    (object) ['value' => 2, 'selected' => ($perpage == 2 ? true : false)],
+    (object) ['value' => 10, 'selected' => ($perpage == 10 ? true : false)],
+    (object) ['value' => 25, 'selected' => ($perpage == 25 ? true : false)],
+    (object) ['value' => 50, 'selected' => ($perpage == 50 ? true : false)],
+    (object) ['value' => 100, 'selected' => ($perpage == 100 ? true : false)],
+];
 
-echo '
-<div>&nbsp;</div>
-<ul class="nav nav-tabs mb-4">
-';
-if (has_capability('local/meccertbulkdownload:searchcertificates', context_system::instance())) {
-    echo '
-        <li class="nav-item">
-            <a class="nav-link" href="index.php">' . get_string('packscreate', 'local_meccertbulkdownload') . '</a>
-        </li>
-    ';
-}
-if (has_capability('local/meccertbulkdownload:viewarchives', context_system::instance())) {
-    echo '
-        <li class="nav-item">
-            <a class="nav-link active" href="list.php">' . get_string('packsdownload', 'local_meccertbulkdownload') . '</a>
-        </li>
-    ';
-}
-echo '</ul>';
 
-echo '<div>&nbsp;</div>';
-
-echo '<div style="text-align: center;">';
-    echo html_writer::table($table);
-    echo '<div style="display: table; width: 100%; margin-top: 8px;">';
-        echo '<div style="display: table-cell; text-align: left;">';
-            echo "Record da $from a $to di $recscount - Per pagina: ";
-            echo '<select class="custom-select" onChange="window.location.href=\'' . $baseurl2 . '&perpage=\' + this.value">
-                <option value="10"' . ($perpage == 10 ? ' selected' : '') . '>10</option>
-                <option value="25"' . ($perpage == 25 ? ' selected' : '') . '>25</option>
-                <option value="50"' . ($perpage == 50 ? ' selected' : '') . '>50</option>
-                <option value="100"' . ($perpage == 100 ? ' selected' : '') . '>100</option>
-            </select>';
-        echo '</div>';
-        echo '<div style="display: table-cell; text-align: right; justify-content: right !important;">';
-            echo $OUTPUT->paging_bar($recscount, $page, $perpage, $baseurl);
-        echo "</div>";
-    echo "</div>";
-echo "</div>";
-
-echo $OUTPUT->footer();
+echo $output->archives_page(
+    $page,
+    $perpage,
+    $from,
+    $to,
+    $recscount,
+    $recordsstatus,
+    $baseurl,
+    $paginationurl,
+    $files,
+    $deletearchives,
+    $perpageoptions
+);

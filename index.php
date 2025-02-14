@@ -26,10 +26,11 @@
 use local_meccertbulkdownload\meccertbulkdownload;
 use local_meccertbulkdownload\form\filters_form;
 use local_meccertbulkdownload\form\filters_hidden_form;
+use stdClass;
 
-require('../../config.php');
+require(__DIR__ . '/../../config.php');
 require_once('lib.php');
-require_once('../../cohort/lib.php');
+require_once(__DIR__ . '/../../cohort/lib.php');
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->libdir.'/setuplib.php');
 require_once($CFG->libdir.'/grouplib.php');
@@ -83,6 +84,11 @@ $fform = new filters_form(null, [
     'coursegroups' => $coursegroups,
 ]);
 
+$resultstable = null;
+$resultstablematerial = null;
+$fhform = null;
+$output = $PAGE->get_renderer('local_meccertbulkdownload');
+
 
 // Comes from this same page after submitting the form
 // or after clicking on the page link in the pagination bar.
@@ -102,12 +108,12 @@ if ( ($fromform = $fform->get_data()) || $submit) {
     $where = meccertbulkdownload::get_certificates_params($fromform);
 
     // Obtains the total number of records (without LIMITS) useful for pagination.
-    $recscountobj = $DB->get_record_sql(
+    $resultscountobj = $DB->get_record_sql(
         meccertbulkdownload::get_certificates_query(true)
             . $where['string'],
         $where['params']
     );
-    $recscount = isset($recscountobj->quanti) ? $recscountobj->quanti : 0;
+    $resultscount = isset($resultscountobj->quanti) ? $resultscountobj->quanti : 0;
 
     // Obtains the query, adds the where part and executes it.
     $recs = $DB->get_recordset_sql(
@@ -117,50 +123,7 @@ if ( ($fromform = $fform->get_data()) || $submit) {
             . " OFFSET " . ($page * $perpage),
         $where['params']
     );
-
-    // See {@link https://github.com/moodle/moodle/blob/master/lib/outputcomponents.php}.
-    $table = new html_table();
-    $table->align = ['left', 'left', 'left', 'left', 'right', 'right'];
-    $table->head = meccertbulkdownload::get_certificates_fields();
-    $i = 0;
-
-    // If there are results...
-    if ($recs->valid()) {
-        foreach ($recs as $cert) {
-
-            if ($cert->certcreation) {
-                $certcreationtmp = new DateTime('', core_date::get_user_timezone_object());
-                $certcreationtmp->setTimestamp($cert->certcreation);
-                $certcreationtmp = userdate($certcreationtmp->getTimestamp(),
-                    get_string('strftimedatetimeshort', 'core_langconfig'));
-            } else {
-                $certcreationtmp = "";
-            }
-
-            if ($cert->coursecompletion) {
-                $coursecompletiontmp = new DateTime('', core_date::get_user_timezone_object());
-                $coursecompletiontmp->setTimestamp($cert->coursecompletion);
-                $coursecompletiontmp = userdate($coursecompletiontmp->getTimestamp(),
-                    get_string('strftimedatetimeshort', 'core_langconfig'));
-            } else {
-                $coursecompletiontmp = "";
-            }
-
-            $table->data[$i][0] = $cert->username;
-            $table->data[$i][1] = $cert->firstname . " " . $cert->lastname;
-            $table->data[$i][2] = $cert->cohortname;
-            $table->data[$i][3] = $cert->coursename;
-            $table->data[$i][4] = $certcreationtmp;
-            $table->data[$i][5] = $coursecompletiontmp;
-            $i++;
-        }
-    } else {
-        $table->align = ['center'];
-        $table->head = [""];
-        $table->data[0][0] = '<p style="margin: 30px auto">' .
-            get_string('nocertificatesfound', 'local_meccertbulkdownload') . '</p>';
-    }
-
+    $resultstable = $output->results_table($recs);
     $recs->close();
 
     // Puts the data back into the form so that the values decided by the user
@@ -169,70 +132,31 @@ if ( ($fromform = $fform->get_data()) || $submit) {
     $fform->set_data($fromform);
 }
 
-// Prepare parameters for pagination bar.
-$params = ['page' => $page, 'perpage' => $perpage];
-if ($fromform) {
-    $params = array_merge((array) $fromform, $params);
-}
-$baseurl = new moodle_url('/local/meccertbulkdownload/index.php', $params);
 
-// Prepare parameters for selecting how many per page.
-$params = ['page' => 0];
-if ($fromform) {
-    $params = array_merge((array) $fromform, $params);
-}
-$baseurl2 = new moodle_url('/local/meccertbulkdownload/index.php', $params);
+// If the results table should be displayed.
+if (isset($resultstable)) {
 
-
-// Line =============================================================================.
-
-
-echo $OUTPUT->header();
-
-echo '
-<script>
-    window.alltxt = "' . get_string('all', 'local_meccertbulkdownload') . '";
-</script>
-';
-
-echo '
-<style>
-    nav.pagination {
-        justify-content: right!important;
+    // Prepare parameters for pagination bar.
+    $params = ['page' => $page, 'perpage' => $perpage];
+    if ($fromform) {
+        $params = array_merge((array) $fromform, $params);
     }
-</style>
-';
+    $baseurl = new moodle_url('/local/meccertbulkdownload/index.php', $params);
 
-echo '
-<div>&nbsp;</div>
-<ul class="nav nav-tabs mb-4">
-';
-if (has_capability('local/meccertbulkdownload:searchcertificates', context_system::instance())) {
-    echo '
-        <li class="nav-item">
-            <a class="nav-link active" href="index.php">' . get_string('packscreate', 'local_meccertbulkdownload') . '</a>
-        </li>
-    ';
-}
-if (has_capability('local/meccertbulkdownload:viewarchives', context_system::instance())) {
-    echo '
-        <li class="nav-item">
-            <a class="nav-link" href="list.php">' . get_string('packsdownload', 'local_meccertbulkdownload') . '</a>
-        </li>
-    ';
-}
-echo '</ul>';
+    // Prepare parameters for selecting how many per page.
+    $params = ['page' => 0];
+    if ($fromform) {
+        $params = array_merge((array) $fromform, $params);
+    }
+    $baseurl2 = new moodle_url('/local/meccertbulkdownload/index.php', $params);
 
-$fform->display();
-
-if (isset($table)) {
-
+    // Prepare infos on records in the table
     $from = ($perpage * $page) + 1;
     $to = ($perpage * $page) + $perpage;
-    if ($to > $recscount) {
-        $to = $recscount;
+    if ($to > $resultscount) {
+        $to = $resultscount;
     }
-    if ($recscount == 0) {
+    if ($resultscount == 0) {
         $from = 0;
     }
 
@@ -240,57 +164,33 @@ if (isset($table)) {
         'courseorcertificate' => $fromform->courseorcertificate,
         'datefrom' => $fromform->datefrom,
         'dateto' => $fromform->dateto,
-        'estimatedarchivesize' => meccertbulkdownload::get_estimatedarchivesize($recscount),
+        'estimatedarchivesize' => meccertbulkdownload::get_estimatedarchivesize($resultscount),
     ]);
 
-    // Draw the table.
-    echo '<div style="text-align: center; margin-top: -10px;">';
-
-    // If there is data in the table and the user can create archives, display the archives creation button.
-    if ( ($recscount > 0) && has_capability('local/meccertbulkdownload:createarchives', $context) ) {
-        echo '<div style="float: right;">';
-        $fhform->set_display_vertical();
-        $fhform->display();
-        echo '</div>';
-    } else {
-        echo '<div style="height: 2rem;">&nbsp;</div>';
-    }
-
-    echo html_writer::table($table);
-    echo '<div style="display: table; width: 100%; margin-top: 8px;">';
-    echo '<div style="display: table-cell; text-align: left;">';
-    echo str_replace(
+    $recordsstatus = str_replace(
         ['{{from}}', '{{to}}', '{{count}}'],
-        [$from, $to, $recscount],
+        [$from, $to, $resultscount],
         get_string('tablerecordscount', 'local_meccertbulkdownload')
     );
-    echo '<select class="custom-select" onChange="window.location.href=\'' . $baseurl2 . '&perpage=\' + this.value">
-        <option value="10"' . ($perpage == 10 ? ' selected' : '') . '>10</option>
-        <option value="25"' . ($perpage == 25 ? ' selected' : '') . '>25</option>
-        <option value="50"' . ($perpage == 50 ? ' selected' : '') . '>50</option>
-        <option value="100"' . ($perpage == 100 ? ' selected' : '') . '>100</option>
-    </select>';
-    echo '</div>';
-    echo '<div style="display: table-cell; text-align: right; justify-content: right !important;">';
-    echo $OUTPUT->paging_bar($recscount, $page, $perpage, $baseurl);
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-    echo '<div style="text-align: center">';
-    echo '<div style="display: inline-block;">';
 
-    // Inserts function to download table as CSV, Excel, etc.
-    // See {@link https://docs.moodle.org/dev/Data_formats}.
-    echo $OUTPUT->download_dataformat_selector(
-        get_string('download'),
-        'download.php',
-        'dataformat',
-        ['fromform' => serialize($fromform)]
-    );
+    $perpageoptions = [
+        (object) ['value' => 2, 'selected' => ($perpage == 2 ? true : false)],
+        (object) ['value' => 10, 'selected' => ($perpage == 10 ? true : false)],
+        (object) ['value' => 25, 'selected' => ($perpage == 25 ? true : false)],
+        (object) ['value' => 50, 'selected' => ($perpage == 50 ? true : false)],
+        (object) ['value' => 100, 'selected' => ($perpage == 100 ? true : false)],
+    ];
 
-    echo "</div>";
-    echo "</div>";
-
+    $resultstablematerial = new stdClass();
+    $resultstablematerial->resultscount = $resultscount;
+    $resultstablematerial->page = $page;
+    $resultstablematerial->perpage = $perpage;
+    $resultstablematerial->baseurl = $baseurl;
+    $resultstablematerial->baseurl2 = $baseurl2;
+    $resultstablematerial->recordsstatus = $recordsstatus;
+    $resultstablematerial->paginationurl = html_entity_decode($baseurl2->out() . '&perpage=');
+    $resultstablematerial->perpageoptions = $perpageoptions;
 }
 
-echo $OUTPUT->footer();
+
+echo $output->index_page($fform, $fromform, $fhform, $resultstable, $resultstablematerial);

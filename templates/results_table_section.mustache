@@ -1,0 +1,79 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_meccertbulkdownload/results_table_section
+
+    Bottom section of the index page with the results table.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * archivescreation - (bool) If true, display the form for archives creation button.
+    * archivescreationform - (string) HTML containing the form for archives creation button.
+    * resultscount - (bool) Number of records in the table.
+    * resultstable - (string) HTML containing the result table.
+    * recordsstatus - (string) String with the number of records displayed (from, to, count).
+    * paginationurl - (string) URL to chenge the records displayed per page.
+    * perpageoptions - (stdClass[]) Options for the records displayed per page.
+    * pagingbar - (string) HTML with the pagination bar function for the results table.
+    * downloaddataformatselector - (string) HTML with results table download function.
+
+    Example context (json):
+    {
+        "archivescreation": true,
+        "archivescreationform": "...",
+        "resultscount": 3,
+        "resultstable": "...",
+        "recordsstatus": "Record from 1 to 10 of 50",
+        "paginationurl": "window.location.href=www.example.com&perpage=",
+        "perpageoptions": [
+            {"value": 10, "selected": true},
+            {"value": 25, "selected": false},
+            {"value": 50, "selected": false},
+            {"value": 100, "selected": false}
+        ],
+        "pagingbar": "...",
+        "downloaddataformatselector": "..."
+    }
+}}
+<div class="local_meccertbulkdownload_results_table_section results-table-section-container">
+    <div class="text-center">
+        {{#archivescreation}}
+            <div class="float-right">
+                {{{archivescreationform}}}
+            </div>
+        {{/archivescreation}}
+        {{^archivescreation}}
+            <div style="height: 15px;">&nbsp;</div>
+        {{/archivescreation}}
+        {{{resultstable}}}
+        {{#resultscount}}
+            {{> local_meccertbulkdownload/table_pagination }}
+        {{/resultscount}}
+    </div>
+    {{#resultscount}}
+        <div class="text-center">
+            <div class="d-inline-block">
+                {{{downloaddataformatselector}}}
+            </div>
+        </div>
+    {{/resultscount}}
+</div>

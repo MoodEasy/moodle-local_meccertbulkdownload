@@ -45,6 +45,7 @@ if (!has_capability('local/meccertbulkdownload:createarchives', $context)) {
 
 $backurl = new moodle_url('/local/meccertbulkdownload/index.php');
 $okkurl = new moodle_url('/local/meccertbulkdownload/list.php');
+$output = $PAGE->get_renderer('local_meccertbulkdownload');
 
 
 // FORM FOR SELECTING TEMPLATES FOR PDF AND PACKAGE NAMES.
@@ -53,10 +54,7 @@ $pdftamplates = meccertbulkdownload::get_pdf_templates(true);
 $packtemplates = meccertbulkdownload::get_pack_templates(true);
 
 if (empty($pdftamplates) || empty($packtemplates)) {
-    echo $OUTPUT->header();
-    \core\notification::error(get_string('errornotemplate', 'local_meccertbulkdownload'));
-    echo $OUTPUT->footer();
-    die;
+    $output->notification_page(get_string('errornotemplate', 'local_meccertbulkdownload'));
 }
 
 $tform = new templates_form(null, [
@@ -74,17 +72,11 @@ if ($tform->is_cancelled()) {  // Pressed cancel in form.
 } else if ($fromform = $tform->get_data()) {  // Normal form submission for template.
 
     if (false === isset($fromform->templatepdf)) {
-        echo $OUTPUT->header();
-        \core\notification::error(get_string('errornotemplateparameter', 'local_meccertbulkdownload'));
-        echo $OUTPUT->footer();
-        die;
+        $output->notification_page(get_string('errornotemplateparameter', 'local_meccertbulkdownload'));
     }
 
     if (false === isset($fromform->templatepack)) {
-        echo $OUTPUT->header();
-        \core\notification::error(get_string('errornotemplateparameter', 'local_meccertbulkdownload'));
-        echo $OUTPUT->footer();
-        die;
+        $output->notification_page(get_string('errornotemplateparameter', 'local_meccertbulkdownload'));
     }
 
     // Create the instance.
@@ -129,80 +121,13 @@ if ($tform->is_cancelled()) {  // Pressed cancel in form.
     // IF REQUESTED, BEFORE SELECTING PDF NAMES AND ZIP, SHOW PAGE
     // WITH EXPECTED ZIP SIZE AND REQUESTS CONFIRMATION TO PROCEED.
     if (meccertbulkdownload::ASK_DOWNLOAD_CONFIRMATION) {
-
-        $lightversionmsg = '';
-        if (meccertbulkdownload::LVNC) {
-            $lightversionmsg = meccertbulkdownload::LVNC;
-            $lightversionmsg = str_replace(
-                '{HOW MANY_CERT}',
-                meccertbulkdownload::LVNC,
-                get_string('bookconfirmmsglightversion', 'local_meccertbulkdownload')
-            );
-            $lightversionmsg = '<p style="font-size: 0.8rem; text-align: center; color: rgb(88, 21, 28); ' .
-                'background-color: rgb(248, 215, 218); margin: 28px -16px -32px -16px; padding: 10px 16px;">' .
-                $lightversionmsg . '</p>';
-        }
-
         $confirm = optional_param('confirm', 0, PARAM_INT);
-        if ($confirm === 0) {  // Not yet seen page for confirmation.
-
-            // Obtains free space on the disk.
-            $freespace = meccertbulkdownload::get_free_disk_space();
-            if ($freespace > 0) {
-                // Prepares any message of insufficient space on the server.
-                if ( ($fromfilterform->estimatedarchivesize * 2) > $freespace ) {
-                    $notenoughspace = '<p style="color:red"><strong>' .
-                        get_string('bookconfirmmsgnotenoughspace', 'local_meccertbulkdownload') .
-                        '</strong></p>';
-                } else {
-                    $notenoughspace = '';
-                }
-                $freespacemsg = get_string('bookconfirmmsgfreespace', 'local_meccertbulkdownload')
-                    . ' <strong>'
-                    . $freespace
-                    . ' MB</strong>.</p>'
-                    . $notenoughspace
-                    . '<br>';
-            } else {
-                $freespacemsg = "";
-            }
-
-            // Create the confirmation page.
-            echo $OUTPUT->header();
-            $nourl = new moodle_url('/local/meccertbulkdownload/index.php');
-            $yesurl = new moodle_url('/local/meccertbulkdownload/seltemplates.php',
-                    [
-                        'courseorcertificate' => $fromfilterform->courseorcertificate,
-                        'datefrom' => $fromfilterform->datefrom,
-                        'dateto' => $fromfilterform->dateto,
-                        'confirm' => 1,
-                    ]
-                );
-            echo $OUTPUT->confirm(
-                    '<p>'
-                    . get_string('bookconfirmmsg', 'local_meccertbulkdownload')
-                    . ' <strong>'
-                    . $fromfilterform->estimatedarchivesize
-                    . ' MB</strong>.</p>'
-                    . '<p>'
-                    . get_string('bookconfirmmsgserver', 'local_meccertbulkdownload')
-                    . ' <strong>'
-                    . $fromfilterform->estimatedarchivesize * 2
-                    . ' MB</strong>.</p>'
-                    . '<p>'
-                    . $freespacemsg
-                    . '<small>'
-                    . get_string('bookconfirmmsgnb', 'local_meccertbulkdownload')
-                    . '</small>'
-                    . $lightversionmsg,
-                $yesurl,
-                $nourl
-            );
-            echo $OUTPUT->footer();
+        // If not yet seen page for confirmation.
+        if ($confirm === 0) {
+            echo $output->size_confirmation_page($fromfilterform);
             exit();
         }
-
-    } // If it displays confirmation.
+    }
 
 
     // FORM FOR SELECTING TEMPLATES FOR PDF AND PACKAGE NAMES.
@@ -211,10 +136,7 @@ if ($tform->is_cancelled()) {  // Pressed cancel in form.
     $packtemplates = meccertbulkdownload::get_pack_templates(true);
 
     if (empty($pdftamplates) || empty($packtemplates)) {
-        echo $OUTPUT->header();
-        \core\notification::error(get_string('errornotemplate', 'local_meccertbulkdownload'));
-        echo $OUTPUT->footer();
-        die;
+        $output->notification_page(get_string('errornotemplate', 'local_meccertbulkdownload'));
     }
 
     $tform = new templates_form(null, [
@@ -224,7 +146,5 @@ if ($tform->is_cancelled()) {  // Pressed cancel in form.
     ]);
 }
 
-echo $OUTPUT->header();
-echo '<p style="margin-top: 25px; margin-bottom: 25px;">' . get_string('introseltemplate', 'local_meccertbulkdownload') . '</p>';
-$tform->display();
-echo $OUTPUT->footer();
+
+echo $output->seltemplate_page($tform);

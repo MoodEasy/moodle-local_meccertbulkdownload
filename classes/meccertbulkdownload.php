@@ -151,7 +151,7 @@ class meccertbulkdownload {
      */
     public static function get_certificates_fields() {
         return [
-            'Username',
+            get_string('username'),
             get_string('user'),
             get_string('cohort', 'local_meccertbulkdownload'),
             get_string('course'),
