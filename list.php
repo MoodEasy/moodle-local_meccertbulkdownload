@@ -65,6 +65,9 @@ if ($action && $action === 'del') {
     if ($confirm) {  // Confirmation seen.
         if ($actionid) {
 
+            // See {@link https://moodledev.io/general/development/policies/security/crosssite-request-forgery}.
+            require_sesskey();
+
             // After the operation it redirects to avoid problems if the user reloads the page.
             $backurl = new moodle_url('/local/meccertbulkdownload/list.php');
 
