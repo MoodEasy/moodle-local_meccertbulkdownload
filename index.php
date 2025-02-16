@@ -115,11 +115,10 @@ if ( ($fromform = $fform->get_data()) || $submit) {
 
     // Obtains the query, adds the where part and executes it.
     $recs = $DB->get_recordset_sql(
-        meccertbulkdownload::get_certificates_query()
-            . $where['string']
-            . " LIMIT " . $perpage
-            . " OFFSET " . ($page * $perpage),
-        $where['params']
+        meccertbulkdownload::get_certificates_query() . $where['string'],
+        $where['params'],
+        ($page * $perpage),
+        $perpage
     );
     $resultstable = $output->results_table($recs);
     $recs->close();
