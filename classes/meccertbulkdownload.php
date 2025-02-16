@@ -56,33 +56,31 @@ class meccertbulkdownload {
      */
     public static function get_certificates_query($count = false) {
         if ($count) {
-            $thequery = 'SELECT COUNT(mci.id) AS quanti';
+            $thequery = "SELECT COUNT(mci.id) AS quanti";
         } else {
-            $thequery = 'SELECT
-                         mci.id,
-                         mci.userid,
-                         mci.timecreated AS certcreation,
-                         mu.username,
-                         mu.firstname,
-                         mu.lastname,
-                         mc.templateid,
-                         mc.course AS courseid,
-                         mco.fullname AS coursename,
-                         mco.shortname AS courseshortname,
-                         mco.idnumber AS courseidnumber,
-                         mcm.cohortid,
-                         mcoh.name AS cohortname,
-                         mcc.timecompleted AS coursecompletion';
+            $thequery = "SELECT mci.id,
+                                mci.userid,
+                                mci.timecreated AS certcreation,
+                                mu.username,
+                                mu.firstname,
+                                mu.lastname,
+                                mc.templateid,
+                                mc.course AS courseid,
+                                mco.fullname AS coursename,
+                                mco.shortname AS courseshortname,
+                                mco.idnumber AS courseidnumber,
+                                mcm.cohortid,
+                                mcoh.name AS cohortname,
+                                mcc.timecompleted AS coursecompletion";
         }
-        return $thequery .= '
-                    FROM {customcert_issues} mci
-                    JOIN {customcert} mc ON mci.customcertid = mc.id
-                    JOIN {user} mu ON mci.userid = mu.id
-               LEFT JOIN {cohort_members} mcm ON mci.userid = mcm.userid
-               LEFT JOIN {cohort} mcoh ON mcm.cohortid = mcoh.id
-                    JOIN {course} mco ON mc.course = mco.id
-               LEFT JOIN {course_completions} mcc ON mci.userid = mcc.userid
-                         AND mc.course = mcc.course';
+        return $thequery .= " FROM {customcert_issues} mci
+                              JOIN {customcert} mc ON mci.customcertid = mc.id
+                              JOIN {user} mu ON mci.userid = mu.id
+                         LEFT JOIN {cohort_members} mcm ON mci.userid = mcm.userid
+                         LEFT JOIN {cohort} mcoh ON mcm.cohortid = mcoh.id
+                              JOIN {course} mco ON mc.course = mco.id
+                         LEFT JOIN {course_completions} mcc ON mci.userid = mcc.userid
+                                   AND mc.course = mcc.course";
     }
 
     /**
@@ -94,9 +92,8 @@ class meccertbulkdownload {
      */
     public static function get_certificates_download_query() {
         return
-            'SELECT
-                    mu.username,
-                    CONCAT(mu.firstname, " ", mu.lastname),
+            "SELECT mu.username,
+                    CONCAT(mu.firstname, ' ', mu.lastname),
                     mcoh.name AS cohortname,
                     mco.fullname AS coursename,
                     mci.timecreated AS certcreation,
@@ -108,7 +105,7 @@ class meccertbulkdownload {
           LEFT JOIN {cohort} mcoh ON mcm.cohortid = mcoh.id
                JOIN {course} mco ON mc.course = mco.id
           LEFT JOIN {course_completions} mcc ON mci.userid = mcc.userid
-                    AND mc.course = mcc.course';
+                    AND mc.course = mcc.course";
     }
 
     /**
