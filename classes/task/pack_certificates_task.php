@@ -108,9 +108,12 @@ class pack_certificates_task extends \core\task\adhoc_task {
 
         foreach ($recs as $cert) {
 
-            if (meccertbulkdownload::LVNC && $i >= meccertbulkdownload::LVNC) {
-                break;
+            if (meccertbulkdownload::LVNC > 0) {
+                if ($i >= meccertbulkdownload::LVNC) {
+                    break;
+                }
             }
+
             $i++;
 
             // Obtains the template associated with the certificate and generates the pdf.
