@@ -398,4 +398,24 @@ class meccertbulkdownload {
     public static function sanitize_strings_for_filenames($string) {
         return preg_replace("/[^a-z0-9\_\-\.]/i", '_', $string);
     }
+
+    /**
+     * Check that the "courseorcertificate" parameter contains one of the valid values.
+     *
+     * @param bool $paramrequired If parameter is required.
+     * @return string Verified parameter courseorcertificate.
+     */
+    public static function get_verified_courseorcertificate(bool $paramrequired) {
+        if ($paramrequired) {
+            $param = required_param('courseorcertificate', PARAM_ALPHA);
+        } else {
+            $param = optional_param('courseorcertificate', null, PARAM_ALPHA);
+            if (null === $param) return $param;
+        }
+        $validvalues = ['cor', 'cer'];
+        if (!in_array($param, $validvalues)) {
+            throw new \moodle_exception('missingparam', '', '', 'courseorcertificate');
+        }
+        return $param;
+    }
 }

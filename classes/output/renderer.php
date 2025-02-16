@@ -105,7 +105,7 @@ class renderer extends plugin_renderer_base {
                     get_string('download'),
                     'download.php',
                     'dataformat',
-                    ['fromform' => serialize($fromform)]
+                    ['fromform' => json_encode($fromform)]
                 )
             );
             $output .= $this->render($resultstablesection);

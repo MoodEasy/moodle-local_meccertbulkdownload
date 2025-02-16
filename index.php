@@ -96,9 +96,9 @@ if ( ($fromform = $fform->get_data()) || $submit) {
     // no POST data of the form but same data in query string.
     if (!$fromform) {
         $fromform = new stdClass();
-        $fromform->courseorcertificate = optional_param('courseorcertificate', null, PARAM_RAW);
-        $fromform->datefrom = optional_param('datefrom', null, PARAM_RAW);
-        $fromform->dateto = optional_param('dateto', null, PARAM_RAW);
+        $fromform->courseorcertificate = meccertbulkdownload::get_verified_courseorcertificate(false);
+        $fromform->datefrom = optional_param('datefrom', null, PARAM_INT);
+        $fromform->dateto = optional_param('dateto', null, PARAM_INT);
         $fromform->submitbuttonn = $submit;
     }
 

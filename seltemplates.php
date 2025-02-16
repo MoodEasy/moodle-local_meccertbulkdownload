@@ -84,7 +84,7 @@ if ($tform->is_cancelled()) {  // Pressed cancel in form.
     $mytask->set_custom_data([
         'templatepdf' => $fromform->templatepdf,
         'templatepack' => $fromform->templatepack,
-        'fromfilterform' => unserialize($fromform->fromfilterform),
+        'fromfilterform' => json_decode($fromform->fromfilterform),
     ]);
 
     // Queue the task.
@@ -110,7 +110,7 @@ if ($tform->is_cancelled()) {  // Pressed cancel in form.
     // RETURN VIA GET.
     // If course and cohort are not set, the parameters contain the string "no".
     $fromfilterform = new stdClass();
-    $fromfilterform->courseorcertificate = required_param('courseorcertificate', PARAM_TEXT);
+    $fromfilterform->courseorcertificate = meccertbulkdownload::get_verified_courseorcertificate(true);
     $fromfilterform->datefrom = required_param('datefrom', PARAM_INT);
     $fromfilterform->dateto = required_param('dateto', PARAM_INT);
     $fromfilterform->estimatedarchivesize = optional_param('estimatedarchivesize', 0, PARAM_FLOAT);
@@ -140,7 +140,7 @@ if ($tform->is_cancelled()) {  // Pressed cancel in form.
     $tform = new templates_form(null, [
         'pdftamplates' => $pdftamplates,
         'packtemplates' => $packtemplates,
-        'fromfilterform' => serialize($fromfilterform),
+        'fromfilterform' => json_encode($fromfilterform),
     ]);
 }
 

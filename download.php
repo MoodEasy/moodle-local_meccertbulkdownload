@@ -43,7 +43,7 @@ $dataformat = optional_param('dataformat', '', PARAM_ALPHA)
     : optional_param('dataformat2', '', PARAM_ALPHA);
 
 $fromform = optional_param('fromform', '', PARAM_RAW);
-$fromform = unserialize($fromform);
+$fromform = json_decode($fromform);
 
 $nomefile = date('Y-m-d_H-i') . '_certificates_list';
 
