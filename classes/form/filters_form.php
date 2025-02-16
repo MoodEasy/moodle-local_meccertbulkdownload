@@ -44,7 +44,7 @@ class filters_form extends \moodleform {
 
         $mform->registerNoSubmitButton('addtask');
 
-        $mform->addElement('static', 'spazio1', '');
+        $mform->addElement('html', '<div style="height: 17px;"></div>');
 
         $mform->addElement('select', 'courseorcertificate', get_string('searchfor', 'local_meccertbulkdownload'), [
             'cor' => ucfirst(get_string('coursecompletion', 'local_meccertbulkdownload')),
@@ -57,7 +57,7 @@ class filters_form extends \moodleform {
         $mform->addElement('date_time_selector', 'dateto', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionto',
             'local_meccertbulkdownload'), ['optional' => false]);
 
-        $mform->addElement('static', 'spazio2', '');
+        $mform->addElement('html', '<div style="height: 14px;"></div>');
 
         $mform->addElement('select', 'courseorcohort', get_string('searchfor', 'local_meccertbulkdownload'), [
             'coo' => ucfirst(get_string('cohort', 'local_meccertbulkdownload')),
@@ -79,7 +79,7 @@ class filters_form extends \moodleform {
         $mform->disabledIf('coorte', 'courseorcohort', 'neq', 'corno');
         $mform->disabledIf('courseandgroup', 'courseorcohort', 'neq', 'coono');
 
-        $mform->addElement('static', 'spazio3', '');
+        $mform->addElement('html', '<div style="height: 4px;"></div>');
 
         $buttonarray = [];
         $buttonarray[] =& $mform->createElement('submit', 'submitbuttonn', get_string('preview', 'local_meccertbulkdownload'));
