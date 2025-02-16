@@ -342,6 +342,11 @@ class meccertbulkdownload {
      * @return integer Estimated size of the compressed package in MB
      */
     public static function get_estimatedarchivesize($certificatesnumber) {
+        if (self::LVNC > 0) {
+            if ($certificatesnumber > self::LVNC) {
+                $certificatesnumber = self::LVNC;
+            }
+        }
         // In the configuration the estimated size of a certificate is entered in KB.
         $estimatedarchivesize = get_config('local_meccertbulkdownload', 'estimatedarchivesize');
         if (!$estimatedarchivesize) {
