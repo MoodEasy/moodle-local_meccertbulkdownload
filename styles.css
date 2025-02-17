@@ -24,11 +24,20 @@
 }
 
 #page-local-meccertbulkdownload-index nav.pagination {
-    justify-content: right!important;
+    justify-content: right;
 }
 
 #page-local-meccertbulkdownload-index .results-table-section-container {
     margin-top: -15px;
+}
+
+#page-local-meccertbulkdownload-index input.btn-download-request {
+    background-color: #f58a0b;
+    border-color: #eb8208;
+    color: white;
+}
+#page-local-meccertbulkdownload-index input.btn-download-request:hover {
+    background-color: #eb8208;
 }
 
 #page-local-meccertbulkdownload-seltemplates .confirmation-lightversionmsg {

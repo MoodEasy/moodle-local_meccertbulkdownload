@@ -68,9 +68,7 @@ class filters_hidden_form extends \moodleform {
             get_string('formtemplatesubmit', 'local_meccertbulkdownload')
                 . ' (~' . $this->_customdata['estimatedarchivesize'] . ' MB)',
             [
-                'style' => 'background-color: #f58a0b; border-color: #eb8208; color: white; margin-bottom: 6px;',
-                'onMouseOver' => 'this.style.backgroundColor=\'#eb8208\'',
-                'onMouseOut' => 'this.style.backgroundColor=\'#f58a0b\'',
+                'class' => 'btn-download-request',
             ]
         );
     }
