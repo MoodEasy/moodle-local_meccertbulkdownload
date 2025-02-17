@@ -64,10 +64,10 @@ class table_pagination implements renderable, templatable {
     /**
      * Constructor for this object.
      *
-     * @param bool $capabilitysearchcertificates
-     * @param bool $capabilityviewarchives
-     * @param string $activeindex
-     * @param string $activeindex
+     * @param string $recordsstatus
+     * @param string $paginationurl
+     * @param stdClass[] $perpageoptions
+     * @param string $pagingbar
      */
     public function __construct(
         string $recordsstatus,
@@ -84,6 +84,7 @@ class table_pagination implements renderable, templatable {
     /**
      * Export this data so it can be used as the context for a mustache template.
      *
+     * @param renderer_base $output
      * @return stdClass
      */
     public function export_for_template(renderer_base $output): stdClass {

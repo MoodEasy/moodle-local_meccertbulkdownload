@@ -147,7 +147,7 @@ if (isset($resultstable)) {
     }
     $baseurl2 = new moodle_url('/local/meccertbulkdownload/index.php', $params);
 
-    // Prepare infos on records in the table
+    // Prepare infos on records in the table.
     $from = ($perpage * $page) + 1;
     $to = ($perpage * $page) + $perpage;
     if ($to > $resultscount) {

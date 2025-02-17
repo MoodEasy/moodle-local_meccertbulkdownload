@@ -88,10 +88,15 @@ class results_table_section implements renderable, templatable {
     /**
      * Constructor for this object.
      *
-     * @param bool $capabilitysearchcertificates
-     * @param bool $capabilityviewarchives
-     * @param string $activeindex
-     * @param string $activeindex
+     * @param bool $archivescreation
+     * @param bool $archivescreationform
+     * @param int $resultscount
+     * @param string $resultstable
+     * @param string $recordsstatus
+     * @param string $paginationurl
+     * @param stdClass[] $perpageoptions
+     * @param string $pagingbar
+     * @param string $downloaddataformatselector
      */
     public function __construct(
         bool $archivescreation,
@@ -118,6 +123,7 @@ class results_table_section implements renderable, templatable {
     /**
      * Export this data so it can be used as the context for a mustache template.
      *
+     * @param renderer_base $output
      * @return stdClass
      */
     public function export_for_template(renderer_base $output): stdClass {

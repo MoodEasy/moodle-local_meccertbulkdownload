@@ -394,8 +394,8 @@ class meccertbulkdownload {
      * Sanitize a string to use as filename. Replaces disallowed characters with the underscore.
      * Only allowed characters are letters, numbers, dash, underscore and dot.
      *
-     * @param string String to sanitize.
-     * @return string Sanitized string.
+     * @param string $string String to sanitize
+     * @return string Sanitized string
      */
     public static function sanitize_strings_for_filenames($string) {
         return preg_replace("/[^a-z0-9\_\-\.]/i", '_', $string);

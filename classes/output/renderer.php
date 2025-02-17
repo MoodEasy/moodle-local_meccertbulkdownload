@@ -56,10 +56,10 @@ class renderer extends plugin_renderer_base {
      * Create the index page.
      *
      * @param filters_form $fform Filter form
-     * @param stdClass $fromform Params from filter form
-     * @param filters_hidden_form $fhform Hidden filter form
-     * @param string $resultstable HTML of the results table
-     * @param stdClass $resultstablematerial Material for the results table
+     * @param null|stdClass $fromform Params from filter form
+     * @param null|filters_hidden_form $fhform Hidden filter form
+     * @param null|string $resultstable HTML of the results table
+     * @param null|stdClass $resultstablematerial Material for the results table
      * @return string HTML of the page
      */
     public function index_page(
@@ -155,7 +155,7 @@ class renderer extends plugin_renderer_base {
             } else {
                 $notenoughspace = '';
             }
-            // Prepares the message of free space (with any insufficient space message)
+            // Prepares the message of free space (with any insufficient space message).
             $freespacemsg = $this->output->container(
                 get_string('bookconfirmmsgfreespace', 'local_meccertbulkdownload')
                     . html_writer::start_span('font-weight-bold') . " $freespace MB." . html_writer::end_span()
@@ -342,10 +342,10 @@ class renderer extends plugin_renderer_base {
     /**
      * Create the table with the results of the certificate search in the database.
      *
-     * @param $results Results of the search in the database
+     * @param moodle_recordset $results Results of the search in the database
      * @return string The table
      */
-    public function results_table($results) {
+    public function results_table(moodle_recordset $results) {
 
         $table = new html_table();
         $table->align = ['left', 'left', 'left', 'left', 'right', 'right'];
