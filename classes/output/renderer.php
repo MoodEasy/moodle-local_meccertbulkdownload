@@ -35,6 +35,7 @@ use stdClass;
 use tabobject;
 use moodle_url;
 use stored_file;
+use moodle_recordset;
 use local_meccertbulkdownload\meccertbulkdownload;
 use local_meccertbulkdownload\form\filters_form;
 use local_meccertbulkdownload\form\filters_hidden_form;
@@ -84,7 +85,7 @@ class renderer extends plugin_renderer_base {
 
         $output .= $fform->render();
 
-        if($resultstable) {
+        if ($resultstable) {
             $fhform->set_display_vertical();
             $createarchivescapability = has_capability('local/meccertbulkdownload:createarchives', context_system::instance());
             $resultstablesection = new results_table_section(
@@ -284,7 +285,7 @@ class renderer extends plugin_renderer_base {
 
         $output .= $this->archives_table($files, $from, $to, $deletearchives);
 
-        if(count($files) > 0) {
+        if (count($files) > 0) {
             $tablepagination = new table_pagination(
                 $recordsstatus,
                 $paginationurl,

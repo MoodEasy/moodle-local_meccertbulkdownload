@@ -192,7 +192,7 @@ class meccertbulkdownload {
      * @return false|string Name of the pdf (certificate)
      */
     public static function get_pdf_name($templatename, $params, $coursecompletiondate) {
-        $params = array_map(array('self', 'sanitize_strings_for_filenames'), $params);
+        $params = array_map(['self', 'sanitize_strings_for_filenames'], $params);
         $search = [
             '{{username}}',
             '{{userfullname}}',
@@ -219,7 +219,7 @@ class meccertbulkdownload {
      * @return false|string Name of the zip archive (of certificates)
      */
     public static function get_pack_name($templatename, $params) {
-        $params = array_map(array('self', 'sanitize_strings_for_filenames'), $params);
+        $params = array_map(['self', 'sanitize_strings_for_filenames'], $params);
         $search = [
             '{{courseshortname}}',
             '{{coursecode}}',
@@ -412,7 +412,9 @@ class meccertbulkdownload {
             $param = required_param('courseorcertificate', PARAM_ALPHA);
         } else {
             $param = optional_param('courseorcertificate', null, PARAM_ALPHA);
-            if (null === $param) return $param;
+            if (null === $param) {
+                return $param;
+            }
         }
         $validvalues = ['cor', 'cer'];
         if (!in_array($param, $validvalues)) {
