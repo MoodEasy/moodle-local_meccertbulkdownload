@@ -44,7 +44,7 @@ class filters_form extends \moodleform {
 
         $mform->registerNoSubmitButton('addtask');
 
-        $mform->addElement('html', '<div style="height: 17px;"></div>');
+        $mform->addElement('html', '<div class="filters-form-space-1"></div>');
 
         $mform->addElement('select', 'courseorcertificate', get_string('searchfor', 'local_meccertbulkdownload'), [
             'cor' => ucfirst(get_string('coursecompletion', 'local_meccertbulkdownload')),
@@ -57,29 +57,38 @@ class filters_form extends \moodleform {
         $mform->addElement('date_time_selector', 'dateto', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionto',
             'local_meccertbulkdownload'), ['optional' => false]);
 
-        $mform->addElement('html', '<div style="height: 14px;"></div>');
+
+        $mform->addElement('html', '<div class="filters-form-space-2"></div>');
+
 
         $mform->addElement('select', 'courseorcohort', get_string('searchfor', 'local_meccertbulkdownload'), [
             'coo' => ucfirst(get_string('cohort', 'local_meccertbulkdownload')),
             'cor' => ucfirst(get_string('courseandgroup', 'local_meccertbulkdownload')),
         ]);
 
-        $mform->addElement('select', 'coorte', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('cohort', 'local_meccertbulkdownload'),
-            $this->_customdata['cohorts']);
+        $options = ['multiple' => false, 'includefrontpage' => false];
+        $mform->addElement('autocomplete', 'coorte', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('cohort', 'local_meccertbulkdownload'),
+            $options);
+
+        $options = ['multiple' => false, 'includefrontpage' => false];
+        $mform->addElement('autocomplete', 'corso', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('course'), [], $options);
 
         $courseandgroup = [];
-        $courseandgroup[] =& $mform->createElement('select', 'corso', get_string('course'), $this->_customdata['courses']);
         $courseandgroup[] =& $mform->createElement('select', 'gruppocorso', get_string('group'),
             $this->_customdata['coursegroups']);
         $courseandgroup[] =& $mform->createElement('html', '<span id="cs-loader-1" class="cs-loader"></span>');
-        $mform->addGroup($courseandgroup, 'courseandgroup', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('courseandgroup',
+        $mform->addGroup($courseandgroup, 'courseandgroup', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursegroup',
             'local_meccertbulkdownload'), [' '], false);
 
-        $mform->disabledIf('courseorcohort', 'coorte', 'neq', 'corno');
-        $mform->disabledIf('coorte', 'courseorcohort', 'neq', 'corno');
-        $mform->disabledIf('courseandgroup', 'courseorcohort', 'neq', 'coono');
+        $mform->hideIf('coorte', 'courseorcohort', 'neq', 'coo');
+        $mform->hideIf('corso', 'courseorcohort', 'neq', 'cor');
+        $mform->hideIf('courseandgroup', 'courseorcohort', 'neq', 'cor');
 
-        $mform->addElement('html', '<div style="height: 4px;"></div>');
+        $mform->disabledIf('courseandgroup', 'courseorcohort', 'neq', 'pro');
+
+
+        $mform->addElement('html', '<div class="filters-form-space-3"></div>');
+
 
         $buttonarray = [];
         $buttonarray[] =& $mform->createElement('submit', 'submitbuttonn', get_string('preview', 'local_meccertbulkdownload'));

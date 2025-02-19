@@ -3,13 +3,13 @@
  */
 
 .path-local-meccertbulkdownload .cs-loader {
-    width: 21px;
-    height: 21px;
-    border: 3px solid #333;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #5c5c5c;
     border-bottom-color: transparent;
     border-radius: 50%;
     display: none;
-    margin-left: 10px;
+    margin-left: 6px;
     box-sizing: border-box;
     animation: cs-rotation 1s linear infinite;
 }
@@ -21,10 +21,6 @@
     100% {
         transform: rotate(360deg);
     }
-}
-
-#page-local-meccertbulkdownload-index nav.pagination {
-    justify-content: right;
 }
 
 #page-local-meccertbulkdownload-index .results-table-section-container {
@@ -46,4 +42,50 @@
     background-color: rgb(248, 215, 218);
     margin: 28px -16px -32px -16px;
     padding: 10px 16px;
+}
+
+#page-local-meccertbulkdownload-index .filters-form-space-1 {
+    height: 22px;
+}
+#page-local-meccertbulkdownload-index .filters-form-space-2 {
+    height: 20px;
+}
+#page-local-meccertbulkdownload-index .filters-form-space-3 {
+    height: 10px;
+}
+
+
+
+#page-local-meccertbulkdownload-index #fitem_id_coorte,
+#page-local-meccertbulkdownload-index #fitem_id_corso,
+#page-local-meccertbulkdownload-index #fgroup_id_courseandgroup {
+    color: #999999;
+    pointer-events: none;
+}
+
+#page-local-meccertbulkdownload-index #fitem_id_coorte input,
+#page-local-meccertbulkdownload-index #fitem_id_corso input,
+#page-local-meccertbulkdownload-index #fgroup_id_courseandgroup select {
+    color: #999999;
+    border: 1px solid #dddddd;
+    background-color: #eff1f3;
+    opacity: 1;
+}
+
+#page-local-meccertbulkdownload-index #fitem_id_coorte input::placeholder,
+#page-local-meccertbulkdownload-index #fitem_id_corso input::placeholder,
+#page-local-meccertbulkdownload-index #fgroup_id_courseandgroup select::placeholder {
+    color: #999999;
+    opacity: 1; /* Firefox. */
+}
+
+#page-local-meccertbulkdownload-index #fitem_id_coorte input::-ms-input-placeholder,
+#page-local-meccertbulkdownload-index #fitem_id_corso input::-ms-input-placeholder,
+#page-local-meccertbulkdownload-index #fgroup_id_courseandgroup select::-ms-input-placeholder {
+    color: #999999;
+}
+
+#page-local-meccertbulkdownload-index #fitem_id_corso span.form-autocomplete-downarrow,
+#page-local-meccertbulkdownload-index #fitem_id_coorte span.form-autocomplete-downarrow {
+    display: none;
 }

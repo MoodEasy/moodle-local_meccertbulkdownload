@@ -50,6 +50,7 @@ $string['coursecompletion'] = 'Periodo completamento corso';
 $string['coursecompletiondate'] = 'Data completamento corso';
 $string['coursecompletionfrom'] = 'Da';
 $string['coursecompletionto'] = 'A';
+$string['coursegroup'] = 'Gruppo (del corso)';
 $string['createmanagestring'] = 'Creazione e gestione pacchetti';
 $string['createmanagestring_desc'] = 'Permette di andare alla pagina dove creare, scaricare e gestire i pacchetti di certificati.<br>&nbsp;';
 $string['credit'] = 'MoodEasy.com';

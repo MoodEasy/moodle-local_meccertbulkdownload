@@ -51,25 +51,12 @@ $perpage = optional_param('perpage', 25, PARAM_INT);
 $submit = optional_param('submitbuttonn', '', PARAM_TEXT);
 
 
-// PREPARE THE FORM FOR SELECTION OF FILTERS.
-
-$courses = ['no' => get_string('all', 'local_meccertbulkdownload')];
-foreach (get_courses("all", "c.sortorder ASC", "c.id, c.fullname") as $course) {
-    $courses[$course->id] = $course->fullname;
-}
-asort($courses);
-
-$cohorts = ['no' => get_string('all', 'local_meccertbulkdownload')];
-$cohortsfromdb = cohort_get_all_cohorts(0, 10000);
-if ($cohortsfromdb) {
-    foreach ($cohortsfromdb['cohorts'] as $cohort) {
-        $cohorts[$cohort->id] = $cohort->name;
-    }
-}
+// PREPARE THE FILTERS SELECTION FORM.
 
 $coursegroups = ['no' => get_string('all', 'local_meccertbulkdownload')];
-$courseid = optional_param('corso', 'no', PARAM_RAW);
-if ($submit && $courseid !== 'no') {
+$courseid = optional_param('corso', 'no', PARAM_ALPHANUM);
+if ($submit && $courseid && $courseid !== 'no') {
+    $courseid = (int) $courseid;
     $groups = groups_get_all_groups($courseid, 0, 0, 'g.id, g.name');
     foreach ($groups as $group) {
         $coursegroups[$group->id] = $group->name;
@@ -77,8 +64,6 @@ if ($submit && $courseid !== 'no') {
 }
 
 $fform = new filters_form(null, [
-    'courses' => $courses,
-    'cohorts' => $cohorts,
     'coursegroups' => $coursegroups,
 ]);
 

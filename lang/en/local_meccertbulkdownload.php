@@ -50,6 +50,7 @@ $string['coursecompletion'] = 'Course completion period';
 $string['coursecompletiondate'] = 'Course completion date';
 $string['coursecompletionfrom'] = 'From';
 $string['coursecompletionto'] = 'To';
+$string['coursegroup'] = 'Group (of the course)';
 $string['createmanagestring'] = 'Archive creation and management';
 $string['createmanagestring_desc'] = 'It allows to access the page where you can create, download and manage certificate packages.<br>&nbsp;';
 $string['credit'] = 'MoodEasy.com';
