@@ -63,11 +63,7 @@ class pack_certificates_task extends \core\task\adhoc_task {
         $fs = get_file_storage();
 
         // Creates a sub-folder in the plugin temp folder.
-        $uniqdir = uniqid('tmpcerts');
-        $tmpdir = make_temp_directory('local_meccertbulkdownload/' . $uniqdir);
-        if (!$tmpdir) {
-            throw new \Exception("Error creating temporary folder for PDFs");
-        }
+        $tmpdir = make_request_directory();
 
         // Obtains parameters from the form data and creates the where part of the query.
         $where = meccertbulkdownload::get_certificates_params($customdata->fromfilterform);
@@ -81,7 +77,8 @@ class pack_certificates_task extends \core\task\adhoc_task {
         // within the main zip (which in this case represents
         // the selected course) creates a folder for each group.
         if (
-            $customdata->fromfilterform->courseorcohort === 'cor'
+            isset($customdata->fromfilterform->courseorcohort)
+            && $customdata->fromfilterform->courseorcohort === 'cor'
             && $customdata->fromfilterform->corso !== 'no'
             && $customdata->fromfilterform->gruppocorso === 'no'
         ) {
@@ -103,7 +100,6 @@ class pack_certificates_task extends \core\task\adhoc_task {
         $paramforpacknamecourse = '-';
         $paramforpacknamecoursecode = '-';
         $paramforpacknamecohort = '-';
-
         $i = 0;
 
         foreach ($recs as $cert) {
@@ -113,7 +109,6 @@ class pack_certificates_task extends \core\task\adhoc_task {
                     break;
                 }
             }
-
             $i++;
 
             // Obtains the template associated with the certificate and generates the pdf.
@@ -125,7 +120,6 @@ class pack_certificates_task extends \core\task\adhoc_task {
             $userfullname = fullname($certuser);
 
             // Obtains the name to give to the pdf.
-            // See {@link https://www.php.net/manual/en/datetime.format.php}.
             $pdfname = meccertbulkdownload::get_pdf_name($customdata->templatepdf, [
                     $cert->username,
                     $userfullname,
@@ -234,8 +228,10 @@ class pack_certificates_task extends \core\task\adhoc_task {
 
         // JOINS PDFS CREATING THE COMPRESSED FILE.
 
-        // Creates the path (path + filename) for the temporary compressed file.
-        $tempzippath = tempnam($CFG->tempdir . '/local_meccertbulkdownload/', 'pack');
+        // Creates the path for the temporary compressed file.
+        $ziptempdir = make_request_directory();
+        $tempzippath = $ziptempdir . '/' . uniqid('pack');
+
         // Compresses certificates into a temporary file.
         $zipper = new \zip_packer();
         if (!$zipper->archive_to_pathname($filesforzipping, $tempzippath)) {
@@ -289,8 +285,11 @@ class pack_certificates_task extends \core\task\adhoc_task {
             'filesize' => 0,
         ]);
 
-        // Delete the temporary compressed file (.tmp extension).
+        // Delete the temporary compressed file.
         unlink($tempzippath);
+
+        // Delete the temporary folder for the compressed file.
+        $this->delete_directory($ziptempdir);
 
         // Delete the temporary folder with the pdfs that were zipped.
         $this->delete_directory($tmpdir);
