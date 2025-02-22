@@ -77,6 +77,7 @@ $string['msgconfirmationfullmessage'] = 'Il seguente pacchetto zip di certificat
 $string['msgconfirmationfullmessagehtml'] = 'Il seguente pacchetto zip di certificati è pronto: ';
 $string['msgconfirmationsmallmessage'] = 'Il seguente pacchetto zip di certificati è pronto: ';
 $string['msgconfirmationsubject'] = 'Pachetto certificati pronto';
+$string['noarchives'] = 'Nessun pacchetto';
 $string['nocertificatesfound'] = 'Nessun certificato trovato';
 $string['packscreate'] = 'Crea pacchetti certificati';
 $string['packsdownload'] = 'Gestisci e scarica pacchetti certificati';

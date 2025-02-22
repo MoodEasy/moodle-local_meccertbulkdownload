@@ -448,7 +448,7 @@ class renderer extends plugin_renderer_base {
         } else {
             $table->align = ['center'];
             $table->head = [""];
-            $table->data[0][0] = $this->container(get_string('none'), 'my-5 mx-auto py-4');
+            $table->data[0][0] = $this->container(get_string('noarchives', 'local_meccertbulkdownload'), 'my-5 mx-auto py-4');
         }
 
         return html_writer::table($table);
