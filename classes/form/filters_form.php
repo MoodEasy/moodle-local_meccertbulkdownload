@@ -68,7 +68,7 @@ class filters_form extends \moodleform {
 
         $options = ['multiple' => false, 'includefrontpage' => false];
         $mform->addElement('autocomplete', 'coorte', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('cohort', 'local_meccertbulkdownload'),
-            $options);
+            [], $options);
 
         $options = ['multiple' => false, 'includefrontpage' => false];
         $mform->addElement('autocomplete', 'corso', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('course'), [], $options);
