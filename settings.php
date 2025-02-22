@@ -56,13 +56,13 @@ if ($hassiteconfig) {
         $settingspage->add(new admin_setting_configtextarea('local_meccertbulkdownload/pdfnametemplates',
             new lang_string('pdfnametemplatesitem', 'local_meccertbulkdownload'),
             new lang_string('pdfnametemplatesitem_desc', 'local_meccertbulkdownload'),
-            'Base:{{userfullname}}_{{courseshortname}}_{{courseenddate(Y-m-d)}}'
+            'Base:{{userfullname}}_{{courseshortname}}_{{courseenddate(Y-m-d_H-i)}}'
         ));
 
         $settingspage->add(new admin_setting_configtextarea('local_meccertbulkdownload/packnametemplates',
             new lang_string('archivenametemplatesitem', 'local_meccertbulkdownload'),
             new lang_string('archivenametemplatesitem_desc', 'local_meccertbulkdownload'),
-            'Base:{{courseshortname}}_{{todaysdate(Y-m-d)}}'
+            'Base:{{courseshortname}}_{{todaysdate(Y-m-d_H-i)}}'
         ));
 
     }
