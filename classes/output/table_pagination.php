@@ -73,7 +73,7 @@ class table_pagination implements renderable, templatable {
         string $recordsstatus,
         string $paginationurl,
         array $perpageoptions,
-        string $pagingbar,
+        string $pagingbar
     ) {
         $this->recordsstatus = $recordsstatus;
         $this->paginationurl = $paginationurl;
