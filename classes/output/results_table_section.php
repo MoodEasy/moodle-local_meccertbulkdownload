@@ -89,7 +89,7 @@ class results_table_section implements renderable, templatable {
      * Constructor for this object.
      *
      * @param bool $archivescreation
-     * @param bool $archivescreationform
+     * @param string $archivescreationform
      * @param int $resultscount
      * @param string $resultstable
      * @param string $recordsstatus
@@ -101,7 +101,7 @@ class results_table_section implements renderable, templatable {
     public function __construct(
         bool $archivescreation,
         string $archivescreationform,
-        string $resultscount,
+        int $resultscount,
         string $resultstable,
         string $recordsstatus,
         string $paginationurl,

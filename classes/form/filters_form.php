@@ -57,9 +57,7 @@ class filters_form extends \moodleform {
         $mform->addElement('date_time_selector', 'dateto', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionto',
             'local_meccertbulkdownload'), ['optional' => false]);
 
-
         $mform->addElement('html', '<div class="filters-form-space-2"></div>');
-
 
         $mform->addElement('select', 'courseorcohort', get_string('searchfor', 'local_meccertbulkdownload'), [
             'coo' => ucfirst(get_string('cohort', 'local_meccertbulkdownload')),
@@ -86,9 +84,7 @@ class filters_form extends \moodleform {
 
         $mform->disabledIf('courseandgroup', 'courseorcohort', 'neq', 'pro');
 
-
         $mform->addElement('html', '<div class="filters-form-space-3"></div>');
-
 
         $buttonarray = [];
         $buttonarray[] =& $mform->createElement('submit', 'submitbuttonn', get_string('preview', 'local_meccertbulkdownload'));
