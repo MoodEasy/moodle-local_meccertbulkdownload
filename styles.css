@@ -55,19 +55,18 @@
 }
 
 
-
 #page-local-meccertbulkdownload-index #fitem_id_coorte,
 #page-local-meccertbulkdownload-index #fitem_id_corso,
 #page-local-meccertbulkdownload-index #fgroup_id_courseandgroup {
-    color: #999999;
+    color: #999;
     pointer-events: none;
 }
 
 #page-local-meccertbulkdownload-index #fitem_id_coorte input,
 #page-local-meccertbulkdownload-index #fitem_id_corso input,
 #page-local-meccertbulkdownload-index #fgroup_id_courseandgroup select {
-    color: #999999;
-    border: 1px solid #dddddd;
+    color: #999;
+    border: 1px solid #ddd;
     background-color: #eff1f3;
     opacity: 1;
 }
@@ -75,14 +74,14 @@
 #page-local-meccertbulkdownload-index #fitem_id_coorte input::placeholder,
 #page-local-meccertbulkdownload-index #fitem_id_corso input::placeholder,
 #page-local-meccertbulkdownload-index #fgroup_id_courseandgroup select::placeholder {
-    color: #999999;
+    color: #999;
     opacity: 1; /* Firefox. */
 }
 
 #page-local-meccertbulkdownload-index #fitem_id_coorte input::-ms-input-placeholder,
 #page-local-meccertbulkdownload-index #fitem_id_corso input::-ms-input-placeholder,
 #page-local-meccertbulkdownload-index #fgroup_id_courseandgroup select::-ms-input-placeholder {
-    color: #999999;
+    color: #999;
 }
 
 #page-local-meccertbulkdownload-index #fitem_id_corso span.form-autocomplete-downarrow,
