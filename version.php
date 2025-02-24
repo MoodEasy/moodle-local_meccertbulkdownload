@@ -26,10 +26,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_meccertbulkdownload';  // To check on upgrade, that module sits in correct place.
-$plugin->version   = 2024100100;        // The current module version (Date: YYYYMMDDXX).
-$plugin->requires  = 2017111300;        // Requires this Moodle version (3.4.0).
-$plugin->release   = 'v1.0.3';
+$plugin->version   = 2025022000;        // The current module version (Date: YYYYMMDDXX).
+$plugin->requires  = 2019052000;        // Requires this Moodle version (3.7.0).
+$plugin->release   = 'v1.0.4';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->dependencies = [
-    'mod_customcert' => 2017111308,  // Requires the "Custom certificate" plugin.
+    'mod_customcert' => 2019052005,  // Requires the "Custom certificate" plugin.
 ];
