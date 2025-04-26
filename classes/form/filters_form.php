@@ -50,12 +50,15 @@ class filters_form extends \moodleform {
             'cor' => ucfirst(get_string('coursecompletion', 'local_meccertbulkdownload')),
             'cer' => ucfirst(get_string('certificateissuing', 'local_meccertbulkdownload')),
         ]);
+        $mform->setType('courseorcertificate', PARAM_ALPHA);
 
         $mform->addElement('date_time_selector', 'datefrom', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionfrom',
             'local_meccertbulkdownload'), ['optional' => false]);
+        $mform->setType('datefrom', PARAM_INT);
 
         $mform->addElement('date_time_selector', 'dateto', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursecompletionto',
             'local_meccertbulkdownload'), ['optional' => false]);
+        $mform->setType('dateto', PARAM_INT);
 
         $mform->addElement('html', '<div class="filters-form-space-2"></div>');
 
@@ -63,13 +66,16 @@ class filters_form extends \moodleform {
             'coo' => ucfirst(get_string('cohort', 'local_meccertbulkdownload')),
             'cor' => ucfirst(get_string('courseandgroup', 'local_meccertbulkdownload')),
         ]);
+        $mform->setType('courseorcohort', PARAM_ALPHA);
 
         $options = ['multiple' => false, 'includefrontpage' => false];
         $mform->addElement('autocomplete', 'coorte', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('cohort', 'local_meccertbulkdownload'),
             [], $options);
+        $mform->setType('coorte', PARAM_ALPHANUM);
 
         $options = ['multiple' => false, 'includefrontpage' => false];
         $mform->addElement('autocomplete', 'corso', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('course'), [], $options);
+        $mform->setType('corso', PARAM_ALPHANUM);
 
         $courseandgroup = [];
         $courseandgroup[] =& $mform->createElement('select', 'gruppocorso', get_string('group'),
@@ -77,6 +83,7 @@ class filters_form extends \moodleform {
         $courseandgroup[] =& $mform->createElement('html', '<span id="cs-loader-1" class="cs-loader"></span>');
         $mform->addGroup($courseandgroup, 'courseandgroup', "&nbsp;&nbsp;&nbsp;&nbsp;" . get_string('coursegroup',
             'local_meccertbulkdownload'), [' '], false);
+        $mform->setType('gruppocorso', PARAM_ALPHANUM);
 
         $mform->hideIf('coorte', 'courseorcohort', 'neq', 'coo');
         $mform->hideIf('corso', 'courseorcohort', 'neq', 'cor');

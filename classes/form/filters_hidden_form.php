@@ -51,7 +51,7 @@ class filters_hidden_form extends \moodleform {
         $mform = $this->_form;
 
         $mform->addElement('hidden', 'courseorcertificate', $this->_customdata['courseorcertificate']);
-        $mform->setType('courseorcertificate', PARAM_TEXT);
+        $mform->setType('courseorcertificate', PARAM_ALPHA);
 
         $mform->addElement('hidden', 'datefrom', $this->_customdata['datefrom']);
         $mform->setType('datefrom', PARAM_INT);
