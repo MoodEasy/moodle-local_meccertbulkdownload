@@ -27,7 +27,13 @@ use local_meccertbulkdownload\meccertbulkdownload;
 
 require('../../config.php');
 require_once($CFG->libdir.'/formslib.php');
-require_once('../../lib/dataformatlib.php');
+
+// If the new \core\dataformat class (with download_data() method) does not exist, loads the old
+// dataformatlib.php with the equivalent function download_as_dataformat().
+// Function download_as_dataformat() is deprecated since Moodle 3.9 and removed since Moodle 4.4.
+if (!class_exists('\core\dataformat')) {
+    require_once($CFG->libdir.'/dataformatlib.php');
+}
 
 $context = context_system::instance();
 
@@ -57,7 +63,7 @@ $recs = $DB->get_recordset_sql(
     $where['params']
 );
 
-\core\dataformat::download_data($nomefile, $dataformat, $columns, $recs, function($record) {
+$downloadCallback = function($record) {
 
     if ($record->certcreation) {
         $certcreationtmp = new DateTime('', core_date::get_user_timezone_object());
@@ -81,6 +87,15 @@ $recs = $DB->get_recordset_sql(
     $record->coursecompletion = $coursecompletiontmp;
 
     return $record;
-});
+};
+
+// If the new \core\dataformat class (with download_data() method) does not exist, loads the old
+// dataformatlib.php with the equivalent function download_as_dataformat().
+// Function download_as_dataformat() is deprecated since Moodle 3.9 and removed since Moodle 4.4.
+if (class_exists('\core\dataformat')) {
+    \core\dataformat::download_data($nomefile, $dataformat, $columns, $recs, $downloadCallback);
+} else {
+    download_as_dataformat($nomefile, $dataformat, $columns, $recs, $downloadCallback);
+}
 
 $recs->close();
