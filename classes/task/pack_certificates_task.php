@@ -131,6 +131,10 @@ class pack_certificates_task extends \core\task\adhoc_task {
                 $cert->coursecompletion ? $cert->coursecompletion : null
             );
 
+            // Add the id to the beginning of the file name to prevent
+            // files with the same name from being overwritten.
+            $pdfname = 'id' . $cert->id . '_' . $pdfname;
+
             // IF GROUP DIVISION IS NOT REQUIRED, SAVE THE PDF IN THE
             // GENERAL TEMPORARY FOLDER. OTHERWISE IN THAT OF ITS
             // GROUP TO WHICH IT BELONGS. IF IT BELONGS TO MORE THAN ONE GROUP,
